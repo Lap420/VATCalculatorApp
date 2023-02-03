@@ -67,11 +67,11 @@
 				044EF5A4298AF18200AA986A /* SceneDelegate.swift */,
 				044EF5A6298AF18200AA986A /* LoginViewController.swift */,
 				044EF5B6298AF7BB00AA986A /* MainMenuViewController.swift */,
+				04A256C1298C160D001C28B5 /* TestingViewController.swift */,
 				044EF5A8298AF18200AA986A /* Main.storyboard */,
 				044EF5AB298AF18400AA986A /* Assets.xcassets */,
 				044EF5AD298AF18400AA986A /* LaunchScreen.storyboard */,
 				044EF5B0298AF18400AA986A /* Info.plist */,
-				04A256C1298C160D001C28B5 /* TestingViewController.swift */,
 			);
 			path = "VAT Calculator";
 			sourceTree = "<group>";
