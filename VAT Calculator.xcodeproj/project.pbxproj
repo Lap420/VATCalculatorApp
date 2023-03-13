@@ -10,11 +10,12 @@
 		041BD070298D788600004E40 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 041BD06F298D788600004E40 /* .gitignore */; };
 		044EF5A3298AF18200AA986A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5A2298AF18200AA986A /* AppDelegate.swift */; };
 		044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5A4298AF18200AA986A /* SceneDelegate.swift */; };
-		044EF5A7298AF18200AA986A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5A6298AF18200AA986A /* LoginViewController.swift */; };
 		044EF5AA298AF18200AA986A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5A8298AF18200AA986A /* Main.storyboard */; };
 		044EF5AC298AF18400AA986A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5AB298AF18400AA986A /* Assets.xcassets */; };
 		044EF5AF298AF18400AA986A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5AD298AF18400AA986A /* LaunchScreen.storyboard */; };
 		044EF5B7298AF7BB00AA986A /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5B6298AF7BB00AA986A /* MainMenuViewController.swift */; };
+		047012F229BE4397005145B2 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047012F129BE4397005145B2 /* MainPageController.swift */; };
+		047012F529BE4430005145B2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 047012F429BE4430005145B2 /* SnapKit */; };
 		04A256C2298C160D001C28B5 /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A256C1298C160D001C28B5 /* TestingViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,12 +24,12 @@
 		044EF59F298AF18200AA986A /* VAT Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VAT Calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		044EF5A2298AF18200AA986A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		044EF5A4298AF18200AA986A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		044EF5A6298AF18200AA986A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		044EF5A9298AF18200AA986A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		044EF5AB298AF18400AA986A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		044EF5AE298AF18400AA986A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		044EF5B0298AF18400AA986A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		044EF5B6298AF7BB00AA986A /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		047012F129BE4397005145B2 /* MainPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
 		04A256C1298C160D001C28B5 /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				047012F529BE4430005145B2 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,17 +65,49 @@
 		044EF5A1298AF18200AA986A /* VAT Calculator */ = {
 			isa = PBXGroup;
 			children = (
-				044EF5A2298AF18200AA986A /* AppDelegate.swift */,
-				044EF5A4298AF18200AA986A /* SceneDelegate.swift */,
-				044EF5A6298AF18200AA986A /* LoginViewController.swift */,
+				047012ED29BE4253005145B2 /* Application */,
+				047012F029BE4341005145B2 /* CalculatorPage */,
+				047012EF29BE4323005145B2 /* MainPage */,
+				047012EE29BE4268005145B2 /* Resources */,
 				044EF5B6298AF7BB00AA986A /* MainMenuViewController.swift */,
 				04A256C1298C160D001C28B5 /* TestingViewController.swift */,
 				044EF5A8298AF18200AA986A /* Main.storyboard */,
+			);
+			path = "VAT Calculator";
+			sourceTree = "<group>";
+		};
+		047012ED29BE4253005145B2 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				044EF5A2298AF18200AA986A /* AppDelegate.swift */,
+				044EF5A4298AF18200AA986A /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		047012EE29BE4268005145B2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				044EF5AB298AF18400AA986A /* Assets.xcassets */,
 				044EF5AD298AF18400AA986A /* LaunchScreen.storyboard */,
 				044EF5B0298AF18400AA986A /* Info.plist */,
 			);
-			path = "VAT Calculator";
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		047012EF29BE4323005145B2 /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				047012F129BE4397005145B2 /* MainPageController.swift */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		047012F029BE4341005145B2 /* CalculatorPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CalculatorPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -92,6 +126,9 @@
 			dependencies = (
 			);
 			name = "VAT Calculator";
+			packageProductDependencies = (
+				047012F429BE4430005145B2 /* SnapKit */,
+			);
 			productName = "VAT Calculator";
 			productReference = 044EF59F298AF18200AA986A /* VAT Calculator.app */;
 			productType = "com.apple.product-type.application";
@@ -120,6 +157,9 @@
 				Base,
 			);
 			mainGroup = 044EF596298AF18200AA986A;
+			packageReferences = (
+				047012F329BE4430005145B2 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 044EF5A0298AF18200AA986A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -149,8 +189,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				044EF5B7298AF7BB00AA986A /* MainMenuViewController.swift in Sources */,
-				044EF5A7298AF18200AA986A /* LoginViewController.swift in Sources */,
 				044EF5A3298AF18200AA986A /* AppDelegate.swift in Sources */,
+				047012F229BE4397005145B2 /* MainPageController.swift in Sources */,
 				044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */,
 				04A256C2298C160D001C28B5 /* TestingViewController.swift in Sources */,
 			);
@@ -303,10 +343,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DKBJ2N927G;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "VAT Calculator/Info.plist";
+				INFOPLIST_FILE = "VAT Calculator/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -332,10 +371,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DKBJ2N927G;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "VAT Calculator/Info.plist";
+				INFOPLIST_FILE = "VAT Calculator/Resources/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -374,6 +412,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		047012F329BE4430005145B2 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		047012F429BE4430005145B2 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 047012F329BE4430005145B2 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 044EF597298AF18200AA986A /* Project object */;
 }
