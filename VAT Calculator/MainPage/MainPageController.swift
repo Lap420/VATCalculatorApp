@@ -4,9 +4,7 @@
 //
 //  Created by Lap on 12.03.2023.
 //
-
-// TODO: target for button
-// TODO: hide slider if sc == 0 or empty
+// TODO: знаки после запятой
 // TODO: save values to defaults
 // TODO: beautify view part with constants and etc.
 
@@ -21,12 +19,13 @@ class MainPageController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
-        calculateGross()
+        updateElements()
         
         vatAmountTF.delegate = self
         feeAmountTF.delegate = self
         serviceChargeAmountTF.delegate = self
         vatOnScSwitch.addTarget(nil, action: #selector(vatOnScSwitched), for: .valueChanged)
+        openCalculatorButton.addTarget(nil, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Private constants
@@ -290,7 +289,15 @@ private extension MainPageController {
         }
     }
     
-    func calculateGross() {
+    func updateSlider() {
+        var switchIsOn = false
+        if let serviceChargeAmount = Double(serviceChargeAmountTF.text ?? "0") {
+            switchIsOn = serviceChargeAmount > 0.0
+        }
+        vatOnScSwitch.isEnabled = switchIsOn
+    }
+    
+    func updateGross() {
         let net = 100.0
         let vat = Double(vatAmountTF.text ?? "0") ?? 0.0
         let fee = Double(feeAmountTF.text ?? "0") ?? 0.0
@@ -298,6 +305,11 @@ private extension MainPageController {
         let vatOnSc = vatOnScSwitch.isOn ? sc * vat / 100 : 0.0
         let gross = net + vat + fee + sc + vatOnSc
         grossAmountLabel.text = "\(gross.formatted(.number))"
+    }
+    
+    func updateElements() {
+        updateSlider()
+        updateGross()
     }
     
     func showAlert(title: String, message: String) {
@@ -308,7 +320,11 @@ private extension MainPageController {
     }
     
     @objc func vatOnScSwitched() {
-        calculateGross()
+        updateElements()
+    }
+    
+    @objc func openCalculatorButtonTapped() {
+        showAlert(title: "Pun'k", message: "Sren'k")
     }
 }
 
@@ -339,6 +355,6 @@ extension MainPageController: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        calculateGross()
+        updateElements()
     }
 }
