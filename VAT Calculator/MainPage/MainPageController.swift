@@ -5,7 +5,7 @@
 //  Created by Lap on 12.03.2023.
 //
 // TODO: знаки после запятой на втором экране
-// TODO: save values to defaults
+// TODO: add enums for defaults
 // TODO: beautify view part with constants and etc.
 
 import SnapKit
@@ -19,6 +19,7 @@ class MainPageController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+        loadUserSettings()
         updateElements()
         
         vatAmountTF.delegate = self
@@ -39,6 +40,8 @@ class MainPageController: UIViewController {
     }
     
     // MARK: - Private properties
+    private let userDefaults = UserDefaults.standard
+    
     private let mainStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -290,12 +293,12 @@ private extension MainPageController {
     }
     
     func updateSlider() {
-        var switchIsOn = false
+        var isEnabled = false
         if let serviceChargeAmount = Double(serviceChargeAmountTF.text ?? "0") {
-            switchIsOn = serviceChargeAmount > 0.0
+            isEnabled = serviceChargeAmount > 0.0
         }
-        vatOnScSwitch.isEnabled = switchIsOn
-        vatOnScNameLabel.isEnabled = switchIsOn
+        vatOnScSwitch.isEnabled = isEnabled
+        vatOnScNameLabel.isEnabled = isEnabled
     }
     
     func updateGross() {
@@ -313,6 +316,31 @@ private extension MainPageController {
         updateGross()
     }
     
+    func loadUserSettings() {
+        vatAmountTF.text = userDefaults.string(forKey: "vat")
+        feeAmountTF.text = userDefaults.string(forKey: "fee")
+        serviceChargeAmountTF.text = userDefaults.string(forKey: "serviceCharge")
+        vatOnScSwitch.isOn = userDefaults.bool(forKey: "vatOnSc")
+    }
+    
+    func updateUserDefaults(_ textField: UITextField) {
+        let userDefaultsValue = textField.text ?? ""
+        let userDefaultsKey: String
+        
+        switch textField {
+        case vatAmountTF:
+            userDefaultsKey = "vat"
+        case feeAmountTF:
+            userDefaultsKey = "fee"
+        case serviceChargeAmountTF:
+            userDefaultsKey = "serviceCharge"
+        default:
+            return
+        }
+        
+        userDefaults.set(userDefaultsValue, forKey: userDefaultsKey)
+    }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Okay", style: .default)
@@ -320,8 +348,9 @@ private extension MainPageController {
         present(alert, animated: true)
     }
     
-    @objc func vatOnScSwitched() {
+    @objc func vatOnScSwitched(_ sender: UISwitch) {
         updateElements()
+        userDefaults.set(sender.isOn, forKey: "vatOnSc")
     }
     
     @objc func openCalculatorButtonTapped() {
@@ -357,5 +386,6 @@ extension MainPageController: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateElements()
+        updateUserDefaults(textField)
     }
 }
