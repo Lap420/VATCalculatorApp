@@ -11,10 +11,7 @@ import UIKit
 
 class CalculatorPageController: UIViewController {
     // MARK: - Publ properties
-//    var vat = 0.0
-//    var fee = 0.0
-//    var serviceCharge = 0.0
-//    var calculateVatOnSc = true
+
     
     // MARK: - View Lifecycle
     init(vatPercent: Double, feePercent: Double, serviceChargePercent: Double, calculateVatOnSc: Bool) {
@@ -33,16 +30,6 @@ class CalculatorPageController: UIViewController {
         super.viewDidLoad()
         initialize()        
     }
-    
-    // MARK: - Private constants
-    private enum UIConstants {
-        static let fontSizeHeader: CGFloat = 20
-        static let fontSizeMain: CGFloat = 20
-        static let fontSizeButton: CGFloat = 20
-        static let menuItemsOffset: CGFloat = 16
-        static let contentInset: CGFloat = 16
-        static let afterGrossCustomSpacing: CGFloat = 50
-    }
 
     // MARK: - Private properties
     private var vatPercent = 0.0
@@ -54,9 +41,37 @@ class CalculatorPageController: UIViewController {
 // MARK: - Private methods
 private extension CalculatorPageController {
     func initialize() {
-        view.backgroundColor = .init(named: "BackgroundColor")
-        navigationItem.title = "VAT Calculator"
-        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: UIConstants.fontSizeHeader)]
-        self.navigationController?.navigationBar.titleTextAttributes = attributes
+        view.backgroundColor = UIConstants.backgroundColor
+        navigationItem.title = UIConstants.calculatorPageNavigationTitle
     }
+}
+
+extension CalculatorPageController: UITextFieldDelegate {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        guard let text = textField.text else { return }
+//
+//        switch textField {
+//        case netSalesTF:
+//            netSales = Double(text) ?? 0
+//            vatLabel.text = String(format: "%.2f", (netSales * vat / 100))
+//            feeLabel.text = String(format: "%.2f", (netSales * fee / 100))
+//            serviceChargeLabel.text = String(format: "%.2f", (netSales * serviceCharge / 100))
+//            vatOnServiceChargeLabel.text = String(format: "%.2f", (netSales * serviceCharge / 100 * 5 / 100))
+//            grossSalesTextField.text = String(format: "%.2f", (netSales * (100 + vat + fee + serviceCharge + (calculateVatOnSc ? serviceCharge * vat / 100 : 0)) / 100))
+//        case grossSalesTextField:
+//            grossSales = Double(text) ?? 0
+//            vatLabel.text = String(format: "%.2f", (grossSales / (100 + vat + fee + serviceCharge + (calculateVatOnSc ? serviceCharge * vat / 100 : 0)) * vat))
+//            feeLabel.text = String(format: "%.2f", (grossSales / (100 + vat + fee + serviceCharge + (calculateVatOnSc ? serviceCharge * vat / 100 : 0)) * fee))
+//            serviceChargeLabel.text = String(format: "%.2f", (grossSales / (100 + vat + fee + serviceCharge + (calculateVatOnSc ? serviceCharge * vat / 100 : 0)) * serviceCharge))
+//            vatOnServiceChargeLabel.text = String(format: "%.2f", ((grossSales / (100 + vat + fee + serviceCharge + (calculateVatOnSc ? serviceCharge * vat / 100 : 0)) * serviceCharge) * (calculateVatOnSc ? vat / 100 : 0)))
+//            netSalesTF.text = String(format: "%.2f", (grossSales / (100 + vat + fee + serviceCharge + (calculateVatOnSc ? serviceCharge * vat / 100 : 0)) * 100))
+//        default: return
+//        }
+//    }
 }

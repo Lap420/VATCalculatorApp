@@ -6,7 +6,6 @@
 //
 
 // TODO: beautify view part with constants and etc.
-// TODO: add the second button to Alert for clearing field
 
 import SnapKit
 import UIKit
@@ -19,6 +18,12 @@ class MainPageController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+        
+        view.backgroundColor = UIConstants.backgroundColor
+        navigationItem.title = UIConstants.mainPageNavigationTitle
+        self.navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
+        navigationController?.navigationBar.tintColor = UIConstants.accentColor
+        
         loadUserSettings()
         updateElements()
         
@@ -27,16 +32,6 @@ class MainPageController: UIViewController {
         serviceChargeAmountTF.delegate = self
         vatOnScSwitch.addTarget(nil, action: #selector(vatOnScSwitched), for: .valueChanged)
         openCalculatorButton.addTarget(nil, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
-    }
-    
-    // MARK: - Private constants
-    private enum UIConstants {
-        static let fontSizeHeader: CGFloat = 20
-        static let fontSizeMain: CGFloat = 20
-        static let fontSizeButton: CGFloat = 20
-        static let menuItemsOffset: CGFloat = 16
-        static let contentInset: CGFloat = 16
-        static let afterGrossCustomSpacing: CGFloat = 50
     }
     
     // MARK: - Private properties
@@ -62,16 +57,16 @@ class MainPageController: UIViewController {
     
     private let netNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Net, %"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .semibold)
+        label.text = UIConstants.netName
+        label.font = UIConstants.fontSemibold
         label.textAlignment = .left
         return label
     }()
     
     private let netAmountLabel: UILabel = {
         let label = UILabel()
-        label.text = "100"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .regular)
+        label.text = UIConstants.netAmount
+        label.font = UIConstants.fontRegular
         label.textAlignment = .right
         return label
     }()
@@ -84,17 +79,16 @@ class MainPageController: UIViewController {
     
     private let vatNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "VAT, %"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .semibold)
+        label.text = UIConstants.vatName
+        label.font = UIConstants.fontSemibold
         label.textAlignment = .left
         return label
     }()
     
     private let vatAmountTF: UITextField = {
         let textField = UITextField()
-        textField.text = "5"
-        textField.placeholder = "0"
-        textField.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .regular)
+        textField.placeholder = UIConstants.placeholder
+        textField.font = UIConstants.fontRegular
         textField.textAlignment = .right
         textField.borderStyle = .roundedRect
         textField.clearButtonMode = .whileEditing
@@ -111,16 +105,16 @@ class MainPageController: UIViewController {
     
     private let feeNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Municipality Fee, %"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .semibold)
+        label.text = UIConstants.feeName
+        label.font = UIConstants.fontSemibold
         label.textAlignment = .left
         return label
     }()
     
     private let feeAmountTF: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "0"
-        textField.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .regular)
+        textField.placeholder = UIConstants.placeholder
+        textField.font = UIConstants.fontRegular
         textField.textAlignment = .right
         textField.borderStyle = .roundedRect
         textField.clearButtonMode = .whileEditing
@@ -137,16 +131,16 @@ class MainPageController: UIViewController {
     
     private let serviceChargeNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Service Charge, %"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .semibold)
+        label.text = UIConstants.serviceChargeName
+        label.font = UIConstants.fontSemibold
         label.textAlignment = .left
         return label
     }()
     
     private let serviceChargeAmountTF: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "0"
-        textField.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .regular)
+        textField.placeholder = UIConstants.placeholder
+        textField.font = UIConstants.fontRegular
         textField.textAlignment = .right
         textField.borderStyle = .roundedRect
         textField.clearButtonMode = .whileEditing
@@ -163,8 +157,8 @@ class MainPageController: UIViewController {
     
     private let vatOnScNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "VAT on Service charge"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .semibold)
+        label.text = UIConstants.vatOnScName
+        label.font = UIConstants.fontSemibold
         label.textAlignment = .left
         return label
     }()
@@ -183,29 +177,26 @@ class MainPageController: UIViewController {
     
     private let grossNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Gross, %"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .semibold)
+        label.text = UIConstants.grossName
+        label.font = UIConstants.fontSemibold
         label.textAlignment = .left
         return label
     }()
     
     private let grossAmountLabel: UILabel = {
         let label = UILabel()
-        label.text = "122"
-        label.font = .systemFont(ofSize: UIConstants.fontSizeMain, weight: .regular)
+        label.font = UIConstants.fontRegular
         label.textAlignment = .right
         return label
     }()
     
     private let openCalculatorButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Open calculator", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: UIConstants.fontSizeButton, weight: .bold)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        //button.backgroundColor = UIColor(hue: 159/359, saturation: 0.88, brightness: 0.47, alpha: 1)
-        //button.backgroundColor = UIColor(red: 153/255, green: 204/255, blue: 255/255, alpha: 1)
-        button.backgroundColor = .init(named: "AccentColor")
+        button.setTitle(UIConstants.buttonTitle, for: .normal)
+        button.titleLabel?.font = UIConstants.buttonFont
+        button.setTitleColor(UIConstants.buttonTitleColor, for: .normal)
+        button.layer.cornerRadius = UIConstants.buttonCornerRadius
+        button.backgroundColor = UIConstants.accentColor
         return button
     }()
 }
@@ -214,13 +205,6 @@ class MainPageController: UIViewController {
 // MARK: Private methods
 private extension MainPageController {
     func initialize() {
-        view.backgroundColor = .init(named: "BackgroundColor")
-        navigationItem.title = "Main menu"
-        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: UIConstants.fontSizeHeader)]
-        self.navigationController?.navigationBar.titleTextAttributes = attributes
-
-        navigationController?.navigationBar.tintColor = .black
-        
         mainStack.addArrangedSubview(netStack)
         mainStack.addArrangedSubview(vatStack)
         mainStack.addArrangedSubview(feeStack)
@@ -345,10 +329,12 @@ private extension MainPageController {
         userDefaults.set(userDefaultsValue, forKey: userDefaultsKey)
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(textField: UITextField, title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Okay", style: .default)
-        let clearAction = UIAlertAction(title: "Clear", style: .destructive)
+        let clearAction = UIAlertAction(title: "Clear", style: .destructive) {_ in
+            textField.text = nil
+        }
 
         alert.addAction(clearAction)
         alert.addAction(okAction)
@@ -361,7 +347,6 @@ private extension MainPageController {
     }
     
     @objc func openCalculatorButtonTapped() {
-        
         let nextVC = CalculatorPageController(vatPercent: vatPercent,
                                               feePercent: feePercent,
                                               serviceChargePercent: serviceChargePercent,
@@ -384,15 +369,17 @@ extension MainPageController: UITextFieldDelegate {
         let field: String
         switch textField {
         case vatAmountTF:
-            field = "\"VAT, %\""
+            field = UIConstants.vatName
         case feeAmountTF:
-            field = "\"Municipality Fee, %\""
+            field = UIConstants.feeName
         case serviceChargeAmountTF:
-            field = "\"Service Charge, %\""
+            field = UIConstants.serviceChargeName
         default:
             field = "some"
         }
-        showAlert(title: "Value too high", message: "You entered too high value to \(field) field")
+        showAlert(textField: textField,
+                  title: "Value too high",
+                  message: "You entered too high value to \"\(field)\" field")
         return false
     }
 
@@ -402,9 +389,4 @@ extension MainPageController: UITextFieldDelegate {
     }
 }
 
-enum TaxKeys: String {
-    case vat
-    case fee
-    case serviceCharge
-    case vatOnSc
-}
+
