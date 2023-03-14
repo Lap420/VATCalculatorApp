@@ -4,7 +4,7 @@
 //
 //  Created by Lap on 12.03.2023.
 //
-// TODO: знаки после запятой
+// TODO: знаки после запятой на втором экране
 // TODO: save values to defaults
 // TODO: beautify view part with constants and etc.
 
@@ -295,6 +295,7 @@ private extension MainPageController {
             switchIsOn = serviceChargeAmount > 0.0
         }
         vatOnScSwitch.isEnabled = switchIsOn
+        vatOnScNameLabel.isEnabled = switchIsOn
     }
     
     func updateGross() {

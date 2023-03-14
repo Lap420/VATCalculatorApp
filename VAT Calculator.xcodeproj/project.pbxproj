@@ -17,6 +17,7 @@
 		047012F229BE4397005145B2 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047012F129BE4397005145B2 /* MainPageController.swift */; };
 		047012F529BE4430005145B2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 047012F429BE4430005145B2 /* SnapKit */; };
 		04A256C2298C160D001C28B5 /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A256C1298C160D001C28B5 /* TestingViewController.swift */; };
+		04C1C10A29C062D4006FBED3 /* MainPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10929C062D4006FBED3 /* MainPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		044EF5B6298AF7BB00AA986A /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		047012F129BE4397005145B2 /* MainPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
 		04A256C1298C160D001C28B5 /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
+		04C1C10929C062D4006FBED3 /* MainPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				047012F129BE4397005145B2 /* MainPageController.swift */,
+				04C1C10929C062D4006FBED3 /* MainPageView.swift */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 			files = (
 				044EF5B7298AF7BB00AA986A /* MainMenuViewController.swift in Sources */,
 				044EF5A3298AF18200AA986A /* AppDelegate.swift in Sources */,
+				04C1C10A29C062D4006FBED3 /* MainPageView.swift in Sources */,
 				047012F229BE4397005145B2 /* MainPageController.swift in Sources */,
 				044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */,
 				04A256C2298C160D001C28B5 /* TestingViewController.swift in Sources */,
