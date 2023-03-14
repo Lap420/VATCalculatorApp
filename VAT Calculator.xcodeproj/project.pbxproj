@@ -19,6 +19,8 @@
 		04C1C10C29C07619006FBED3 /* CalculatorPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */; };
 		04C1C10E29C0AD57006FBED3 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10D29C0AD57006FBED3 /* UIConstants.swift */; };
 		04C1C11029C0BDA6006FBED3 /* MainPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10F29C0BDA6006FBED3 /* MainPageModel.swift */; };
+		04C1C11329C0CAE9006FBED3 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11229C0CAE9006FBED3 /* UserDefaultsManager.swift */; };
+		04C1C11529C0CB26006FBED3 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11429C0CB26006FBED3 /* AlertManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageController.swift; sourceTree = "<group>"; };
 		04C1C10D29C0AD57006FBED3 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		04C1C10F29C0BDA6006FBED3 /* MainPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageModel.swift; sourceTree = "<group>"; };
+		04C1C11229C0CAE9006FBED3 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		04C1C11429C0CB26006FBED3 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 				047012F029BE4341005145B2 /* CalculatorPage */,
 				047012EF29BE4323005145B2 /* MainPage */,
 				047012EE29BE4268005145B2 /* Resources */,
+				04C1C11129C0CAB8006FBED3 /* Services */,
 				044EF5A8298AF18200AA986A /* Main.storyboard */,
 			);
 			path = "VAT Calculator";
@@ -114,6 +119,15 @@
 				04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */,
 			);
 			path = CalculatorPage;
+			sourceTree = "<group>";
+		};
+		04C1C11129C0CAB8006FBED3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				04C1C11229C0CAE9006FBED3 /* UserDefaultsManager.swift */,
+				04C1C11429C0CB26006FBED3 /* AlertManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,7 +214,9 @@
 				04C1C11029C0BDA6006FBED3 /* MainPageModel.swift in Sources */,
 				044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */,
 				04C1C10C29C07619006FBED3 /* CalculatorPageController.swift in Sources */,
+				04C1C11329C0CAE9006FBED3 /* UserDefaultsManager.swift in Sources */,
 				04C1C10E29C0AD57006FBED3 /* UIConstants.swift in Sources */,
+				04C1C11529C0CB26006FBED3 /* AlertManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

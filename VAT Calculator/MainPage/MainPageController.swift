@@ -5,40 +5,21 @@
 //  Created by Lap on 12.03.2023.
 //
 
-// TODO: beautify view part with constants and etc.
-
 import SnapKit
 import UIKit
 
 class MainPageController: UIViewController {
-    // MARK: Public methods
-
-    
     // MARK: ViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //initialize()
-        
-        view.backgroundColor = UIConstants.backgroundColor
-        navigationItem.title = UIConstants.mainPageNavigationTitle
-        self.navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
-        navigationController?.navigationBar.tintColor = UIConstants.accentColor
-        
-        loadUserSettings()
+        initialize()
+        UserDefaultsManager.loadMainPageData(mainView)
         updateElements()
-        
-        mainView.vatAmountTF.delegate = self
-        mainView.feeAmountTF.delegate = self
-        mainView.serviceChargeAmountTF.delegate = self
-        mainView.vatOnScSwitch.addTarget(nil, action: #selector(vatOnScSwitched), for: .valueChanged)
-        mainView.openCalculatorButton.addTarget(nil, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Private properties
-    private let userDefaults = UserDefaults.standard
     private let mainView = MainPageView()
-    
     private var vatPercent = 0.0
     private var feePercent = 0.0
     private var serviceChargePercent = 0.0
@@ -48,7 +29,26 @@ class MainPageController: UIViewController {
 
 // MARK: Private methods
 private extension MainPageController {
+    func configureNavigationBar() {
+        navigationItem.title = UIConstants.mainPageNavigationTitle
+        self.navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
+        navigationController?.navigationBar.tintColor = UIConstants.accentColor
+    }
     
+    func initialize() {
+        configureNavigationBar()
+        
+        view.addSubview(mainView)
+        mainView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        mainView.vatAmountTF.delegate = self
+        mainView.feeAmountTF.delegate = self
+        mainView.serviceChargeAmountTF.delegate = self
+        mainView.vatOnScSwitch.addTarget(nil, action: #selector(vatOnScSwitched), for: .valueChanged)
+        mainView.openCalculatorButton.addTarget(nil, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
+    }
     
     func updateSlider() {
         var isEnabled = false
@@ -74,46 +74,9 @@ private extension MainPageController {
         updateGross()
     }
     
-    func loadUserSettings() {
-        mainView.vatAmountTF.text = userDefaults.string(forKey: TaxKeys.vat.rawValue)
-        mainView.feeAmountTF.text = userDefaults.string(forKey: TaxKeys.fee.rawValue)
-        mainView.serviceChargeAmountTF.text = userDefaults.string(forKey: TaxKeys.serviceCharge.rawValue)
-        mainView.vatOnScSwitch.isOn = userDefaults.bool(forKey: TaxKeys.vatOnSc.rawValue)
-    }
-    
-    func updateUserDefaults(_ textField: UITextField) {
-        let userDefaultsValue = textField.text ?? ""
-        let userDefaultsKey: String
-        
-        switch textField {
-        case mainView.vatAmountTF:
-            userDefaultsKey = TaxKeys.vat.rawValue
-        case mainView.feeAmountTF:
-            userDefaultsKey = TaxKeys.fee.rawValue
-        case mainView.serviceChargeAmountTF:
-            userDefaultsKey = TaxKeys.serviceCharge.rawValue
-        default:
-            return
-        }
-        
-        userDefaults.set(userDefaultsValue, forKey: userDefaultsKey)
-    }
-    
-    func showAlert(textField: UITextField, title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Okay", style: .default)
-        let clearAction = UIAlertAction(title: "Clear", style: .destructive) {_ in
-            textField.text = nil
-        }
-
-        alert.addAction(clearAction)
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-    
     @objc func vatOnScSwitched(_ sender: UISwitch) {
         updateElements()
-        userDefaults.set(sender.isOn, forKey: TaxKeys.vatOnSc.rawValue)
+        UserDefaultsManager.saveMainPageSwitchData(self, isOn: sender.isOn)
     }
     
     @objc func openCalculatorButtonTapped() {
@@ -147,7 +110,8 @@ extension MainPageController: UITextFieldDelegate {
         default:
             field = "some"
         }
-        showAlert(textField: textField,
+        AlertManager.showMainPageAlert(self,
+                  textField: textField,
                   title: "Value too high",
                   message: "You entered too high value to \"\(field)\" field")
         return false
@@ -155,8 +119,6 @@ extension MainPageController: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateElements()
-        updateUserDefaults(textField)
+        UserDefaultsManager.saveMainPageTFData(mainView, textField: textField)
     }
 }
-
-
