@@ -19,6 +19,7 @@ class MainPageView: UIView {
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .decimalPad
         textField.returnKeyType = .next
+        textField.clearsOnBeginEditing = true
         return textField
     }()
     
@@ -31,6 +32,7 @@ class MainPageView: UIView {
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .decimalPad
         textField.returnKeyType = .next
+        textField.clearsOnBeginEditing = true
         return textField
     }()
     
@@ -43,6 +45,7 @@ class MainPageView: UIView {
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .decimalPad
         textField.returnKeyType = .done
+        textField.clearsOnBeginEditing = true
         return textField
     }()
     

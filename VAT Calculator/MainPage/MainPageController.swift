@@ -6,7 +6,7 @@
 //
 
 // TODO: отдать модели расчет гросса и состояния свича
-// TODO: автоочистка текст филдов
+// TODO: реализовать алерты через протокол, чтобы каждый экран реализовал метод getChoosenTextField у протокола
 
 import SnapKit
 import UIKit
@@ -80,7 +80,7 @@ private extension MainPageController {
     
     @objc func vatOnScSwitched(_ sender: UISwitch) {
         updateElements()
-        UserDefaultsManager.saveMainPageSwitchData(self, isOn: sender.isOn)
+        UserDefaultsManager.saveMainPageSwitchData(sender.isOn)
     }
     
     @objc func openCalculatorButtonTapped() {

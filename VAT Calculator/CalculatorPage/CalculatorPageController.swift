@@ -6,8 +6,10 @@
 //
 
 // TODO: знаки после запятой на втором экране
-// TODO: отдать модели расчет гросса и состояния свича
-// TODO: автоочистка текст филдов
+// TODO: отдать модели расчет гросса, нета, вата и т.д.
+// TODO: вывести тотал ват если включен свич
+// TODO: скрыть vatOnSc если выключен свич
+// TODO: поднимать экран, чтобы было видно вводимое поле
 
 import UIKit
 
@@ -27,7 +29,9 @@ class CalculatorPageController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initialize()        
+        initialize()
+        UserDefaultsManager.loadCalculatorPageGrossSales(&grossSales)
+        updateElements(.initiatedByGross)
     }
 
     // MARK: - Private properties
@@ -58,7 +62,63 @@ private extension CalculatorPageController {
         calculatorView.grossAmountTF.delegate = self
     }
     
-//    func updateGross() {
+    func updateNet(_ calculatorUpdateType: CalculatorUpdateType) {
+        switch calculatorUpdateType {
+        case .initiatedByNet:
+            let netText = String(format: "%.2f", netSales)
+            calculatorView.netAmountTF.text = netText
+        case .initiatedByGross:
+            netSales = grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * 100
+            let netText = String(format: "%.2f", netSales)
+            calculatorView.netAmountTF.text = netText
+        }
+    }
+    
+    func updateVat(_ calculatorUpdateType: CalculatorUpdateType) {
+        switch calculatorUpdateType {
+        case .initiatedByNet:
+            let vatText = String(format: "%.2f", netSales * vatPercent / 100)
+            calculatorView.vatAmountLabel.text = vatText
+        case .initiatedByGross:
+            let vatText = String(format: "%.2f", grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * vatPercent)
+            calculatorView.vatAmountLabel.text = vatText
+        }
+    }
+    
+    func updateFee(_ calculatorUpdateType: CalculatorUpdateType) {
+        switch calculatorUpdateType {
+        case .initiatedByNet:
+            let feeText = String(format: "%.2f", netSales * feePercent / 100)
+            calculatorView.feeAmountLabel.text = feeText
+        case .initiatedByGross:
+            let feeText = String(format: "%.2f", grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * feePercent)
+            calculatorView.feeAmountLabel.text = feeText
+        }
+    }
+    
+    func updateServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
+        switch calculatorUpdateType {
+        case .initiatedByNet:
+            let scText = String(format: "%.2f", netSales * serviceChargePercent / 100)
+            calculatorView.serviceChargeAmountLabel.text = scText
+        case .initiatedByGross:
+            let scText = String(format: "%.2f", grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * serviceChargePercent)
+            calculatorView.serviceChargeAmountLabel.text = scText
+        }
+    }
+    
+    func updateVatOnServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
+        switch calculatorUpdateType {
+        case .initiatedByNet:
+            let vatOnScText = String(format: "%.2f", netSales * serviceChargePercent / 100 * (calculateVatOnSc ? vatPercent / 100 : 0))
+            calculatorView.vatOnScAmountLabel.text = vatOnScText
+        case .initiatedByGross:
+            let vatOnScText = String(format: "%.2f", (grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * serviceChargePercent) * (calculateVatOnSc ? vatPercent / 100 : 0))
+            calculatorView.vatOnScAmountLabel.text = vatOnScText
+        }
+    }
+    
+    func updateGross(_ calculatorUpdateType: CalculatorUpdateType) {
 //        vatPercent = Double(mainView.vatAmountTF.text ?? "0") ?? 0.0
 //        feePercent = Double(mainView.feeAmountTF.text ?? "0") ?? 0.0
 //        serviceChargePercent = Double(mainView.serviceChargeAmountTF.text ?? "0") ?? 0.0
@@ -66,12 +126,27 @@ private extension CalculatorPageController {
 //        let vatOnSc = calculateVatOnSc ? serviceChargePercent * vatPercent / 100.0 : 0.0
 //        let gross = 100.0 + vatPercent + feePercent + serviceChargePercent + vatOnSc
 //        mainView.grossAmountLabel.text = "\(gross.formatted(.number))"
-//    }
-//    
-//    func updateElements() {
-//        updateSlider()
-//        updateGross()
-//    }
+        
+        switch calculatorUpdateType {
+        case .initiatedByNet:
+            grossSales = netSales * (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) / 100
+            let grossText = String(format: "%.2f", grossSales)
+            calculatorView.grossAmountTF.text = grossText
+        case .initiatedByGross:
+            let grossText = String(format: "%.2f", grossSales)
+            calculatorView.grossAmountTF.text = grossText
+        }
+    }
+    
+    func updateElements(_ calculatorUpdateType: CalculatorUpdateType) {
+        updateNet(calculatorUpdateType)
+        updateGross(calculatorUpdateType)
+        updateVat(calculatorUpdateType)
+        updateFee(calculatorUpdateType)
+        updateServiceCharge(calculatorUpdateType)
+        updateVatOnServiceCharge(calculatorUpdateType)
+        
+    }
 }
 
 extension CalculatorPageController: UITextFieldDelegate {
@@ -109,35 +184,13 @@ extension CalculatorPageController: UITextFieldDelegate {
         switch textField {
         case calculatorView.netAmountTF:
             netSales = Double(text) ?? 0.0
-            let netText = String(format: "%.2f", netSales)
-            let vatText = String(format: "%.2f", netSales * vatPercent / 100)
-            let feeText = String(format: "%.2f", netSales * feePercent / 100)
-            let scText = String(format: "%.2f", netSales * serviceChargePercent / 100)
-            let vatOnScText = String(format: "%.2f", netSales * serviceChargePercent / 100 * (calculateVatOnSc ? vatPercent / 100 : 0))
-            grossSales = netSales * (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) / 100
-            let grossText = String(format: "%.2f", grossSales)
-            calculatorView.netAmountTF.text = netText
-            calculatorView.vatAmountLabel.text = vatText
-            calculatorView.feeAmountLabel.text = feeText
-            calculatorView.serviceChargeAmountLabel.text = scText
-            calculatorView.vatOnScAmountLabel.text = vatOnScText
-            calculatorView.grossAmountTF.text = grossText
+            updateElements(.initiatedByNet)
         case calculatorView.grossAmountTF:
             grossSales = Double(text) ?? 0
-            netSales = grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * 100
-            let netText = String(format: "%.2f", netSales)
-            let vatText = String(format: "%.2f", grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * vatPercent)
-            let feeText = String(format: "%.2f", grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * feePercent)
-            let scText = String(format: "%.2f", grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * serviceChargePercent)
-            let vatOnScText = String(format: "%.2f", (grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * serviceChargePercent) * (calculateVatOnSc ? vatPercent / 100 : 0))
-            let grossText = String(format: "%.2f", grossSales)
-            calculatorView.netAmountTF.text = netText
-            calculatorView.vatAmountLabel.text = vatText
-            calculatorView.feeAmountLabel.text = feeText
-            calculatorView.serviceChargeAmountLabel.text = scText
-            calculatorView.vatOnScAmountLabel.text = vatOnScText
-            calculatorView.grossAmountTF.text = grossText
+            updateElements(.initiatedByGross)
         default: return
         }
+        
+        UserDefaultsManager.saveCalculatorPageGrossSales(grossSales)
     }
 }

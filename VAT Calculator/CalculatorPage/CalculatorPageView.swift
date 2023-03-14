@@ -18,6 +18,7 @@ class CalculatorPageView: UIView {
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .decimalPad
         textField.returnKeyType = .next
+        textField.clearsOnBeginEditing = true
         return textField
     }()
     
@@ -58,6 +59,7 @@ class CalculatorPageView: UIView {
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .decimalPad
         textField.returnKeyType = .next
+        textField.clearsOnBeginEditing = true
         return textField
     }()
     

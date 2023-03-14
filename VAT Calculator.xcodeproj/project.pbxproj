@@ -21,6 +21,7 @@
 		04C1C11329C0CAE9006FBED3 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11229C0CAE9006FBED3 /* UserDefaultsManager.swift */; };
 		04C1C11529C0CB26006FBED3 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11429C0CB26006FBED3 /* AlertManager.swift */; };
 		04C1C11729C0D498006FBED3 /* CalculatorPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11629C0D498006FBED3 /* CalculatorPageView.swift */; };
+		04C1C11929C10355006FBED3 /* CalculatorPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11829C10355006FBED3 /* CalculatorPageModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		04C1C11229C0CAE9006FBED3 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		04C1C11429C0CB26006FBED3 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		04C1C11629C0D498006FBED3 /* CalculatorPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageView.swift; sourceTree = "<group>"; };
+		04C1C11829C10355006FBED3 /* CalculatorPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			children = (
 				04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */,
 				04C1C11629C0D498006FBED3 /* CalculatorPageView.swift */,
+				04C1C11829C10355006FBED3 /* CalculatorPageModel.swift */,
 			);
 			path = CalculatorPage;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				047012F229BE4397005145B2 /* MainPageController.swift in Sources */,
 				04C1C11029C0BDA6006FBED3 /* MainPageModel.swift in Sources */,
 				044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */,
+				04C1C11929C10355006FBED3 /* CalculatorPageModel.swift in Sources */,
 				04C1C11729C0D498006FBED3 /* CalculatorPageView.swift in Sources */,
 				04C1C10C29C07619006FBED3 /* CalculatorPageController.swift in Sources */,
 				04C1C11329C0CAE9006FBED3 /* UserDefaultsManager.swift in Sources */,
