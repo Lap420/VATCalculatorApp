@@ -4,9 +4,9 @@
 //
 //  Created by Lap on 12.03.2023.
 //
-// TODO: знаки после запятой на втором экране
-// TODO: add enums for defaults
+
 // TODO: beautify view part with constants and etc.
+// TODO: add the second button to Alert for clearing field
 
 import SnapKit
 import UIKit
@@ -41,6 +41,10 @@ class MainPageController: UIViewController {
     
     // MARK: - Private properties
     private let userDefaults = UserDefaults.standard
+    private var vatPercent = 0.0
+    private var feePercent = 0.0
+    private var serviceChargePercent = 0.0
+    private var calculateVatOnSc = false
     
     private let mainStack: UIStackView = {
         let stack = UIStackView()
@@ -302,12 +306,12 @@ private extension MainPageController {
     }
     
     func updateGross() {
-        let net = 100.0
-        let vat = Double(vatAmountTF.text ?? "0") ?? 0.0
-        let fee = Double(feeAmountTF.text ?? "0") ?? 0.0
-        let sc = Double(serviceChargeAmountTF.text ?? "0") ?? 0.0
-        let vatOnSc = vatOnScSwitch.isOn ? sc * vat / 100 : 0.0
-        let gross = net + vat + fee + sc + vatOnSc
+        vatPercent = Double(vatAmountTF.text ?? "0") ?? 0.0
+        feePercent = Double(feeAmountTF.text ?? "0") ?? 0.0
+        serviceChargePercent = Double(serviceChargeAmountTF.text ?? "0") ?? 0.0
+        calculateVatOnSc = vatOnScSwitch.isOn
+        let vatOnSc = calculateVatOnSc ? serviceChargePercent * vatPercent / 100.0 : 0.0
+        let gross = 100.0 + vatPercent + feePercent + serviceChargePercent + vatOnSc
         grossAmountLabel.text = "\(gross.formatted(.number))"
     }
     
@@ -317,10 +321,10 @@ private extension MainPageController {
     }
     
     func loadUserSettings() {
-        vatAmountTF.text = userDefaults.string(forKey: "vat")
-        feeAmountTF.text = userDefaults.string(forKey: "fee")
-        serviceChargeAmountTF.text = userDefaults.string(forKey: "serviceCharge")
-        vatOnScSwitch.isOn = userDefaults.bool(forKey: "vatOnSc")
+        vatAmountTF.text = userDefaults.string(forKey: TaxKeys.vat.rawValue)
+        feeAmountTF.text = userDefaults.string(forKey: TaxKeys.fee.rawValue)
+        serviceChargeAmountTF.text = userDefaults.string(forKey: TaxKeys.serviceCharge.rawValue)
+        vatOnScSwitch.isOn = userDefaults.bool(forKey: TaxKeys.vatOnSc.rawValue)
     }
     
     func updateUserDefaults(_ textField: UITextField) {
@@ -329,11 +333,11 @@ private extension MainPageController {
         
         switch textField {
         case vatAmountTF:
-            userDefaultsKey = "vat"
+            userDefaultsKey = TaxKeys.vat.rawValue
         case feeAmountTF:
-            userDefaultsKey = "fee"
+            userDefaultsKey = TaxKeys.fee.rawValue
         case serviceChargeAmountTF:
-            userDefaultsKey = "serviceCharge"
+            userDefaultsKey = TaxKeys.serviceCharge.rawValue
         default:
             return
         }
@@ -344,17 +348,25 @@ private extension MainPageController {
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Okay", style: .default)
+        let clearAction = UIAlertAction(title: "Clear", style: .destructive)
+
+        alert.addAction(clearAction)
         alert.addAction(okAction)
         present(alert, animated: true)
     }
     
     @objc func vatOnScSwitched(_ sender: UISwitch) {
         updateElements()
-        userDefaults.set(sender.isOn, forKey: "vatOnSc")
+        userDefaults.set(sender.isOn, forKey: TaxKeys.vatOnSc.rawValue)
     }
     
     @objc func openCalculatorButtonTapped() {
-        showAlert(title: "Pun'k", message: "Sren'k")
+        
+        let nextVC = CalculatorPageController(vatPercent: vatPercent,
+                                              feePercent: feePercent,
+                                              serviceChargePercent: serviceChargePercent,
+                                              calculateVatOnSc: calculateVatOnSc)
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -388,4 +400,11 @@ extension MainPageController: UITextFieldDelegate {
         updateElements()
         updateUserDefaults(textField)
     }
+}
+
+enum TaxKeys: String {
+    case vat
+    case fee
+    case serviceCharge
+    case vatOnSc
 }
