@@ -10,7 +10,6 @@
 		041BD070298D788600004E40 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 041BD06F298D788600004E40 /* .gitignore */; };
 		044EF5A3298AF18200AA986A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5A2298AF18200AA986A /* AppDelegate.swift */; };
 		044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5A4298AF18200AA986A /* SceneDelegate.swift */; };
-		044EF5AA298AF18200AA986A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5A8298AF18200AA986A /* Main.storyboard */; };
 		044EF5AC298AF18400AA986A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5AB298AF18400AA986A /* Assets.xcassets */; };
 		044EF5AF298AF18400AA986A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5AD298AF18400AA986A /* LaunchScreen.storyboard */; };
 		047012F229BE4397005145B2 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047012F129BE4397005145B2 /* MainPageController.swift */; };
@@ -21,6 +20,7 @@
 		04C1C11029C0BDA6006FBED3 /* MainPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10F29C0BDA6006FBED3 /* MainPageModel.swift */; };
 		04C1C11329C0CAE9006FBED3 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11229C0CAE9006FBED3 /* UserDefaultsManager.swift */; };
 		04C1C11529C0CB26006FBED3 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11429C0CB26006FBED3 /* AlertManager.swift */; };
+		04C1C11729C0D498006FBED3 /* CalculatorPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C11629C0D498006FBED3 /* CalculatorPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +28,6 @@
 		044EF59F298AF18200AA986A /* VAT Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VAT Calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		044EF5A2298AF18200AA986A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		044EF5A4298AF18200AA986A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		044EF5A9298AF18200AA986A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		044EF5AB298AF18400AA986A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		044EF5AE298AF18400AA986A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		044EF5B0298AF18400AA986A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,6 +38,7 @@
 		04C1C10F29C0BDA6006FBED3 /* MainPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageModel.swift; sourceTree = "<group>"; };
 		04C1C11229C0CAE9006FBED3 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		04C1C11429C0CB26006FBED3 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		04C1C11629C0D498006FBED3 /* CalculatorPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +78,6 @@
 				047012EF29BE4323005145B2 /* MainPage */,
 				047012EE29BE4268005145B2 /* Resources */,
 				04C1C11129C0CAB8006FBED3 /* Services */,
-				044EF5A8298AF18200AA986A /* Main.storyboard */,
 			);
 			path = "VAT Calculator";
 			sourceTree = "<group>";
@@ -117,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */,
+				04C1C11629C0D498006FBED3 /* CalculatorPageView.swift */,
 			);
 			path = CalculatorPage;
 			sourceTree = "<group>";
@@ -197,7 +197,6 @@
 				041BD070298D788600004E40 /* .gitignore in Resources */,
 				044EF5AF298AF18400AA986A /* LaunchScreen.storyboard in Resources */,
 				044EF5AC298AF18400AA986A /* Assets.xcassets in Resources */,
-				044EF5AA298AF18200AA986A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +212,7 @@
 				047012F229BE4397005145B2 /* MainPageController.swift in Sources */,
 				04C1C11029C0BDA6006FBED3 /* MainPageModel.swift in Sources */,
 				044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */,
+				04C1C11729C0D498006FBED3 /* CalculatorPageView.swift in Sources */,
 				04C1C10C29C07619006FBED3 /* CalculatorPageController.swift in Sources */,
 				04C1C11329C0CAE9006FBED3 /* UserDefaultsManager.swift in Sources */,
 				04C1C10E29C0AD57006FBED3 /* UIConstants.swift in Sources */,
@@ -223,14 +223,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		044EF5A8298AF18200AA986A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				044EF5A9298AF18200AA986A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		044EF5AD298AF18400AA986A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

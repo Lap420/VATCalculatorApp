@@ -5,6 +5,9 @@
 //  Created by Lap on 12.03.2023.
 //
 
+// TODO: отдать модели расчет гросса и состояния свича
+// TODO: автоочистка текст филдов
+
 import SnapKit
 import UIKit
 
@@ -52,8 +55,9 @@ private extension MainPageController {
     
     func updateSlider() {
         var isEnabled = false
-        if let serviceChargeAmount = Double(mainView.serviceChargeAmountTF.text ?? "0") {
-            isEnabled = serviceChargeAmount > 0.0
+        if let serviceChargeAmount = Double(mainView.serviceChargeAmountTF.text ?? "0"),
+            let vatAmount = Double(mainView.vatAmountTF.text ?? "0") {
+            isEnabled = serviceChargeAmount > 0.0 && vatAmount > 0.0
         }
         mainView.vatOnScSwitch.isEnabled = isEnabled
         mainView.vatOnScNameLabel.isEnabled = isEnabled
@@ -94,11 +98,7 @@ extension MainPageController: UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        guard let text = textField.text else { return true }
-        let enteredAmount = Double(text) ?? 0.0
-        guard enteredAmount > 1000 else { return true }
-        
+    func getChoosenTextField(_ textField: UITextField) -> String {
         let field: String
         switch textField {
         case mainView.vatAmountTF:
@@ -110,10 +110,27 @@ extension MainPageController: UITextFieldDelegate {
         default:
             field = "some"
         }
-        AlertManager.showMainPageAlert(self,
-                  textField: textField,
-                  title: "Value too high",
-                  message: "You entered too high value to \"\(field)\" field")
+        return field
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        guard let text = textField.text else { return true }
+        guard !text.isEmpty else { return true }
+        if let enteredAmount = Double(text) {
+            guard enteredAmount > 1000 else { return true }
+        
+            let field = getChoosenTextField(textField)
+            AlertManager.showMainPageAlert(self,
+                                           textField: textField,
+                                           title: "Value too high",
+                                           message: "The number you entered in \"\(field)\" field is too large")
+        } else {
+            let field = getChoosenTextField(textField)
+            AlertManager.showMainPageAlert(self,
+                                           textField: textField,
+                                           title: "Incorrect value",
+                                           message: "The value you entered in \"\(field)\" field is not a number")
+        }
         return false
     }
 
