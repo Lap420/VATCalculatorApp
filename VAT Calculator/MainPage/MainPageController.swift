@@ -24,6 +24,7 @@ class MainPageController: UIViewController {
 // MARK: Private methods
 private extension MainPageController {
     func initialize() {
+        view.backgroundColor = UIConstants.backgroundColor
         UserDefaultsManager.loadMainPageData(&mainPageModel)
         initFieldsState()
         updateElements()
@@ -33,7 +34,8 @@ private extension MainPageController {
         
         view.addSubview(mainPageView)
         mainPageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     

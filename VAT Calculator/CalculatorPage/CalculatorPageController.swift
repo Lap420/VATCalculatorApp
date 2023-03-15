@@ -5,11 +5,10 @@
 //  Created by Lap on 14.03.2023.
 //
 
-// TODO: знаки после запятой на втором экране
-// TODO: применить вычисляемые свойства в модели
-// TODO: добавить поле для тотал ват
-// TODO: вывести тотал ват если включен свич
-// TODO: скрыть vatOnSc если выключен свич
+// TODO: добавить страницу настроек
+// TODO: добавить в настройки выбор количества знаков после запятой
+// TODO: добавить в настройки скрытие нулевых строк
+//calculatorView.totalVatStack.isHidden = !calculatorView.totalVatStack.isHidden
 // TODO: поднимать экран, чтобы было видно вводимое поле
 
 import UIKit
@@ -28,24 +27,48 @@ class CalculatorPageController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
-        UserDefaultsManager.loadCalculatorPageGrossSales(&calculatorPageModel)
-        updateElements(.initiatedByGross)
     }
 
     // MARK: - Private properties
-    private var calculatorView = CalculatorPageView()
+    private var calculatorPageView = CalculatorPageView()
     private var calculatorPageModel = CalculatorPageModel()
 }
 
 // MARK: - Private methods
 private extension CalculatorPageController {
     func initialize() {
+        view.backgroundColor = UIConstants.backgroundColor
+        UserDefaultsManager.loadCalculatorPageGrossSales(&calculatorPageModel)
+        disableZeroCharges()
+        updateElements(.initiatedByGross)
+        
         configureNavigationBar()
         initDelegates()
         
-        view.addSubview(calculatorView)
-        calculatorView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        view.addSubview(calculatorPageView)
+        calculatorPageView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
+    func disableZeroCharges() {
+        if calculatorPageModel.vatPercent == 0 {
+            calculatorPageView.vatNameLabel.isEnabled = false
+            calculatorPageView.vatAmountLabel.isEnabled = false
+        }
+        if calculatorPageModel.feePercent == 0 {
+            calculatorPageView.feeNameLabel.isEnabled = false
+            calculatorPageView.feeAmountLabel.isEnabled = false
+        }
+        if calculatorPageModel.serviceChargePercent == 0 {
+            calculatorPageView.serviceChargeNameLabel.isEnabled = false
+            calculatorPageView.serviceChargeAmountLabel.isEnabled = false
+        }
+        if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 {
+            calculatorPageView.vatOnScNameLabel.isEnabled = false
+            calculatorPageView.vatOnScAmountLabel.isEnabled = false
+            calculatorPageView.totalVatStack.isHidden = true
         }
     }
     
@@ -54,44 +77,50 @@ private extension CalculatorPageController {
     }
     
     func initDelegates() {
-        calculatorView.netAmountTF.delegate = self
-        calculatorView.grossAmountTF.delegate = self
+        calculatorPageView.netAmountTF.delegate = self
+        calculatorPageView.grossAmountTF.delegate = self
     }
     
     func updateNet(_ calculatorUpdateType: CalculatorUpdateType) {
         let net = calculatorPageModel.getNet(calculatorUpdateType)
         let netText = String(format: "%.2f", net)
-        calculatorView.netAmountTF.text = netText
+        calculatorPageView.netAmountTF.text = netText
     }
     
     func updateVat(_ calculatorUpdateType: CalculatorUpdateType) {
         let vat = calculatorPageModel.getVat(calculatorUpdateType)
         let vatText = String(format: "%.2f", vat)
-        calculatorView.vatAmountLabel.text = vatText
+        calculatorPageView.vatAmountLabel.text = vatText
     }
     
     func updateFee(_ calculatorUpdateType: CalculatorUpdateType) {
         let fee = calculatorPageModel.getFee(calculatorUpdateType)
         let feeText = String(format: "%.2f", fee)
-        calculatorView.feeAmountLabel.text = feeText
+        calculatorPageView.feeAmountLabel.text = feeText
     }
     
     func updateServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
         let serviceCharge = calculatorPageModel.getServiceCharge(calculatorUpdateType)
         let serviceChargeText = String(format: "%.2f", serviceCharge)
-        calculatorView.serviceChargeAmountLabel.text = serviceChargeText
+        calculatorPageView.serviceChargeAmountLabel.text = serviceChargeText
     }
     
     func updateVatOnServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
         let vatOnSc = calculatorPageModel.getVatOnSc(calculatorUpdateType)
         let vatOnScText = String(format: "%.2f", vatOnSc)
-        calculatorView.vatOnScAmountLabel.text = vatOnScText
+        calculatorPageView.vatOnScAmountLabel.text = vatOnScText
+    }
+    
+    func updateTotalVat(_ calculatorUpdateType: CalculatorUpdateType) {
+        let totalVat = calculatorPageModel.getTotalVat(calculatorUpdateType)
+        let totalVatText = String(format: "%.2f", totalVat)
+        calculatorPageView.totalVatAmountLabel.text = totalVatText
     }
     
     func updateGross(_ calculatorUpdateType: CalculatorUpdateType) {        
         let gross = calculatorPageModel.getGross(calculatorUpdateType)
         let grossText = String(format: "%.2f", gross)
-        calculatorView.grossAmountTF.text = grossText
+        calculatorPageView.grossAmountTF.text = grossText
     }
     
     func updateElements(_ calculatorUpdateType: CalculatorUpdateType) {
@@ -101,6 +130,7 @@ private extension CalculatorPageController {
         updateFee(calculatorUpdateType)
         updateServiceCharge(calculatorUpdateType)
         updateVatOnServiceCharge(calculatorUpdateType)
+        updateTotalVat(calculatorUpdateType)
     }
 }
 
@@ -113,9 +143,9 @@ extension CalculatorPageController: UITextFieldDelegate {
     func getChoosenTextField(_ textField: UITextField) -> String {
         let field: String
         switch textField {
-        case calculatorView.netAmountTF:
+        case calculatorPageView.netAmountTF:
             field = String(UIConstants.netName.dropLast(3))
-        case calculatorView.grossAmountTF:
+        case calculatorPageView.grossAmountTF:
             field = String(UIConstants.grossName.dropLast(3))
         default:
             field = "some"
@@ -140,11 +170,11 @@ extension CalculatorPageController: UITextFieldDelegate {
         guard let text = textField.text else { return }
 
         switch textField {
-        case calculatorView.netAmountTF:
+        case calculatorPageView.netAmountTF:
             let netSales = Double(text) ?? 0.0
             calculatorPageModel.setNet(netSales)
             updateElements(.initiatedByNet)
-        case calculatorView.grossAmountTF:
+        case calculatorPageView.grossAmountTF:
             let grossSales = Double(text) ?? 0
             calculatorPageModel.setGross(grossSales)
             updateElements(.initiatedByGross)

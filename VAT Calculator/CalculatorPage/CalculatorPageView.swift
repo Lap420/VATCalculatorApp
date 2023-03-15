@@ -22,10 +22,26 @@ class CalculatorPageView: UIView {
         return textField
     }()
     
+    let vatNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = String(UIConstants.vatName.dropLast(3))
+        label.font = UIConstants.fontSemibold
+        label.textAlignment = .left
+        return label
+    }()
+    
     let vatAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
         label.textAlignment = .right
+        return label
+    }()
+    
+    let feeNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = String(UIConstants.feeName.dropLast(3))
+        label.font = UIConstants.fontSemibold
+        label.textAlignment = .left
         return label
     }()
     
@@ -36,6 +52,14 @@ class CalculatorPageView: UIView {
         return label
     }()
     
+    let serviceChargeNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = String(UIConstants.serviceChargeName.dropLast(3))
+        label.font = UIConstants.fontSemibold
+        label.textAlignment = .left
+        return label
+    }()
+    
     let serviceChargeAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
@@ -43,7 +67,36 @@ class CalculatorPageView: UIView {
         return label
     }()
     
+    let vatOnScNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = UIConstants.vatOnScName
+        label.font = UIConstants.fontSemibold
+        label.textAlignment = .left
+        return label
+    }()
+    
     let vatOnScAmountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIConstants.fontRegular
+        label.textAlignment = .right
+        return label
+    }()
+    
+    let totalVatStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        return stack
+    }()
+    
+    let totalVatNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = UIConstants.totalVatName
+        label.font = UIConstants.fontSemibold
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let totalVatAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
         label.textAlignment = .right
@@ -102,26 +155,10 @@ class CalculatorPageView: UIView {
         return stack
     }()
     
-    private let vatNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = String(UIConstants.vatName.dropLast(3))
-        label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
-        return label
-    }()
-    
     private let feeStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         return stack
-    }()
-    
-    private let feeNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = String(UIConstants.feeName.dropLast(3))
-        label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
-        return label
     }()
     
     private let serviceChargeStack: UIStackView = {
@@ -130,26 +167,10 @@ class CalculatorPageView: UIView {
         return stack
     }()
     
-    private let serviceChargeNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = String(UIConstants.serviceChargeName.dropLast(3))
-        label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
-        return label
-    }()
-    
     private let vatOnScStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         return stack
-    }()
-    
-    private let vatOnScNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = UIConstants.vatOnScName
-        label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
-        return label
     }()
     
     private let grossStack: UIStackView = {
@@ -177,13 +198,12 @@ private extension CalculatorPageView {
         mainStack.addArrangedSubview(feeStack)
         mainStack.addArrangedSubview(serviceChargeStack)
         mainStack.addArrangedSubview(vatOnScStack)
+        mainStack.addArrangedSubview(totalVatStack)
         mainStack.addArrangedSubview(grossStack)
-//        mainStack.setCustomSpacing(UIConstants.afterGrossCustomSpacing, after: grossStack)
-//        mainStack.addArrangedSubview(openCalculatorButton)
         self.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(UIConstants.contentInset)
         }
         
@@ -223,6 +243,13 @@ private extension CalculatorPageView {
         vatOnScStack.addArrangedSubview(vatOnScAmountLabel)
         mainStack.addSubview(vatOnScStack)
         vatOnScStack.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
+        
+        totalVatStack.addArrangedSubview(totalVatNameLabel)
+        totalVatStack.addArrangedSubview(totalVatAmountLabel)
+        mainStack.addSubview(totalVatStack)
+        totalVatStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         

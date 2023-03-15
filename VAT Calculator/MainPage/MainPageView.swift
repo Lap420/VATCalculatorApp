@@ -200,7 +200,7 @@ private extension MainPageView {
         self.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(UIConstants.contentInset)
         }
         

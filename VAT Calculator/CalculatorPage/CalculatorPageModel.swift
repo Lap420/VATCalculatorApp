@@ -88,6 +88,17 @@ struct CalculatorPageModel {
         return vatOnSc
     }
     
+    func getTotalVat(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
+        var totalVat = 0.0
+        switch calculatorUpdateType {
+        case .initiatedByNet:
+            totalVat = netSales * (vatPercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) / 100
+        case .initiatedByGross:
+            totalVat = grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * (vatPercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0))
+        }
+        return totalVat
+    }
+    
     mutating func getGross(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
         var gross = 0.0
         switch calculatorUpdateType {

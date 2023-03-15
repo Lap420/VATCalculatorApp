@@ -17,6 +17,7 @@ enum UIConstants {
     static let vatOnScName = "VAT on Service charge"
     static let grossName = "Gross sales, %"
     static let placeholder = "0"
+    static let totalVatName = "Total VAT"
     
     static let fontSizeHeader: CGFloat = 20
     static let fontSizeMain: CGFloat = 20
