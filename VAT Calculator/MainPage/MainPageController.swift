@@ -5,7 +5,6 @@
 //  Created by Lap on 12.03.2023.
 //
 
-// TODO: отдать модели расчет гросса и состояния свича
 // TODO: реализовать алерты через протокол, чтобы каждый экран реализовал метод getChoosenTextField у протокола
 
 import SnapKit
@@ -15,65 +14,76 @@ class MainPageController: UIViewController {
     // MARK: ViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         initialize()
-        UserDefaultsManager.loadMainPageData(mainView)
-        updateElements()
     }
     
     // MARK: - Private properties
-    private let mainView = MainPageView()
-    private var vatPercent = 0.0
-    private var feePercent = 0.0
-    private var serviceChargePercent = 0.0
-    private var calculateVatOnSc = false
+    private let mainPageView = MainPageView()
+    private var mainPageModel = MainPageModel()
 }
 
 
 // MARK: Private methods
 private extension MainPageController {
+    func initialize() {
+        UserDefaultsManager.loadMainPageData(&mainPageModel)
+        initFieldsState()
+        updateElements()
+        configureNavigationBar()
+        initDelegates()
+        initButtonTargets()
+        
+        view.addSubview(mainPageView)
+        mainPageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
     func configureNavigationBar() {
         navigationItem.title = UIConstants.mainPageNavigationTitle
         self.navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
         navigationController?.navigationBar.tintColor = UIConstants.accentColor
     }
     
-    func initialize() {
-        configureNavigationBar()
-        
-        view.addSubview(mainView)
-        mainView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
-        mainView.vatAmountTF.delegate = self
-        mainView.feeAmountTF.delegate = self
-        mainView.serviceChargeAmountTF.delegate = self
-        mainView.vatOnScSwitch.addTarget(nil, action: #selector(vatOnScSwitched), for: .valueChanged)
-        mainView.openCalculatorButton.addTarget(nil, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
+    func initFieldsState() {
+        mainPageView.vatAmountTF.text = mainPageModel.vatPercent > 0 ? String(mainPageModel.vatPercent.formatted(.number)) : nil
+        mainPageView.feeAmountTF.text = mainPageModel.feePercent > 0 ? String(mainPageModel.feePercent.formatted(.number)) : nil
+        mainPageView.serviceChargeAmountTF.text = mainPageModel.serviceChargePercent > 0 ? String(mainPageModel.serviceChargePercent.formatted(.number)) : nil
+        mainPageView.vatOnScSwitch.isOn = mainPageModel.calculateVatOnSc
+    }
+    
+    func initDelegates() {
+        mainPageView.vatAmountTF.delegate = self
+        mainPageView.feeAmountTF.delegate = self
+        mainPageView.serviceChargeAmountTF.delegate = self
+    }
+    
+    func initButtonTargets() {
+        mainPageView.vatOnScSwitch.addTarget(nil, action: #selector(vatOnScSwitched), for: .valueChanged)
+        mainPageView.openCalculatorButton.addTarget(nil, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
+    }
+    
+    func updateCharges() {
+        let vatPercent = Double(mainPageView.vatAmountTF.text ?? "0") ?? 0
+        let feePercent = Double(mainPageView.feeAmountTF.text ?? "0") ?? 0
+        let serviceChargePercent = Double(mainPageView.serviceChargeAmountTF.text ?? "0") ?? 0
+        let calculateVatOnSc = mainPageView.vatOnScSwitch.isOn
+        mainPageModel.updateCharges(vatPercent: vatPercent, feePercent: feePercent, serviceChargePercent: serviceChargePercent, calculateVatOnSc: calculateVatOnSc)
     }
     
     func updateSlider() {
-        var isEnabled = false
-        if let serviceChargeAmount = Double(mainView.serviceChargeAmountTF.text ?? "0"),
-            let vatAmount = Double(mainView.vatAmountTF.text ?? "0") {
-            isEnabled = serviceChargeAmount > 0.0 && vatAmount > 0.0
-        }
-        mainView.vatOnScSwitch.isEnabled = isEnabled
-        mainView.vatOnScNameLabel.isEnabled = isEnabled
+        let isEnabled = mainPageModel.vatPercent > 0 && mainPageModel.serviceChargePercent > 0
+        mainPageView.vatOnScSwitch.isEnabled = isEnabled
+        mainPageView.vatOnScNameLabel.isEnabled = isEnabled
     }
     
     func updateGross() {
-        vatPercent = Double(mainView.vatAmountTF.text ?? "0") ?? 0.0
-        feePercent = Double(mainView.feeAmountTF.text ?? "0") ?? 0.0
-        serviceChargePercent = Double(mainView.serviceChargeAmountTF.text ?? "0") ?? 0.0
-        calculateVatOnSc = mainView.vatOnScSwitch.isOn
-        let vatOnSc = calculateVatOnSc ? serviceChargePercent * vatPercent / 100.0 : 0.0
-        let gross = 100.0 + vatPercent + feePercent + serviceChargePercent + vatOnSc
-        mainView.grossAmountLabel.text = "\(gross.formatted(.number))"
+        let gross = mainPageModel.calculateGross()
+        mainPageView.grossAmountLabel.text = "\(gross.formatted(.number))"
     }
     
     func updateElements() {
+        updateCharges()
         updateSlider()
         updateGross()
     }
@@ -84,10 +94,10 @@ private extension MainPageController {
     }
     
     @objc func openCalculatorButtonTapped() {
-        let nextVC = CalculatorPageController(vatPercent: vatPercent,
-                                              feePercent: feePercent,
-                                              serviceChargePercent: serviceChargePercent,
-                                              calculateVatOnSc: calculateVatOnSc)
+        let nextVC = CalculatorPageController(vatPercent: mainPageModel.vatPercent,
+                                              feePercent: mainPageModel.feePercent,
+                                              serviceChargePercent: mainPageModel.serviceChargePercent,
+                                              calculateVatOnSc: mainPageModel.calculateVatOnSc)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
@@ -101,11 +111,11 @@ extension MainPageController: UITextFieldDelegate {
     func getChoosenTextField(_ textField: UITextField) -> String {
         let field: String
         switch textField {
-        case mainView.vatAmountTF:
+        case mainPageView.vatAmountTF:
             field = UIConstants.vatName
-        case mainView.feeAmountTF:
+        case mainPageView.feeAmountTF:
             field = UIConstants.feeName
-        case mainView.serviceChargeAmountTF:
+        case mainPageView.serviceChargeAmountTF:
             field = UIConstants.serviceChargeName
         default:
             field = "some"
@@ -136,6 +146,6 @@ extension MainPageController: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateElements()
-        UserDefaultsManager.saveMainPageTFData(mainView, textField: textField)
+        UserDefaultsManager.saveMainPageTFData(mainPageView, textField: textField)
     }
 }

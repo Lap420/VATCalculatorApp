@@ -32,11 +32,12 @@ struct UserDefaultsManager {
         userDefaults.set(isOn, forKey: UserDefaultKeys.vatOnSc.rawValue)
     }
     
-    static func loadMainPageData(_ view: MainPageView) {
-        view.vatAmountTF.text = userDefaults.string(forKey: UserDefaultKeys.vat.rawValue)
-        view.feeAmountTF.text = userDefaults.string(forKey: UserDefaultKeys.fee.rawValue)
-        view.serviceChargeAmountTF.text = userDefaults.string(forKey: UserDefaultKeys.serviceCharge.rawValue)
-        view.vatOnScSwitch.isOn = userDefaults.bool(forKey: UserDefaultKeys.vatOnSc.rawValue)
+    static func loadMainPageData(_ model: inout MainPageModel) {
+        let vatPercent = userDefaults.double(forKey: UserDefaultKeys.vat.rawValue)
+        let feePercent = userDefaults.double(forKey: UserDefaultKeys.fee.rawValue)
+        let serviceChargePercent = userDefaults.double(forKey: UserDefaultKeys.serviceCharge.rawValue)
+        let calculateVatOnSc = userDefaults.bool(forKey: UserDefaultKeys.vatOnSc.rawValue)
+        model.updateCharges(vatPercent: vatPercent, feePercent: feePercent, serviceChargePercent: serviceChargePercent, calculateVatOnSc: calculateVatOnSc)
     }
     
     static func saveCalculatorPageGrossSales(_ grossSales: Double) {
