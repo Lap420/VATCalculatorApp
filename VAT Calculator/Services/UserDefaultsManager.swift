@@ -44,8 +44,9 @@ struct UserDefaultsManager {
         userDefaults.set(grossSales, forKey: UserDefaultKeys.grossSales.rawValue)
     }
     
-    static func loadCalculatorPageGrossSales(_ grossSales: inout Double) {
-        grossSales = userDefaults.double(forKey: UserDefaultKeys.grossSales.rawValue)
+    static func loadCalculatorPageGrossSales(_ model: inout CalculatorPageModel) {
+        let grossSales = userDefaults.double(forKey: UserDefaultKeys.grossSales.rawValue)
+        model.initGross(grossSales)
     }
 }
 
