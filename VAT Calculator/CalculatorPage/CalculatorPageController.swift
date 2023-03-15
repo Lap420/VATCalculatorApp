@@ -65,9 +65,11 @@ private extension CalculatorPageController {
             calculatorPageView.serviceChargeNameLabel.isEnabled = false
             calculatorPageView.serviceChargeAmountLabel.isEnabled = false
         }
-        if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 {
+        if !calculatorPageModel.calculateVatOnSc {
             calculatorPageView.vatOnScNameLabel.isEnabled = false
             calculatorPageView.vatOnScAmountLabel.isEnabled = false
+        }
+        if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 {
             calculatorPageView.totalVatStack.isHidden = true
         }
     }
