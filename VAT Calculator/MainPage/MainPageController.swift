@@ -5,8 +5,6 @@
 //  Created by Lap on 12.03.2023.
 //
 
-// TODO: реализовать алерты через протокол, чтобы каждый экран реализовал метод getChoosenTextField у протокола
-
 import SnapKit
 import UIKit
 
@@ -128,18 +126,13 @@ extension MainPageController: UITextFieldDelegate {
         guard !text.isEmpty else { return true }
         if let enteredAmount = Double(text) {
             guard enteredAmount > 1000 else { return true }
-        
             let field = getChoosenTextField(textField)
-            AlertManager.showMainPageAlert(self,
-                                           textField: textField,
-                                           title: "Value too high",
-                                           message: "The number you entered in \"\(field)\" field is too large")
+            let alert = AlertManager.valueTooHighAlert(field: field, textField: textField)
+            present(alert, animated: true)
         } else {
             let field = getChoosenTextField(textField)
-            AlertManager.showMainPageAlert(self,
-                                           textField: textField,
-                                           title: "Incorrect value",
-                                           message: "The value you entered in \"\(field)\" field is not a number")
+            let alert = AlertManager.incorrectValueAlert(field: field, textField: textField)
+            present(alert, animated: true)
         }
         return false
     }

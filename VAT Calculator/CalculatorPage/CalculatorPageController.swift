@@ -169,7 +169,7 @@ extension CalculatorPageController: UITextFieldDelegate {
             default:
                 field = "some"
             }
-            AlertManager.showMainPageAlert(self,
+            AlertManager.showCommonAlert(self,
                                            textField: textField,
                                            title: "Incorrect value",
                                            message: "The value you entered in \"\(field)\" field is not a number")
