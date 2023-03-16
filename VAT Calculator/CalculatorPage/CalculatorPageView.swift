@@ -22,6 +22,12 @@ class CalculatorPageView: UIView {
         return textField
     }()
     
+    let vatStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        return stack
+    }()
+    
     let vatNameLabel: UILabel = {
         let label = UILabel()
         label.text = String(UIConstants.vatName.dropLast(3))
@@ -36,6 +42,12 @@ class CalculatorPageView: UIView {
         label.font = UIConstants.fontRegular
         label.textAlignment = .right
         return label
+    }()
+    
+    let feeStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        return stack
     }()
     
     let feeNameLabel: UILabel = {
@@ -54,6 +66,12 @@ class CalculatorPageView: UIView {
         return label
     }()
     
+    let serviceChargeStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        return stack
+    }()
+    
     let serviceChargeNameLabel: UILabel = {
         let label = UILabel()
         label.text = String(UIConstants.serviceChargeName.dropLast(3))
@@ -68,6 +86,12 @@ class CalculatorPageView: UIView {
         label.font = UIConstants.fontRegular
         label.textAlignment = .right
         return label
+    }()
+    
+    let vatOnScStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        return stack
     }()
     
     let vatOnScNameLabel: UILabel = {
@@ -153,30 +177,6 @@ class CalculatorPageView: UIView {
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
-    }()
-    
-    private let vatStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        return stack
-    }()
-    
-    private let feeStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        return stack
-    }()
-    
-    private let serviceChargeStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        return stack
-    }()
-    
-    private let vatOnScStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        return stack
     }()
     
     private let grossStack: UIStackView = {

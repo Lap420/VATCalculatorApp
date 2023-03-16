@@ -71,20 +71,16 @@ private extension CalculatorPageController {
     
     func hideOrShowZeroLines(_ hideZeroLines: Bool) {
         if calculatorPageModel.vatPercent == 0 {
-            calculatorPageView.vatNameLabel.isHidden = hideZeroLines
-            calculatorPageView.vatAmountLabel.isHidden = hideZeroLines
+            calculatorPageView.vatStack.isHidden = hideZeroLines
         }
         if calculatorPageModel.feePercent == 0 {
-            calculatorPageView.feeNameLabel.isHidden = hideZeroLines
-            calculatorPageView.feeAmountLabel.isHidden = hideZeroLines
+            calculatorPageView.feeStack.isHidden = hideZeroLines
         }
         if calculatorPageModel.serviceChargePercent == 0 {
-            calculatorPageView.serviceChargeNameLabel.isHidden = hideZeroLines
-            calculatorPageView.serviceChargeAmountLabel.isHidden = hideZeroLines
+            calculatorPageView.serviceChargeStack.isHidden = hideZeroLines
         }
         if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 || calculatorPageModel.vatPercent == 0 {
-            calculatorPageView.vatOnScNameLabel.isHidden = hideZeroLines
-            calculatorPageView.vatOnScAmountLabel.isHidden = hideZeroLines
+            calculatorPageView.vatOnScStack.isHidden = hideZeroLines
         }
     }
     
