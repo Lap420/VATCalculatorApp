@@ -26,6 +26,7 @@ class CalculatorPageController: UIViewController {
     // MARK: - Private properties
     private var calculatorPageView = CalculatorPageView()
     private var calculatorPageModel = CalculatorPageModel()
+    private var rounding = 2
 }
 
 // MARK: - Private methods
@@ -33,9 +34,10 @@ private extension CalculatorPageController {
     func initialize() {
         view.backgroundColor = UIConstants.backgroundColor
         UserDefaultsManager.loadCalculatorPageGrossSales(&calculatorPageModel)
-        disableZeroCharges()
+        disableZeroLines()
+        hideOrShowZeroLines(UserDefaultsManager.loadSettingsPageHideZeroLines())
+        rounding = UserDefaultsManager.loadSettingsPageRounding()
         updateElements(.initiatedByGross)
-        
         configureNavigationBar()
         initDelegates()
         
@@ -46,7 +48,8 @@ private extension CalculatorPageController {
         }
     }
     
-    func disableZeroCharges() {
+    
+    func disableZeroLines() {
         if calculatorPageModel.vatPercent == 0 {
             calculatorPageView.vatNameLabel.isEnabled = false
             calculatorPageView.vatAmountLabel.isEnabled = false
@@ -59,12 +62,29 @@ private extension CalculatorPageController {
             calculatorPageView.serviceChargeNameLabel.isEnabled = false
             calculatorPageView.serviceChargeAmountLabel.isEnabled = false
         }
-        if !calculatorPageModel.calculateVatOnSc {
+        if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 || calculatorPageModel.vatPercent == 0 {
             calculatorPageView.vatOnScNameLabel.isEnabled = false
             calculatorPageView.vatOnScAmountLabel.isEnabled = false
-        }
-        if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 {
             calculatorPageView.totalVatStack.isHidden = true
+        }
+    }
+    
+    func hideOrShowZeroLines(_ hideZeroLines: Bool) {
+        if calculatorPageModel.vatPercent == 0 {
+            calculatorPageView.vatNameLabel.isHidden = hideZeroLines
+            calculatorPageView.vatAmountLabel.isHidden = hideZeroLines
+        }
+        if calculatorPageModel.feePercent == 0 {
+            calculatorPageView.feeNameLabel.isHidden = hideZeroLines
+            calculatorPageView.feeAmountLabel.isHidden = hideZeroLines
+        }
+        if calculatorPageModel.serviceChargePercent == 0 {
+            calculatorPageView.serviceChargeNameLabel.isHidden = hideZeroLines
+            calculatorPageView.serviceChargeAmountLabel.isHidden = hideZeroLines
+        }
+        if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 || calculatorPageModel.vatPercent == 0 {
+            calculatorPageView.vatOnScNameLabel.isHidden = hideZeroLines
+            calculatorPageView.vatOnScAmountLabel.isHidden = hideZeroLines
         }
     }
     
@@ -81,43 +101,43 @@ private extension CalculatorPageController {
     
     func updateNet(_ calculatorUpdateType: CalculatorUpdateType) {
         let net = calculatorPageModel.getNet(calculatorUpdateType)
-        let netText = String(format: "%.2f", net)
+        let netText = String(format: "%.\(rounding)f", net)
         calculatorPageView.netAmountTF.text = netText
     }
     
     func updateVat(_ calculatorUpdateType: CalculatorUpdateType) {
         let vat = calculatorPageModel.getVat(calculatorUpdateType)
-        let vatText = String(format: "%.2f", vat)
+        let vatText = String(format: "%.\(rounding)f", vat)
         calculatorPageView.vatAmountLabel.text = vatText
     }
     
     func updateFee(_ calculatorUpdateType: CalculatorUpdateType) {
         let fee = calculatorPageModel.getFee(calculatorUpdateType)
-        let feeText = String(format: "%.2f", fee)
+        let feeText = String(format: "%.\(rounding)f", fee)
         calculatorPageView.feeAmountLabel.text = feeText
     }
     
     func updateServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
         let serviceCharge = calculatorPageModel.getServiceCharge(calculatorUpdateType)
-        let serviceChargeText = String(format: "%.2f", serviceCharge)
+        let serviceChargeText = String(format: "%.\(rounding)f", serviceCharge)
         calculatorPageView.serviceChargeAmountLabel.text = serviceChargeText
     }
     
     func updateVatOnServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
         let vatOnSc = calculatorPageModel.getVatOnSc(calculatorUpdateType)
-        let vatOnScText = String(format: "%.2f", vatOnSc)
+        let vatOnScText = String(format: "%.\(rounding)f", vatOnSc)
         calculatorPageView.vatOnScAmountLabel.text = vatOnScText
     }
     
     func updateTotalVat(_ calculatorUpdateType: CalculatorUpdateType) {
         let totalVat = calculatorPageModel.getTotalVat(calculatorUpdateType)
-        let totalVatText = String(format: "%.2f", totalVat)
+        let totalVatText = String(format: "%.\(rounding)f", totalVat)
         calculatorPageView.totalVatAmountLabel.text = totalVatText
     }
     
     func updateGross(_ calculatorUpdateType: CalculatorUpdateType) {        
         let gross = calculatorPageModel.getGross(calculatorUpdateType)
-        let grossText = String(format: "%.2f", gross)
+        let grossText = String(format: "%.\(rounding)f", gross)
         calculatorPageView.grossAmountTF.text = grossText
     }
     
@@ -133,6 +153,7 @@ private extension CalculatorPageController {
     
     @objc func openCalculatorSettingButtonTapped() {
         let nextVC = SettingsPageController()
+        nextVC.calculatorPageDelegate = self
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
@@ -186,4 +207,20 @@ extension CalculatorPageController: UITextFieldDelegate {
         
         UserDefaultsManager.saveCalculatorPageGrossSales(calculatorPageModel.getGross(.initiatedByGross))
     }
+}
+
+extension CalculatorPageController: CalculatorPageDelegate {
+    func updateRounding(_ rounding: Int) {
+        self.rounding = rounding
+        updateElements(.initiatedByGross)
+    }
+    
+    func updateHideZeroLines(_ hideZeroLines: Bool) {
+        hideOrShowZeroLines(hideZeroLines)
+    }
+}
+
+protocol CalculatorPageDelegate {
+    func updateRounding(_ rounding: Int)
+    func updateHideZeroLines(_ hideZeroLines: Bool)
 }

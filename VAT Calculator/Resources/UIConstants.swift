@@ -39,6 +39,8 @@ enum UIConstants {
     static let buttonFont = UIFont.systemFont(ofSize: UIConstants.fontSizeButton, weight: .bold)
     static let buttonTitleColor = UIColor.white
     
+    static let stepperMaximumValue: Double = 9
+    
     static let accentColor = UIColor(named: "AccentColor")
     static let backgroundColor = UIColor(named: "BackgroundColor")
     

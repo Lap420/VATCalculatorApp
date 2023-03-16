@@ -20,7 +20,7 @@ class SettingsPageView: UIView {
     
     let roundingStepper: UIStepper = {
         let stepper = UIStepper()
-        stepper.maximumValue = 5
+        stepper.maximumValue = UIConstants.stepperMaximumValue
         return stepper
     }()
     

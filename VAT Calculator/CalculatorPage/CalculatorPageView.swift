@@ -27,6 +27,7 @@ class CalculatorPageView: UIView {
         label.text = String(UIConstants.vatName.dropLast(3))
         label.font = UIConstants.fontSemibold
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -42,6 +43,7 @@ class CalculatorPageView: UIView {
         label.text = String(UIConstants.feeName.dropLast(3))
         label.font = UIConstants.fontSemibold
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -57,6 +59,7 @@ class CalculatorPageView: UIView {
         label.text = String(UIConstants.serviceChargeName.dropLast(3))
         label.font = UIConstants.fontSemibold
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -72,6 +75,7 @@ class CalculatorPageView: UIView {
         label.text = UIConstants.vatOnScName
         label.font = UIConstants.fontSemibold
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -93,6 +97,7 @@ class CalculatorPageView: UIView {
         label.text = UIConstants.totalVatName
         label.font = UIConstants.fontSemibold
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -146,6 +151,7 @@ class CalculatorPageView: UIView {
         label.text = String(UIConstants.netName.dropLast(3))
         label.font = UIConstants.fontSemibold
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -184,6 +190,7 @@ class CalculatorPageView: UIView {
         label.text = String(UIConstants.grossName.dropLast(3))
         label.font = UIConstants.fontSemibold
         label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
 }
@@ -207,9 +214,9 @@ private extension CalculatorPageView {
         }
         
         netStack.addArrangedSubview(netNameLabel)
+        netNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
         netStack.addArrangedSubview(netAmountTF)
         netAmountTF.snp.makeConstraints { make in
-            make.width.equalTo(100)
             make.height.equalTo(40)
         }
         netStack.snp.makeConstraints { make in
@@ -217,39 +224,44 @@ private extension CalculatorPageView {
         }
         
         vatStack.addArrangedSubview(vatNameLabel)
+        vatNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
         vatStack.addArrangedSubview(vatAmountLabel)
         vatStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
 
         feeStack.addArrangedSubview(feeNameLabel)
+        feeNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
         feeStack.addArrangedSubview(feeAmountLabel)
         feeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         serviceChargeStack.addArrangedSubview(serviceChargeNameLabel)
+        serviceChargeNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
         serviceChargeStack.addArrangedSubview(serviceChargeAmountLabel)
         serviceChargeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         vatOnScStack.addArrangedSubview(vatOnScNameLabel)
+        vatOnScNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
         vatOnScStack.addArrangedSubview(vatOnScAmountLabel)
         vatOnScStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         totalVatStack.addArrangedSubview(totalVatNameLabel)
+        totalVatNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
         totalVatStack.addArrangedSubview(totalVatAmountLabel)
         totalVatStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         grossStack.addArrangedSubview(grossNameLabel)
+        grossNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
         grossStack.addArrangedSubview(grossAmountTF)
         grossAmountTF.snp.makeConstraints { make in
-            make.width.equalTo(100)
             make.height.equalTo(40)
         }
         grossStack.snp.makeConstraints { make in

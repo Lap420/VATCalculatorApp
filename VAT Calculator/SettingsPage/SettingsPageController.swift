@@ -8,7 +8,9 @@
 import UIKit
 
 class SettingsPageController: UIViewController {
-
+    // MARK: - Private properties
+    var calculatorPageDelegate: CalculatorPageDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -27,7 +29,6 @@ private extension SettingsPageController {
         configureNavigationBar()
         initElements()
         initButtonTargets()
-        //initDelegates()
 
         view.addSubview(settingsPageView)
         settingsPageView.snp.makeConstraints { make in
@@ -54,14 +55,15 @@ private extension SettingsPageController {
     }
     
     @objc func roundingStepperClicked(_ sender: UIStepper) {
-        //updateElements()
         let value = Int(sender.value)
         settingsPageView.roundingAmountLabel.text = String(value)
         UserDefaultsManager.saveSettingsPageRounding(value)
+        calculatorPageDelegate?.updateRounding(value)
     }
     
     @objc func hideZeroLinesSwitched(_ sender: UISwitch) {
-        //updateElements()
-        UserDefaultsManager.saveSettingsPageHideZeroLines(sender.isOn)
+        let isOn = sender.isOn
+        UserDefaultsManager.saveSettingsPageHideZeroLines(isOn)
+        calculatorPageDelegate?.updateHideZeroLines(isOn)
     }
 }

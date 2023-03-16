@@ -64,6 +64,14 @@ struct UserDefaultsManager {
     static func loadSettingsPageHideZeroLines() -> Bool {
         return userDefaults.bool(forKey: UserDefaultKeys.hideZeroLines.rawValue)
     }
+    
+    static func saveIsFirstLaunch() {
+        userDefaults.set(true, forKey: UserDefaultKeys.isFirstLaunch.rawValue)
+    }
+    
+    static func loadIsFirstLaunch() -> Bool {
+        return !userDefaults.bool(forKey: UserDefaultKeys.isFirstLaunch.rawValue)
+    }
 }
 
 enum UserDefaultKeys: String {
@@ -74,4 +82,5 @@ enum UserDefaultKeys: String {
     case grossSales
     case rounding
     case hideZeroLines
+    case isFirstLaunch
 }

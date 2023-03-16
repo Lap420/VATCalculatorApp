@@ -25,6 +25,7 @@ class MainPageController: UIViewController {
 private extension MainPageController {
     func initialize() {
         view.backgroundColor = UIConstants.backgroundColor
+        checkIsFirstLaunch()
         UserDefaultsManager.loadMainPageData(&mainPageModel)
         initFieldsState()
         updateElements()
@@ -36,6 +37,14 @@ private extension MainPageController {
         mainPageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
+    func checkIsFirstLaunch() {
+        let isFirstLaunch = UserDefaultsManager.loadIsFirstLaunch()
+        if isFirstLaunch {
+            UserDefaultsManager.saveIsFirstLaunch()
+            UserDefaultsManager.saveSettingsPageRounding(2)
         }
     }
     
