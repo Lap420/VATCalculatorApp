@@ -48,6 +48,22 @@ struct UserDefaultsManager {
         let grossSales = userDefaults.double(forKey: UserDefaultKeys.grossSales.rawValue)
         model.initGross(grossSales)
     }
+    
+    static func saveSettingsPageRounding(_ value: Int) {
+        userDefaults.set(value, forKey: UserDefaultKeys.rounding.rawValue)
+    }
+    
+    static func loadSettingsPageRounding() -> Int {
+        return userDefaults.integer(forKey: UserDefaultKeys.rounding.rawValue)
+    }
+    
+    static func saveSettingsPageHideZeroLines(_ isOn: Bool) {
+        userDefaults.set(isOn, forKey: UserDefaultKeys.hideZeroLines.rawValue)
+    }
+    
+    static func loadSettingsPageHideZeroLines() -> Bool {
+        return userDefaults.bool(forKey: UserDefaultKeys.hideZeroLines.rawValue)
+    }
 }
 
 enum UserDefaultKeys: String {
@@ -56,4 +72,6 @@ enum UserDefaultKeys: String {
     case serviceCharge
     case vatOnSc
     case grossSales
+    case rounding
+    case hideZeroLines
 }

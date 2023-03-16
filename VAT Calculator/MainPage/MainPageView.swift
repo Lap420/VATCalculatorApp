@@ -80,7 +80,7 @@ class MainPageView: UIView {
         return button
     }()
     
-    // MARK: View Lifecycle
+    // MARK: - View Lifecycle
     init() {
         super.init(frame: .zero)
         initialize()
@@ -90,7 +90,7 @@ class MainPageView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Public properties
+    // MARK: - Private properties
     private let mainStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -199,14 +199,12 @@ private extension MainPageView {
         mainStack.addArrangedSubview(openCalculatorButton)
         self.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().inset(UIConstants.contentInset)
             make.leading.trailing.equalToSuperview().inset(UIConstants.contentInset)
         }
         
         netStack.addArrangedSubview(netNameLabel)
         netStack.addArrangedSubview(netAmountLabel)
-        mainStack.addSubview(netStack)
         netStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
@@ -217,7 +215,6 @@ private extension MainPageView {
             make.width.equalTo(100)
             make.height.equalTo(40)
         }
-        mainStack.addSubview(vatStack)
         vatStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
@@ -228,7 +225,6 @@ private extension MainPageView {
             make.width.equalTo(100)
             make.height.equalTo(40)
         }
-        mainStack.addSubview(feeStack)
         feeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
@@ -239,21 +235,18 @@ private extension MainPageView {
             make.width.equalTo(100)
             make.height.equalTo(40)
         }
-        mainStack.addSubview(serviceChargeStack)
         serviceChargeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         vatOnScStack.addArrangedSubview(vatOnScNameLabel)
         vatOnScStack.addArrangedSubview(vatOnScSwitch)
-        mainStack.addSubview(vatOnScStack)
         vatOnScStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         grossStack.addArrangedSubview(grossNameLabel)
         grossStack.addArrangedSubview(grossAmountLabel)
-        mainStack.addSubview(grossStack)
         grossStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }

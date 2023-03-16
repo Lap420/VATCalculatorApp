@@ -34,14 +34,14 @@ private extension MainPageController {
         
         view.addSubview(mainPageView)
         mainPageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     func configureNavigationBar() {
         navigationItem.title = UIConstants.mainPageNavigationTitle
-        self.navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
+        navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
         navigationController?.navigationBar.tintColor = UIConstants.accentColor
     }
     
@@ -59,8 +59,8 @@ private extension MainPageController {
     }
     
     func initButtonTargets() {
-        mainPageView.vatOnScSwitch.addTarget(nil, action: #selector(vatOnScSwitched), for: .valueChanged)
-        mainPageView.openCalculatorButton.addTarget(nil, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
+        mainPageView.vatOnScSwitch.addTarget(self, action: #selector(vatOnScSwitched), for: .valueChanged)
+        mainPageView.openCalculatorButton.addTarget(self, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
     }
     
     func updateCharges() {

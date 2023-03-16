@@ -5,12 +5,6 @@
 //  Created by Lap on 14.03.2023.
 //
 
-// TODO: добавить страницу настроек
-// TODO: добавить в настройки выбор количества знаков после запятой
-// TODO: добавить в настройки скрытие нулевых строк
-//calculatorView.totalVatStack.isHidden = !calculatorView.totalVatStack.isHidden
-// TODO: поднимать экран, чтобы было видно вводимое поле
-
 import UIKit
 
 class CalculatorPageController: UIViewController {
@@ -47,7 +41,7 @@ private extension CalculatorPageController {
         
         view.addSubview(calculatorPageView)
         calculatorPageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -76,6 +70,8 @@ private extension CalculatorPageController {
     
     func configureNavigationBar() {
         navigationItem.title = UIConstants.calculatorPageNavigationTitle
+        let settingsButton = UIBarButtonItem(image: .init(systemName: UIConstants.settingsIconName), style: .plain, target: self, action: #selector(openCalculatorSettingButtonTapped))
+        navigationItem.setRightBarButton(settingsButton, animated: true)
     }
     
     func initDelegates() {
@@ -133,6 +129,11 @@ private extension CalculatorPageController {
         updateServiceCharge(calculatorUpdateType)
         updateVatOnServiceCharge(calculatorUpdateType)
         updateTotalVat(calculatorUpdateType)
+    }
+    
+    @objc func openCalculatorSettingButtonTapped() {
+        let nextVC = SettingsPageController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
