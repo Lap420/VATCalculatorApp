@@ -33,7 +33,7 @@ private extension SettingsPageController {
         view.addSubview(settingsPageView)
         settingsPageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
         }
     }
     

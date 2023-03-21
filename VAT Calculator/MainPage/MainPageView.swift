@@ -187,7 +187,8 @@ class MainPageView: UIView {
 // MARK: - Private methods
 private extension MainPageView {
     func initialize() {
-        self.backgroundColor = UIConstants.backgroundColor
+        self.backgroundColor = UIConstants.backgroundContentColor
+        self.layer.cornerRadius = UIConstants.contentViewCornerRadius
         
         mainStack.addArrangedSubview(netStack)
         mainStack.addArrangedSubview(vatStack)
@@ -199,8 +200,8 @@ private extension MainPageView {
         mainStack.addArrangedSubview(openCalculatorButton)
         self.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(UIConstants.contentInset)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentInset)
+            make.top.bottom.equalToSuperview().inset(UIConstants.contentVerticalInset)
+            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
         }
         
         netStack.addArrangedSubview(netNameLabel)

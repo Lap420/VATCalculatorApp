@@ -43,8 +43,12 @@ enum UIConstants {
     
     static let accentColor = UIColor(named: "AccentColor")
     static let backgroundColor = UIColor(named: "BackgroundColor")
+    static let backgroundContentColor = UIColor(named: "BackgroundContentColor")
+    
+    static let contentViewCornerRadius: CGFloat = 10
     
     static let menuItemsOffset: CGFloat = 12
-    static let contentInset: CGFloat = 16
+    static let contentHorizontalInset: CGFloat = 8
+    static let contentVerticalInset: CGFloat = 16
     static let afterGrossCustomSpacing: CGFloat = 50
 }
