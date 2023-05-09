@@ -1,10 +1,3 @@
-//
-//  SettingsView.swift
-//  VAT Calculator
-//
-//  Created by Lap on 16.03.2023.
-//
-
 import UIKit
 
 class SettingsPageView: UIView {

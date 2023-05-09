@@ -1,10 +1,3 @@
-//
-//  MainPageModel.swift
-//  VAT Calculator
-//
-//  Created by Lap on 14.03.2023.
-//
-
 struct MainPageModel {
     private(set) var vatPercent = 0.0
     private(set) var feePercent = 0.0

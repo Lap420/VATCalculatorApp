@@ -1,10 +1,3 @@
-//
-//  MainPageController.swift
-//  VAT Calculator
-//
-//  Created by Lap on 12.03.2023.
-//
-
 import SnapKit
 import UIKit
 

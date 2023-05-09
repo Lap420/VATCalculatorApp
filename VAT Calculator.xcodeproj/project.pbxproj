@@ -80,10 +80,10 @@
 			isa = PBXGroup;
 			children = (
 				047012ED29BE4253005145B2 /* Application */,
-				047012F029BE4341005145B2 /* CalculatorPage */,
 				047012EF29BE4323005145B2 /* MainPage */,
-				047012EE29BE4268005145B2 /* Resources */,
+				047012F029BE4341005145B2 /* CalculatorPage */,
 				04F1712129C363C100690A2A /* SettingsPage */,
+				047012EE29BE4268005145B2 /* Resources */,
 				04C1C11129C0CAB8006FBED3 /* Services */,
 			);
 			path = "VAT Calculator";
@@ -112,9 +112,9 @@
 		047012EF29BE4323005145B2 /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
-				047012F129BE4397005145B2 /* MainPageController.swift */,
-				04C1C10929C062D4006FBED3 /* MainPageView.swift */,
 				04C1C10F29C0BDA6006FBED3 /* MainPageModel.swift */,
+				04C1C10929C062D4006FBED3 /* MainPageView.swift */,
+				047012F129BE4397005145B2 /* MainPageController.swift */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
