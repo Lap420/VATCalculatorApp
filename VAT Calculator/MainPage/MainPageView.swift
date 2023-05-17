@@ -4,41 +4,17 @@ import UIKit
 class MainPageView: UIView {
     // MARK: - Public properties
     let vatAmountTF: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = UIConstants.placeholder
-        textField.font = UIConstants.fontRegular
-        textField.textAlignment = .right
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .whileEditing
-        textField.keyboardType = .decimalPad
-        textField.returnKeyType = .next
-        textField.clearsOnBeginEditing = true
+        let textField = UITextField(returnKey: .next)
         return textField
     }()
     
     let feeAmountTF: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = UIConstants.placeholder
-        textField.font = UIConstants.fontRegular
-        textField.textAlignment = .right
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .whileEditing
-        textField.keyboardType = .decimalPad
-        textField.returnKeyType = .next
-        textField.clearsOnBeginEditing = true
+        let textField = UITextField(returnKey: .next)
         return textField
     }()
     
     let serviceChargeAmountTF: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = UIConstants.placeholder
-        textField.font = UIConstants.fontRegular
-        textField.textAlignment = .right
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .whileEditing
-        textField.keyboardType = .decimalPad
-        textField.returnKeyType = .done
-        textField.clearsOnBeginEditing = true
+        let textField = UITextField(returnKey: .done)
         return textField
     }()
     
@@ -64,12 +40,15 @@ class MainPageView: UIView {
     }()
     
     let openCalculatorButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle(UIConstants.buttonTitle, for: .normal)
-        button.titleLabel?.font = UIConstants.buttonFont
-        button.setTitleColor(UIConstants.buttonTitleColor, for: .normal)
-        button.layer.cornerRadius = UIConstants.buttonCornerRadius
-        button.backgroundColor = UIConstants.accentColor
+        let button = UIButton()
+        var config = UIButton.Configuration.filled()
+        config.title = UIConstants.buttonTitle
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attributes in
+            var updatedAttributes = attributes
+            updatedAttributes.font = UIConstants.buttonFont
+            return updatedAttributes
+        }
+        button.configuration = config
         return button
     }()
     
@@ -84,6 +63,13 @@ class MainPageView: UIView {
     }
     
     // MARK: - Private properties
+    private let mainView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIConstants.backgroundContentColor
+        view.layer.cornerRadius = UIConstants.contentViewCornerRadius
+        return view
+    }()
+    
     private let mainStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -180,9 +166,16 @@ class MainPageView: UIView {
 // MARK: - Private methods
 private extension MainPageView {
     func initialize() {
-        self.backgroundColor = UIConstants.backgroundContentColor
-        self.layer.cornerRadius = UIConstants.contentViewCornerRadius
+        //self.backgroundColor = UIConstants.backgroundContentColor
+        backgroundColor = UIConstants.backgroundColor
+        //layer.cornerRadius = UIConstants.contentViewCornerRadius
         
+        self.addSubview(mainView)
+        mainView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
+        }
+        mainView.addSubview(mainStack)
         mainStack.addArrangedSubview(netStack)
         mainStack.addArrangedSubview(vatStack)
         mainStack.addArrangedSubview(feeStack)
@@ -191,7 +184,6 @@ private extension MainPageView {
         mainStack.addArrangedSubview(grossStack)
         mainStack.setCustomSpacing(UIConstants.afterGrossCustomSpacing, after: grossStack)
         mainStack.addArrangedSubview(openCalculatorButton)
-        self.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(UIConstants.contentVerticalInset)
             make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
@@ -250,4 +242,6 @@ private extension MainPageView {
             make.width.equalTo(250)
         }
     }
+    
+    
 }

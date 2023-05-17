@@ -11,15 +11,15 @@ struct CalculatorPageModel {
     private(set) var grossSales = 0.0
     private(set) var calculateVatOnSc = false
     
-    mutating func initGross(_ grossSales: Double) {
-        self.grossSales = grossSales
-    }
-    
-    mutating func initCharges(vatPercent: Double, feePercent: Double, serviceChargePercent: Double, calculateVatOnSc: Bool) {
+    mutating func setCharges(vatPercent: Double, feePercent: Double, serviceChargePercent: Double, calculateVatOnSc: Bool) {
         self.vatPercent = vatPercent
         self.feePercent = feePercent
         self.serviceChargePercent = serviceChargePercent
         self.calculateVatOnSc = calculateVatOnSc
+    }
+    
+    mutating func setNet(_ netSales: Double) {
+        self.netSales = netSales
     }
     
     func getNet(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
@@ -31,10 +31,6 @@ struct CalculatorPageModel {
             net = grossSales / (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) * 100
         }
         return net
-    }
-    
-    mutating func setNet(_ netSales: Double) {
-        self.netSales = netSales
     }
     
     func getVat(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
@@ -92,19 +88,19 @@ struct CalculatorPageModel {
         return totalVat
     }
     
+    mutating func setGross(_ grossSales: Double) {
+        self.grossSales = grossSales
+    }
+    
     mutating func getGross(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
         var gross = 0.0
         switch calculatorUpdateType {
         case .initiatedByNet:
             gross = netSales * (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) / 100
-            setGross(gross)
+//            grossSales = gross
         case .initiatedByGross:
             gross = grossSales
         }
         return gross
-    }
-    
-    mutating func setGross(_ grossSales: Double) {
-        self.grossSales = grossSales
     }
 }

@@ -39,7 +39,7 @@ struct UserDefaultsManager {
     
     static func loadCalculatorPageGrossSales(_ model: inout CalculatorPageModel) {
         let grossSales = userDefaults.double(forKey: UserDefaultKeys.grossSales.rawValue)
-        model.initGross(grossSales)
+        model.setGross(grossSales)
     }
     
     static func saveSettingsPageRounding(_ value: Int) {

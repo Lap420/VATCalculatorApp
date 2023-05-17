@@ -2,35 +2,32 @@ import SnapKit
 import UIKit
 
 class MainPageController: UIViewController {
-    // MARK: ViewController Lifecycle
+    // MARK: - ViewController Lifecycle
+    override func loadView() {
+        super.loadView()
+        view = mainPageView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
     }
     
     // MARK: - Private properties
-    private let mainPageView = MainPageView()
+    private lazy var mainPageView = MainPageView()
     private var mainPageModel = MainPageModel()
 }
 
-
-// MARK: Private methods
+// MARK: - Private methods
 private extension MainPageController {
     func initialize() {
-        view.backgroundColor = UIConstants.backgroundColor
+        title = UIConstants.mainPageNavigationTitle
         checkIsFirstLaunch()
         UserDefaultsManager.loadMainPageData(&mainPageModel)
         initFieldsState()
         updateElements()
-        configureNavigationBar()
         initDelegates()
         initButtonTargets()
-        
-        view.addSubview(mainPageView)
-        mainPageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
-        }
     }
     
     func checkIsFirstLaunch() {
@@ -39,12 +36,6 @@ private extension MainPageController {
             UserDefaultsManager.saveIsFirstLaunch()
             UserDefaultsManager.saveSettingsPageRounding(2)
         }
-    }
-    
-    func configureNavigationBar() {
-        navigationItem.title = UIConstants.mainPageNavigationTitle
-        navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
-        navigationController?.navigationBar.tintColor = UIConstants.accentColor
     }
     
     func initFieldsState() {
@@ -91,6 +82,7 @@ private extension MainPageController {
     }
     
     @objc func vatOnScSwitched(_ sender: UISwitch) {
+        view.endEditing(true)
         updateElements()
         UserDefaultsManager.saveMainPageSwitchData(sender.isOn)
     }

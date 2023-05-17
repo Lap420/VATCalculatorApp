@@ -4,7 +4,7 @@ class CalculatorPageController: UIViewController {
     // MARK: - View Lifecycle
     init(vatPercent: Double, feePercent: Double, serviceChargePercent: Double, calculateVatOnSc: Bool) {
         super.init(nibName: nil, bundle: nil)
-        calculatorPageModel.initCharges(vatPercent: vatPercent, feePercent: feePercent, serviceChargePercent: serviceChargePercent, calculateVatOnSc: calculateVatOnSc)
+        calculatorPageModel.setCharges(vatPercent: vatPercent, feePercent: feePercent, serviceChargePercent: serviceChargePercent, calculateVatOnSc: calculateVatOnSc)
     }
     
     required init?(coder: NSCoder) {
