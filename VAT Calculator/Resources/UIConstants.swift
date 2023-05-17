@@ -31,6 +31,9 @@ enum UIConstants {
     static let buttonCornerRadius: CGFloat = 10
     static let buttonFont = UIFont.systemFont(ofSize: UIConstants.fontSizeButton, weight: .bold)
     static let buttonTitleColor = UIColor.white
+    static let buttonWidth: CGFloat = UIScreen.main.bounds.width * 0.69
+    static let buttonAnimationDuration: TimeInterval = 0.1
+    static let buttonAnimationScale: CGFloat = 0.95
     
     static let stepperMaximumValue: Double = 9
     
@@ -44,4 +47,8 @@ enum UIConstants {
     static let contentHorizontalInset: CGFloat = 8
     static let contentVerticalInset: CGFloat = 16
     static let afterGrossCustomSpacing: CGFloat = 50
+    static let textFieldHeight: CGFloat = 40
+    static let textFieldWidth: CGFloat = 100
+    
+    
 }

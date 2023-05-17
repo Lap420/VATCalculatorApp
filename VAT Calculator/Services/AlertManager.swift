@@ -13,9 +13,9 @@ struct AlertManager {
         vc.present(alert, animated: true)
     }
     
-    static func valueTooHighAlert(field: String, textField: UITextField) -> UIAlertController {
+    static func valueTooHighAlert(textFieldName: String, textField: UITextField) -> UIAlertController {
         let alert = UIAlertController(title: "Value too high",
-                                      message: "The number you entered in \"\(field)\" field is too large",
+                                      message: "The number you entered in \"\(textFieldName)\" field is too large",
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Okay", style: .default)
         let clearAction = UIAlertAction(title: "Clear", style: .destructive) { _ in
@@ -26,9 +26,9 @@ struct AlertManager {
         return alert
     }
     
-    static func incorrectValueAlert(field: String, textField: UITextField) -> UIAlertController {
+    static func incorrectValueAlert(textFieldName: String, textField: UITextField) -> UIAlertController {
         let alert = UIAlertController(title: "Incorrect value",
-                                      message: "The value you entered in \"\(field)\" field is not a number",
+                                      message: "The value you entered in \"\(textFieldName)\" field is not a number",
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Okay", style: .default)
         let clearAction = UIAlertAction(title: "Clear", style: .destructive) { _ in

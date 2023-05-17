@@ -1,4 +1,7 @@
-import SnapKit
+// TODO: - Maybe add some animation for the button
+// TODO: - Refactor first launch
+// TODO: - Double-check UserDefaultsManager
+
 import UIKit
 
 class MainPageController: UIViewController {
@@ -22,23 +25,23 @@ class MainPageController: UIViewController {
 private extension MainPageController {
     func initialize() {
         title = UIConstants.mainPageNavigationTitle
-        checkIsFirstLaunch()
+//        checkIsFirstLaunch()
         UserDefaultsManager.loadMainPageData(&mainPageModel)
-        initFieldsState()
+        initTextFieldsState()
         updateElements()
         initDelegates()
         initButtonTargets()
     }
     
-    func checkIsFirstLaunch() {
-        let isFirstLaunch = UserDefaultsManager.loadIsFirstLaunch()
-        if isFirstLaunch {
-            UserDefaultsManager.saveIsFirstLaunch()
-            UserDefaultsManager.saveSettingsPageRounding(2)
-        }
-    }
+//    func checkIsFirstLaunch() {
+//        let isFirstLaunch = UserDefaultsManager.loadIsFirstLaunch()
+//        if isFirstLaunch {
+//            UserDefaultsManager.saveIsFirstLaunch()
+//            UserDefaultsManager.saveSettingsPageRounding(2)
+//        }
+//    }
     
-    func initFieldsState() {
+    func initTextFieldsState() {
         mainPageView.vatAmountTF.text = mainPageModel.vatPercent > 0 ? String(mainPageModel.vatPercent.formatted(.number)) : nil
         mainPageView.feeAmountTF.text = mainPageModel.feePercent > 0 ? String(mainPageModel.feePercent.formatted(.number)) : nil
         mainPageView.serviceChargeAmountTF.text = mainPageModel.serviceChargePercent > 0 ? String(mainPageModel.serviceChargePercent.formatted(.number)) : nil
@@ -71,7 +74,7 @@ private extension MainPageController {
     }
     
     func updateGross() {
-        let gross = mainPageModel.calculateGross()
+        let gross = mainPageModel.gross
         mainPageView.grossAmountLabel.text = "\(gross.formatted(.number))"
     }
     
@@ -102,7 +105,7 @@ extension MainPageController: UITextFieldDelegate {
         view.endEditing(true)
     }
     
-    func getChoosenTextField(_ textField: UITextField) -> String {
+    func getChoosenTextFieldName(_ textField: UITextField) -> String {
         let field: String
         switch textField {
         case mainPageView.vatAmountTF:
@@ -122,12 +125,12 @@ extension MainPageController: UITextFieldDelegate {
         guard !text.isEmpty else { return true }
         if let enteredAmount = Double(text) {
             guard enteredAmount > 1000 else { return true }
-            let field = getChoosenTextField(textField)
-            let alert = AlertManager.valueTooHighAlert(field: field, textField: textField)
+            let textFieldName = getChoosenTextFieldName(textField)
+            let alert = AlertManager.valueTooHighAlert(textFieldName: textFieldName, textField: textField)
             present(alert, animated: true)
         } else {
-            let field = getChoosenTextField(textField)
-            let alert = AlertManager.incorrectValueAlert(field: field, textField: textField)
+            let textFieldName = getChoosenTextFieldName(textField)
+            let alert = AlertManager.incorrectValueAlert(textFieldName: textFieldName, textField: textField)
             present(alert, animated: true)
         }
         return false

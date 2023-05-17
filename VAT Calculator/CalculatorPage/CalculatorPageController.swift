@@ -172,7 +172,7 @@ extension CalculatorPageController: UITextFieldDelegate {
         var result = true
         if Double(text) == nil {
             let field = getChoosenTextField(textField)
-            let alert = AlertManager.incorrectValueAlert(field: field, textField: textField)
+            let alert = AlertManager.incorrectValueAlert(textFieldName: field, textField: textField)
             present(alert, animated: true)
             result = false
         }

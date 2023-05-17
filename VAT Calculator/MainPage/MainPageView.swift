@@ -22,7 +22,6 @@ class MainPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.vatOnScName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
     
@@ -48,7 +47,10 @@ class MainPageView: UIView {
             updatedAttributes.font = UIConstants.buttonFont
             return updatedAttributes
         }
+        config.buttonSize = .large
         button.configuration = config
+        button.addTarget(self, action: #selector(buttonTouchedDown), for: .touchDown)
+        button.addTarget(self, action: #selector(buttonTouchedUp), for: [.touchUpInside, .touchUpOutside])
         return button
     }()
     
@@ -80,7 +82,6 @@ class MainPageView: UIView {
     
     private let netStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -88,7 +89,6 @@ class MainPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.netName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
     
@@ -102,7 +102,6 @@ class MainPageView: UIView {
     
     private let vatStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -110,13 +109,11 @@ class MainPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.vatName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
     
     private let feeStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -124,13 +121,11 @@ class MainPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.feeName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
     
     private let serviceChargeStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -138,19 +133,16 @@ class MainPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.serviceChargeName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
     
     private let vatOnScStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
     private let grossStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -158,7 +150,6 @@ class MainPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.grossName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
 }
@@ -166,27 +157,27 @@ class MainPageView: UIView {
 // MARK: - Private methods
 private extension MainPageView {
     func initialize() {
-        //self.backgroundColor = UIConstants.backgroundContentColor
         backgroundColor = UIConstants.backgroundColor
-        //layer.cornerRadius = UIConstants.contentViewCornerRadius
-        
         self.addSubview(mainView)
         mainView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
+            make.top.equalTo(safeAreaLayoutGuide).inset(layoutMargins.top)
+            make.leading.trailing.equalTo(layoutMargins)
         }
         mainView.addSubview(mainStack)
         mainStack.addArrangedSubview(netStack)
+        mainStack.setCustomSpacing(22, after: netStack)
         mainStack.addArrangedSubview(vatStack)
         mainStack.addArrangedSubview(feeStack)
         mainStack.addArrangedSubview(serviceChargeStack)
+        mainStack.setCustomSpacing(17, after: serviceChargeStack)
         mainStack.addArrangedSubview(vatOnScStack)
+        mainStack.setCustomSpacing(22, after: vatOnScStack)
         mainStack.addArrangedSubview(grossStack)
-        mainStack.setCustomSpacing(UIConstants.afterGrossCustomSpacing, after: grossStack)
+        mainStack.setCustomSpacing(50, after: grossStack)
         mainStack.addArrangedSubview(openCalculatorButton)
         mainStack.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(UIConstants.contentVerticalInset)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
+            make.top.bottom.equalToSuperview().inset(layoutMargins.top * 2)
+            make.leading.trailing.equalToSuperview().inset(layoutMargins.left)
         }
         
         netStack.addArrangedSubview(netNameLabel)
@@ -198,8 +189,8 @@ private extension MainPageView {
         vatStack.addArrangedSubview(vatNameLabel)
         vatStack.addArrangedSubview(vatAmountTF)
         vatAmountTF.snp.makeConstraints { make in
-            make.width.equalTo(100)
-            make.height.equalTo(40)
+            make.width.equalTo(UIConstants.textFieldWidth)
+            make.height.equalTo(UIConstants.textFieldHeight)
         }
         vatStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -208,8 +199,8 @@ private extension MainPageView {
         feeStack.addArrangedSubview(feeNameLabel)
         feeStack.addArrangedSubview(feeAmountTF)
         feeAmountTF.snp.makeConstraints { make in
-            make.width.equalTo(100)
-            make.height.equalTo(40)
+            make.width.equalTo(UIConstants.textFieldWidth)
+            make.height.equalTo(UIConstants.textFieldHeight)
         }
         feeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -218,8 +209,8 @@ private extension MainPageView {
         serviceChargeStack.addArrangedSubview(serviceChargeNameLabel)
         serviceChargeStack.addArrangedSubview(serviceChargeAmountTF)
         serviceChargeAmountTF.snp.makeConstraints { make in
-            make.width.equalTo(100)
-            make.height.equalTo(40)
+            make.width.equalTo(UIConstants.textFieldWidth)
+            make.height.equalTo(UIConstants.textFieldHeight)
         }
         serviceChargeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -238,10 +229,22 @@ private extension MainPageView {
         }
         
         openCalculatorButton.snp.makeConstraints { make in
-            make.height.equalTo(50)
-            make.width.equalTo(250)
+            make.width.equalTo(UIConstants.buttonWidth)
         }
     }
     
+    @objc
+    func buttonTouchedDown(sender: UIButton) {
+        UIView.animate(withDuration: UIConstants.buttonAnimationDuration) {
+            sender.transform = .init(scaleX: UIConstants.buttonAnimationScale,
+                                     y: UIConstants.buttonAnimationScale)
+        }
+    }
     
+    @objc
+    func buttonTouchedUp(sender: UIButton) {
+        UIView.animate(withDuration: UIConstants.buttonAnimationDuration) {
+            sender.transform = .identity
+        }
+    }
 }
