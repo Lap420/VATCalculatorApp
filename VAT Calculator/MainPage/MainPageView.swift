@@ -2,6 +2,37 @@ import SnapKit
 import UIKit
 
 class MainPageView: UIView {
+    // MARK: - Public methods
+    func startButtonAnimation() {
+        UIView.animate(withDuration: 3, delay: 0, options: [ .repeat], animations: {
+            self.whiteButtonAnimationView.snp.updateConstraints { make in
+                make.leading.equalToSuperview().inset(600)
+            }
+            self.openCalculatorButton.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func stopButtonAnimation() {
+        UIView.animate(withDuration: 0, delay: 0, options: [.beginFromCurrentState], animations: {
+            self.whiteButtonAnimationView.snp.updateConstraints { make in
+                make.leading.equalToSuperview().inset(-600)
+            }
+        }, completion: nil)
+    }
+    
+    func addSmallViewGradientLayer() {
+        guard whiteButtonAnimationView.layer.sublayers == nil else { return }
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = whiteButtonAnimationView.bounds
+        gradientLayer.colors = [UIColor.white.withAlphaComponent(0).cgColor,
+                                UIColor.white.withAlphaComponent(0.3).cgColor,
+                                UIColor.white.withAlphaComponent(0.3).cgColor,
+                                UIColor.white.withAlphaComponent(0).cgColor]
+        gradientLayer.startPoint = .init(x: 0, y: 1)
+        gradientLayer.endPoint = .init(x: 1, y: 1)
+        whiteButtonAnimationView.layer.addSublayer(gradientLayer)
+    }
+    
     // MARK: - Public properties
     let vatAmountTF: UITextField = {
         let textField = UITextField(returnKey: .next)
@@ -51,6 +82,7 @@ class MainPageView: UIView {
         button.configuration = config
         button.addTarget(self, action: #selector(buttonTouchedDown), for: .touchDown)
         button.addTarget(self, action: #selector(buttonTouchedUp), for: [.touchUpInside, .touchUpOutside])
+        button.clipsToBounds = true
         return button
     }()
     
@@ -152,6 +184,12 @@ class MainPageView: UIView {
         label.font = UIConstants.fontSemibold
         return label
     }()
+    
+    private let whiteButtonAnimationView: UIView = {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        return view
+    }()
 }
 
 // MARK: - Private methods
@@ -230,6 +268,13 @@ private extension MainPageView {
         
         openCalculatorButton.snp.makeConstraints { make in
             make.width.equalTo(UIConstants.buttonWidth)
+        }
+        
+        openCalculatorButton.addSubview(whiteButtonAnimationView)
+        whiteButtonAnimationView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.leading.equalToSuperview().inset(-600)
+            make.width.equalTo(100)
         }
     }
     

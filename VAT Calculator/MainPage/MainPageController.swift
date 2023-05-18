@@ -1,7 +1,3 @@
-// TODO: - Maybe add some animation for the button
-// TODO: - Refactor first launch
-// TODO: - Double-check UserDefaultsManager
-
 import UIKit
 
 class MainPageController: UIViewController {
@@ -16,6 +12,17 @@ class MainPageController: UIViewController {
         initialize()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        mainPageView.addSmallViewGradientLayer()
+        mainPageView.startButtonAnimation()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        mainPageView.stopButtonAnimation()
+    }
+    
     // MARK: - Private properties
     private lazy var mainPageView = MainPageView()
     private var mainPageModel = MainPageModel()
@@ -25,7 +32,8 @@ class MainPageController: UIViewController {
 private extension MainPageController {
     func initialize() {
         title = UIConstants.mainPageNavigationTitle
-//        checkIsFirstLaunch()
+        navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
+        checkIsFirstLaunch()
         UserDefaultsManager.loadMainPageData(&mainPageModel)
         initTextFieldsState()
         updateElements()
@@ -33,13 +41,13 @@ private extension MainPageController {
         initButtonTargets()
     }
     
-//    func checkIsFirstLaunch() {
-//        let isFirstLaunch = UserDefaultsManager.loadIsFirstLaunch()
-//        if isFirstLaunch {
-//            UserDefaultsManager.saveIsFirstLaunch()
-//            UserDefaultsManager.saveSettingsPageRounding(2)
-//        }
-//    }
+    func checkIsFirstLaunch() {
+        let isFirstLaunch = UserDefaultsManager.loadIsFirstLaunch()
+        if isFirstLaunch {
+            UserDefaultsManager.saveIsFirstLaunch()
+            UserDefaultsManager.saveSettingsPageRounding(2)
+        }
+    }
     
     func initTextFieldsState() {
         mainPageView.vatAmountTF.text = mainPageModel.vatPercent > 0 ? String(mainPageModel.vatPercent.formatted(.number)) : nil

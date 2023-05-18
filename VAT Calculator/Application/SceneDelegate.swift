@@ -9,7 +9,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(windowScene: windowScene)
         let rootVC = UINavigationController(rootViewController: MainPageController())
-        rootVC.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
     }
