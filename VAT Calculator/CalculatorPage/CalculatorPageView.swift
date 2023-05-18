@@ -3,29 +3,19 @@ import UIKit
 class CalculatorPageView: UIView {
     // MARK: - Public properties
     let netAmountTF: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = UIConstants.placeholder
-        textField.font = UIConstants.fontRegular
-        textField.textAlignment = .right
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .whileEditing
-        textField.keyboardType = .decimalPad
-        textField.returnKeyType = .next
-        textField.clearsOnBeginEditing = true
+        let textField = UITextField(returnKey: .next)
         return textField
     }()
     
     let vatStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
     let vatNameLabel: UILabel = {
         let label = UILabel()
-        label.text = String(UIConstants.vatName.dropLast(3))
+        label.text = String(UIConstants.vatAmountName)
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -33,21 +23,18 @@ class CalculatorPageView: UIView {
     let vatAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
-        label.textAlignment = .right
         return label
     }()
     
     let feeStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
     let feeNameLabel: UILabel = {
         let label = UILabel()
-        label.text = String(UIConstants.feeName.dropLast(3))
+        label.text = String(UIConstants.feeAmountName)
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -55,13 +42,11 @@ class CalculatorPageView: UIView {
     let feeAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
-        label.textAlignment = .right
         return label
     }()
     
     let serviceChargeStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     

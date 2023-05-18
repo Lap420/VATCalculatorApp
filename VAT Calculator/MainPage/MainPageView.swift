@@ -33,6 +33,15 @@ class MainPageView: UIView {
         whiteButtonAnimationView.layer.addSublayer(gradientLayer)
     }
     
+    func updateSlider(isEnabled: Bool) {
+        vatOnScSwitch.isEnabled = isEnabled
+        vatOnScNameLabel.isEnabled = isEnabled
+    }
+    
+    func updateGross(gross: Double) {
+        grossAmountLabel.text = "\(gross.formatted(.number))"
+    }
+    
     // MARK: - Public properties
     let vatAmountTF: UITextField = {
         let textField = UITextField(returnKey: .next)
@@ -49,24 +58,10 @@ class MainPageView: UIView {
         return textField
     }()
     
-    let vatOnScNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = UIConstants.vatOnScName
-        label.font = UIConstants.fontSemibold
-        return label
-    }()
-    
     let vatOnScSwitch: UISwitch = {
         let swich = UISwitch()
         swich.isOn = true
         return swich
-    }()
-    
-    let grossAmountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIConstants.fontRegular
-        label.textAlignment = .right
-        return label
     }()
     
     let openCalculatorButton: UIButton = {
@@ -173,9 +168,23 @@ class MainPageView: UIView {
         return stack
     }()
     
+    private let vatOnScNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = UIConstants.vatOnScName
+        label.font = UIConstants.fontSemibold
+        return label
+    }()
+    
     private let grossStack: UIStackView = {
         let stack = UIStackView()
         return stack
+    }()
+    
+    private let grossAmountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIConstants.fontRegular
+        label.textAlignment = .right
+        return label
     }()
     
     private let grossNameLabel: UILabel = {

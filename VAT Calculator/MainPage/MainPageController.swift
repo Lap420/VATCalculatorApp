@@ -12,14 +12,18 @@ class MainPageController: UIViewController {
         initialize()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mainPageView.addSmallViewGradientLayer()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        mainPageView.addSmallViewGradientLayer()
         mainPageView.startButtonAnimation()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         mainPageView.stopButtonAnimation()
     }
     
@@ -67,7 +71,7 @@ private extension MainPageController {
         mainPageView.openCalculatorButton.addTarget(self, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
     }
     
-    func updateCharges() {
+    func updateChargesModel() {
         let vatPercent = Double(mainPageView.vatAmountTF.text ?? "0") ?? 0
         let feePercent = Double(mainPageView.feeAmountTF.text ?? "0") ?? 0
         let serviceChargePercent = Double(mainPageView.serviceChargeAmountTF.text ?? "0") ?? 0
@@ -77,17 +81,16 @@ private extension MainPageController {
     
     func updateSlider() {
         let isEnabled = mainPageModel.vatPercent > 0 && mainPageModel.serviceChargePercent > 0
-        mainPageView.vatOnScSwitch.isEnabled = isEnabled
-        mainPageView.vatOnScNameLabel.isEnabled = isEnabled
+        mainPageView.updateSlider(isEnabled: isEnabled)
     }
     
     func updateGross() {
         let gross = mainPageModel.gross
-        mainPageView.grossAmountLabel.text = "\(gross.formatted(.number))"
+        mainPageView.updateGross(gross: gross)
     }
     
     func updateElements() {
-        updateCharges()
+        updateChargesModel()
         updateSlider()
         updateGross()
     }
@@ -99,6 +102,7 @@ private extension MainPageController {
     }
     
     @objc func openCalculatorButtonTapped() {
+        view.endEditing(true)
         let nextVC = CalculatorPageController(vatPercent: mainPageModel.vatPercent,
                                               feePercent: mainPageModel.feePercent,
                                               serviceChargePercent: mainPageModel.serviceChargePercent,

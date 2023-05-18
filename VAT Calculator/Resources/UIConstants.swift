@@ -14,6 +14,10 @@ enum UIConstants {
     static let roundingName = "Rounding"
     static let hideZeroLinesName = "Hide zero lines"
     
+    // Calculator page
+    static let vatAmountName = "VAT"
+    static let feeAmountName = "Municipality Fee"
+    
     static let fontSizeHeader: CGFloat = 20
     static let fontSizeMain: CGFloat = 20
     static let fontSizeButton: CGFloat = 20
