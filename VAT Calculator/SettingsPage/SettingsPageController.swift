@@ -1,8 +1,10 @@
 import UIKit
 
 class SettingsPageController: UIViewController {
-    // MARK: - Private properties
-    weak var calculatorPageDelegate: CalculatorPageDelegate?
+    // MARK: - ViewController Lifecycle
+    override func loadView() {
+        view = settingsPageView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -10,35 +12,23 @@ class SettingsPageController: UIViewController {
     }
     
     // MARK: - Private properties
-    private var settingsPageView = SettingsPageView()
-    private var rounding = 0
-    private var hideZeroLines = false
+    private lazy var settingsPageView = SettingsPageView()
+    weak var calculatorPageDelegate: CalculatorPageDelegate?
 }
 
 // MARK: - Private methods
 private extension SettingsPageController {
     func initialize() {
-        view.backgroundColor = UIConstants.backgroundColor
-        configureNavigationBar()
+        title = UIConstants.settingsPageNavigationTitle
         initElements()
         initButtonTargets()
-
-        view.addSubview(settingsPageView)
-        settingsPageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
-        }
-    }
-    
-    func configureNavigationBar() {
-        navigationItem.title = UIConstants.settingsPageNavigationTitle
     }
     
     func initElements() {
-        rounding = UserDefaultsManager.loadSettingsPageRounding()
+        let rounding = UserDefaultsManager.loadSettingsPageRounding()
         settingsPageView.roundingAmountLabel.text = String(rounding)
         settingsPageView.roundingStepper.value = Double(rounding)
-        hideZeroLines = UserDefaultsManager.loadSettingsPageHideZeroLines()
+        let hideZeroLines = UserDefaultsManager.loadSettingsPageHideZeroLines()
         settingsPageView.hideZeroLinesSwitch.isOn = hideZeroLines
     }
     

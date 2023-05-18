@@ -189,7 +189,7 @@ private extension CalculatorPageView {
         netNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         netStack.addArrangedSubview(netAmountTF)
         netAmountTF.snp.makeConstraints { make in
-            make.height.equalTo(40)
+            make.height.equalTo(UIConstants.textFieldHeight)
         }
         netStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -240,7 +240,7 @@ private extension CalculatorPageView {
         grossNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         grossStack.addArrangedSubview(grossAmountTF)
         grossAmountTF.snp.makeConstraints { make in
-            make.height.equalTo(40)
+            make.height.equalTo(UIConstants.textFieldHeight)
         }
         grossStack.snp.makeConstraints { make in
             make.width.equalToSuperview()

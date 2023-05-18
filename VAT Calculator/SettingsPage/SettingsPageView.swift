@@ -1,7 +1,6 @@
 import UIKit
 
 class SettingsPageView: UIView {
-
     // MARK: - Public properties
     let roundingAmountLabel: UILabel = {
         let label = UILabel()
@@ -17,7 +16,6 @@ class SettingsPageView: UIView {
     
     let hideZeroLinesSwitch: UISwitch = {
         let swich = UISwitch()
-        swich.isOn = true
         return swich
     }()
     
@@ -32,6 +30,13 @@ class SettingsPageView: UIView {
     }
     
     // MARK: - Private properties
+    private let mainView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIConstants.backgroundContentColor
+        view.layer.cornerRadius = UIConstants.contentViewCornerRadius
+        return view
+    }()
+    
     private let mainStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -42,7 +47,6 @@ class SettingsPageView: UIView {
     
     private let roundingStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -55,14 +59,12 @@ class SettingsPageView: UIView {
     
     private let roundingAmountStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         stack.spacing = UIConstants.menuItemsOffset
         return stack
     }()
     
     private let hideZeroLinesStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -70,7 +72,6 @@ class SettingsPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.hideZeroLinesName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
 }
@@ -78,15 +79,18 @@ class SettingsPageView: UIView {
 // MARK: - Private methods
 private extension SettingsPageView {
     func initialize() {
-        self.backgroundColor = UIConstants.backgroundContentColor
-        self.layer.cornerRadius = UIConstants.contentViewCornerRadius
-        
+        backgroundColor = UIConstants.backgroundColor
+        self.addSubview(mainView)
+        mainView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).inset(layoutMargins.top)
+            make.leading.trailing.equalTo(layoutMargins)
+        }
+        mainView.addSubview(mainStack)
         mainStack.addArrangedSubview(roundingStack)
         mainStack.addArrangedSubview(hideZeroLinesStack)
-        self.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(UIConstants.contentVerticalInset)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
+            make.top.bottom.equalToSuperview().inset(layoutMargins.top * 2)
+            make.leading.trailing.equalToSuperview().inset(layoutMargins.left)
         }
         
         roundingStack.addArrangedSubview(roundingNameLabel)
@@ -106,5 +110,4 @@ private extension SettingsPageView {
             make.width.equalToSuperview()
         }
     }
-    
 }

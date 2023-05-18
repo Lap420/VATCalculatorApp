@@ -289,8 +289,8 @@ private extension MainPageView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = whiteButtonAnimationView.bounds
         gradientLayer.colors = [UIColor.white.withAlphaComponent(0).cgColor,
-                                UIColor.white.withAlphaComponent(0.3).cgColor,
-                                UIColor.white.withAlphaComponent(0.3).cgColor,
+                                UIColor.white.withAlphaComponent(0.1).cgColor,
+                                UIColor.white.withAlphaComponent(0.1).cgColor,
                                 UIColor.white.withAlphaComponent(0).cgColor]
         gradientLayer.startPoint = .init(x: 0, y: 1)
         gradientLayer.endPoint = .init(x: 1, y: 1)
