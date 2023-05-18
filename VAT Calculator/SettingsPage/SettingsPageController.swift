@@ -2,7 +2,7 @@ import UIKit
 
 class SettingsPageController: UIViewController {
     // MARK: - Private properties
-    var calculatorPageDelegate: CalculatorPageDelegate?
+    weak var calculatorPageDelegate: CalculatorPageDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

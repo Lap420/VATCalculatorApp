@@ -92,7 +92,7 @@ struct CalculatorPageModel {
         self.grossSales = grossSales
     }
     
-    mutating func getGross(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
+    func getGross(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
         var gross = 0.0
         switch calculatorUpdateType {
         case .initiatedByNet:

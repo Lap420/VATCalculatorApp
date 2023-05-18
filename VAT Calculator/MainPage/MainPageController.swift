@@ -3,18 +3,12 @@ import UIKit
 class MainPageController: UIViewController {
     // MARK: - ViewController Lifecycle
     override func loadView() {
-        super.loadView()
         view = mainPageView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        mainPageView.addSmallViewGradientLayer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -103,10 +97,11 @@ private extension MainPageController {
     
     @objc func openCalculatorButtonTapped() {
         view.endEditing(true)
-        let nextVC = CalculatorPageController(vatPercent: mainPageModel.vatPercent,
-                                              feePercent: mainPageModel.feePercent,
-                                              serviceChargePercent: mainPageModel.serviceChargePercent,
-                                              calculateVatOnSc: mainPageModel.calculateVatOnSc)
+        let nextVC = CalculatorPageController()
+        nextVC.setCharges(vatPercent: mainPageModel.vatPercent,
+                          feePercent: mainPageModel.feePercent,
+                          serviceChargePercent: mainPageModel.serviceChargePercent,
+                          calculateVatOnSc: mainPageModel.calculateVatOnSc)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

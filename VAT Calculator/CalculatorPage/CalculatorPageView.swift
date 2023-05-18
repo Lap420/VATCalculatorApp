@@ -3,7 +3,8 @@ import UIKit
 class CalculatorPageView: UIView {
     // MARK: - Public properties
     let netAmountTF: UITextField = {
-        let textField = UITextField(returnKey: .next)
+        let textField = UITextField()
+        textField.setupTF()
         return textField
     }()
     
@@ -52,9 +53,8 @@ class CalculatorPageView: UIView {
     
     let serviceChargeNameLabel: UILabel = {
         let label = UILabel()
-        label.text = String(UIConstants.serviceChargeName.dropLast(3))
+        label.text = String(UIConstants.serviceChargeAmountName)
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -62,13 +62,11 @@ class CalculatorPageView: UIView {
     let serviceChargeAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
-        label.textAlignment = .right
         return label
     }()
     
     let vatOnScStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -76,7 +74,6 @@ class CalculatorPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.vatOnScName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -84,13 +81,11 @@ class CalculatorPageView: UIView {
     let vatOnScAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
-        label.textAlignment = .right
         return label
     }()
     
     let totalVatStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
@@ -98,7 +93,6 @@ class CalculatorPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.totalVatName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -106,20 +100,12 @@ class CalculatorPageView: UIView {
     let totalVatAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
-        label.textAlignment = .right
         return label
     }()
     
     let grossAmountTF: UITextField = {
         let textField = UITextField()
-        textField.placeholder = UIConstants.placeholder
-        textField.font = UIConstants.fontRegular
-        textField.textAlignment = .right
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .whileEditing
-        textField.keyboardType = .decimalPad
-        textField.returnKeyType = .next
-        textField.clearsOnBeginEditing = true
+        textField.setupTF()
         return textField
     }()
     
@@ -134,6 +120,13 @@ class CalculatorPageView: UIView {
     }
     
     // MARK: - Private properties
+    private let mainView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIConstants.backgroundContentColor
+        view.layer.cornerRadius = UIConstants.contentViewCornerRadius
+        return view
+    }()
+    
     private let mainStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -144,30 +137,26 @@ class CalculatorPageView: UIView {
     
     private let netStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
     private let netNameLabel: UILabel = {
         let label = UILabel()
-        label.text = String(UIConstants.netName.dropLast(3))
+        label.text = String(UIConstants.netSalesName)
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     private let grossStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
         return stack
     }()
     
     private let grossNameLabel: UILabel = {
         let label = UILabel()
-        label.text = String(UIConstants.grossName.dropLast(3))
+        label.text = String(UIConstants.grossSalesName)
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -176,9 +165,13 @@ class CalculatorPageView: UIView {
 // MARK: - Private methods
 private extension CalculatorPageView {
     func initialize() {
-        self.backgroundColor = UIConstants.backgroundContentColor
-        self.layer.cornerRadius = UIConstants.contentViewCornerRadius
-        
+        backgroundColor = UIConstants.backgroundColor
+        self.addSubview(mainView)
+        mainView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).inset(layoutMargins.top)
+            make.leading.trailing.equalTo(layoutMargins)
+        }
+        mainView.addSubview(mainStack)
         mainStack.addArrangedSubview(netStack)
         mainStack.addArrangedSubview(vatStack)
         mainStack.addArrangedSubview(feeStack)
@@ -186,14 +179,14 @@ private extension CalculatorPageView {
         mainStack.addArrangedSubview(vatOnScStack)
         mainStack.addArrangedSubview(totalVatStack)
         mainStack.addArrangedSubview(grossStack)
-        self.addSubview(mainStack)
         mainStack.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(UIConstants.contentVerticalInset)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
+            make.top.bottom.equalToSuperview().inset(layoutMargins.top * 2)
+            make.leading.trailing.equalToSuperview().inset(layoutMargins.left)
         }
         
         netStack.addArrangedSubview(netNameLabel)
-        netNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
+        netNameLabel.setContentCompressionResistancePriority(UILayoutPriority(749), for: .horizontal)
+        netNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         netStack.addArrangedSubview(netAmountTF)
         netAmountTF.snp.makeConstraints { make in
             make.height.equalTo(40)
@@ -203,42 +196,48 @@ private extension CalculatorPageView {
         }
         
         vatStack.addArrangedSubview(vatNameLabel)
-        vatNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
+        vatNameLabel.setContentCompressionResistancePriority(UILayoutPriority(749), for: .horizontal)
+        vatNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         vatStack.addArrangedSubview(vatAmountLabel)
         vatStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
 
         feeStack.addArrangedSubview(feeNameLabel)
-        feeNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
+        feeNameLabel.setContentCompressionResistancePriority(UILayoutPriority(749), for: .horizontal)
+        feeNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         feeStack.addArrangedSubview(feeAmountLabel)
         feeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         serviceChargeStack.addArrangedSubview(serviceChargeNameLabel)
-        serviceChargeNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
+        serviceChargeNameLabel.setContentCompressionResistancePriority(UILayoutPriority(749), for: .horizontal)
+        serviceChargeNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         serviceChargeStack.addArrangedSubview(serviceChargeAmountLabel)
         serviceChargeStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         vatOnScStack.addArrangedSubview(vatOnScNameLabel)
-        vatOnScNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
+        vatOnScNameLabel.setContentCompressionResistancePriority(UILayoutPriority(749), for: .horizontal)
+        vatOnScNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         vatOnScStack.addArrangedSubview(vatOnScAmountLabel)
         vatOnScStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         totalVatStack.addArrangedSubview(totalVatNameLabel)
-        totalVatNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
+        totalVatNameLabel.setContentCompressionResistancePriority(UILayoutPriority(749), for: .horizontal)
+        totalVatNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         totalVatStack.addArrangedSubview(totalVatAmountLabel)
         totalVatStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         grossStack.addArrangedSubview(grossNameLabel)
-        grossNameLabel.setContentCompressionResistancePriority(UILayoutPriority(249), for: .horizontal)
+        grossNameLabel.setContentCompressionResistancePriority(UILayoutPriority(749), for: .horizontal)
+        grossNameLabel.setContentHuggingPriority(UILayoutPriority(249), for: .horizontal)
         grossStack.addArrangedSubview(grossAmountTF)
         grossAmountTF.snp.makeConstraints { make in
             make.height.equalTo(40)

@@ -5,9 +5,7 @@ class SettingsPageView: UIView {
     // MARK: - Public properties
     let roundingAmountLabel: UILabel = {
         let label = UILabel()
-        label.text = String(UIConstants.vatName.dropLast(3))
         label.font = UIConstants.fontRegular
-        label.textAlignment = .right
         return label
     }()
     
@@ -52,7 +50,6 @@ class SettingsPageView: UIView {
         let label = UILabel()
         label.text = UIConstants.roundingName
         label.font = UIConstants.fontSemibold
-        label.textAlignment = .left
         return label
     }()
     

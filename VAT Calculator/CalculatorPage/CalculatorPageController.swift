@@ -1,14 +1,20 @@
 import UIKit
 
 class CalculatorPageController: UIViewController {
-    // MARK: - View Lifecycle
-    init(vatPercent: Double, feePercent: Double, serviceChargePercent: Double, calculateVatOnSc: Bool) {
-        super.init(nibName: nil, bundle: nil)
-        calculatorPageModel.setCharges(vatPercent: vatPercent, feePercent: feePercent, serviceChargePercent: serviceChargePercent, calculateVatOnSc: calculateVatOnSc)
+    // MARK: - Public methods
+    func setCharges(vatPercent: Double,
+                    feePercent: Double,
+                    serviceChargePercent: Double,
+                    calculateVatOnSc: Bool) {
+        calculatorPageModel.setCharges(vatPercent: vatPercent,
+                                       feePercent: feePercent,
+                                       serviceChargePercent: serviceChargePercent,
+                                       calculateVatOnSc: calculateVatOnSc)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    // MARK: - ViewController Lifecycle
+    override func loadView() {
+        view = calculatorPageView
     }
     
     override func viewDidLoad() {
@@ -17,7 +23,7 @@ class CalculatorPageController: UIViewController {
     }
 
     // MARK: - Private properties
-    private var calculatorPageView = CalculatorPageView()
+    private lazy var calculatorPageView = CalculatorPageView()
     private var calculatorPageModel = CalculatorPageModel()
     private var rounding = 2
 }
@@ -25,7 +31,7 @@ class CalculatorPageController: UIViewController {
 // MARK: - Private methods
 private extension CalculatorPageController {
     func initialize() {
-        view.backgroundColor = UIConstants.backgroundColor
+        title = UIConstants.calculatorPageNavigationTitle
         UserDefaultsManager.loadCalculatorPageGrossSales(&calculatorPageModel)
         disableZeroLines()
         hideOrShowZeroLines(UserDefaultsManager.loadSettingsPageHideZeroLines())
@@ -33,12 +39,6 @@ private extension CalculatorPageController {
         updateElements(.initiatedByGross)
         configureNavigationBar()
         initDelegates()
-        
-        view.addSubview(calculatorPageView)
-        calculatorPageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.equalToSuperview().inset(UIConstants.contentHorizontalInset)
-        }
     }
     
     
@@ -78,7 +78,6 @@ private extension CalculatorPageController {
     }
     
     func configureNavigationBar() {
-        navigationItem.title = UIConstants.calculatorPageNavigationTitle
         let settingsButton = UIBarButtonItem(image: .init(systemName: UIConstants.settingsIconName), style: .plain, target: self, action: #selector(openCalculatorSettingButtonTapped))
         navigationItem.setRightBarButton(settingsButton, animated: true)
     }
@@ -153,13 +152,13 @@ extension CalculatorPageController: UITextFieldDelegate {
         view.endEditing(true)
     }
 
-    func getChoosenTextField(_ textField: UITextField) -> String {
+    func getChoosenTextFieldName(_ textField: UITextField) -> String {
         let field: String
         switch textField {
         case calculatorPageView.netAmountTF:
-            field = String(UIConstants.netName.dropLast(3))
+            field = String(UIConstants.netSalesName)
         case calculatorPageView.grossAmountTF:
-            field = String(UIConstants.grossName.dropLast(3))
+            field = String(UIConstants.grossSalesName)
         default:
             field = "some"
         }
@@ -171,7 +170,7 @@ extension CalculatorPageController: UITextFieldDelegate {
         guard !text.isEmpty else { return true }
         var result = true
         if Double(text) == nil {
-            let field = getChoosenTextField(textField)
+            let field = getChoosenTextFieldName(textField)
             let alert = AlertManager.incorrectValueAlert(textFieldName: field, textField: textField)
             present(alert, animated: true)
             result = false
@@ -181,7 +180,6 @@ extension CalculatorPageController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text else { return }
-
         switch textField {
         case calculatorPageView.netAmountTF:
             let netSales = Double(text) ?? 0.0
@@ -193,8 +191,8 @@ extension CalculatorPageController: UITextFieldDelegate {
             updateElements(.initiatedByGross)
         default: return
         }
-        
-        UserDefaultsManager.saveCalculatorPageGrossSales(calculatorPageModel.getGross(.initiatedByGross))
+        let gross = calculatorPageModel.getGross(.initiatedByGross)
+        UserDefaultsManager.saveCalculatorPageGrossSales(gross)
     }
 }
 
@@ -209,7 +207,7 @@ extension CalculatorPageController: CalculatorPageDelegate {
     }
 }
 
-protocol CalculatorPageDelegate {
+protocol CalculatorPageDelegate: AnyObject {
     func updateRounding(_ rounding: Int)
     func updateHideZeroLines(_ hideZeroLines: Bool)
 }

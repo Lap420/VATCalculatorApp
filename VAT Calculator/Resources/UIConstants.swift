@@ -17,6 +17,9 @@ enum UIConstants {
     // Calculator page
     static let vatAmountName = "VAT"
     static let feeAmountName = "Municipality Fee"
+    static let serviceChargeAmountName = "Service Charge"
+    static let netSalesName = "Net sales"
+    static let grossSalesName = "Gross sales"
     
     static let fontSizeHeader: CGFloat = 20
     static let fontSizeMain: CGFloat = 20

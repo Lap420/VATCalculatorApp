@@ -20,19 +20,6 @@ class MainPageView: UIView {
         }, completion: nil)
     }
     
-    func addSmallViewGradientLayer() {
-        guard whiteButtonAnimationView.layer.sublayers == nil else { return }
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = whiteButtonAnimationView.bounds
-        gradientLayer.colors = [UIColor.white.withAlphaComponent(0).cgColor,
-                                UIColor.white.withAlphaComponent(0.3).cgColor,
-                                UIColor.white.withAlphaComponent(0.3).cgColor,
-                                UIColor.white.withAlphaComponent(0).cgColor]
-        gradientLayer.startPoint = .init(x: 0, y: 1)
-        gradientLayer.endPoint = .init(x: 1, y: 1)
-        whiteButtonAnimationView.layer.addSublayer(gradientLayer)
-    }
-    
     func updateSlider(isEnabled: Bool) {
         vatOnScSwitch.isEnabled = isEnabled
         vatOnScNameLabel.isEnabled = isEnabled
@@ -44,17 +31,20 @@ class MainPageView: UIView {
     
     // MARK: - Public properties
     let vatAmountTF: UITextField = {
-        let textField = UITextField(returnKey: .next)
+        let textField = UITextField()
+        textField.setupTF()
         return textField
     }()
     
     let feeAmountTF: UITextField = {
-        let textField = UITextField(returnKey: .next)
+        let textField = UITextField()
+        textField.setupTF()
         return textField
     }()
     
     let serviceChargeAmountTF: UITextField = {
-        let textField = UITextField(returnKey: .done)
+        let textField = UITextField()
+        textField.setupTF()
         return textField
     }()
     
@@ -89,6 +79,13 @@ class MainPageView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        openCalculatorButton.sizeToFit()
+        whiteButtonAnimationView.layoutIfNeeded()
+        addSmallViewGradientLayer()
     }
     
     // MARK: - Private properties
@@ -283,8 +280,21 @@ private extension MainPageView {
         whiteButtonAnimationView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.leading.equalToSuperview().inset(-600)
-            make.width.equalTo(100)
+            make.width.equalTo(200)
         }
+    }
+    
+    func addSmallViewGradientLayer() {
+        guard whiteButtonAnimationView.layer.sublayers == nil else { return }
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = whiteButtonAnimationView.bounds
+        gradientLayer.colors = [UIColor.white.withAlphaComponent(0).cgColor,
+                                UIColor.white.withAlphaComponent(0.3).cgColor,
+                                UIColor.white.withAlphaComponent(0.3).cgColor,
+                                UIColor.white.withAlphaComponent(0).cgColor]
+        gradientLayer.startPoint = .init(x: 0, y: 1)
+        gradientLayer.endPoint = .init(x: 1, y: 1)
+        whiteButtonAnimationView.layer.addSublayer(gradientLayer)
     }
     
     @objc
