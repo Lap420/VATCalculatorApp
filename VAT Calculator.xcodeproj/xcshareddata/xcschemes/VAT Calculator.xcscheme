@@ -49,6 +49,16 @@
                ReferencedContainer = "container:VAT Calculator.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04B5CDB42A1FA941002C822E"
+               BuildableName = "VAT CalculatorUITests.xctest"
+               BlueprintName = "VAT CalculatorUITests"
+               ReferencedContainer = "container:VAT Calculator.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

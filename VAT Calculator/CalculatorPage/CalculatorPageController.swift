@@ -79,6 +79,7 @@ private extension CalculatorPageController {
     
     func configureNavigationBar() {
         let settingsButton = UIBarButtonItem(image: .init(systemName: UIConstants.settingsIconName), style: .plain, target: self, action: #selector(openCalculatorSettingButtonTapped))
+        settingsButton.accessibilityIdentifier = "openSettingsButton"
         navigationItem.setRightBarButton(settingsButton, animated: true)
     }
     
@@ -142,7 +143,20 @@ private extension CalculatorPageController {
     @objc func openCalculatorSettingButtonTapped() {
         let nextVC = SettingsPageController()
         nextVC.calculatorPageDelegate = self
-        self.navigationController?.pushViewController(nextVC, animated: true)
+//        self.navigationController?.pushViewController(nextVC, animated: true)
+        let navigationVC = UINavigationController(rootViewController: nextVC)
+        navigationVC.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSettings))
+        nextVC.navigationItem.leftBarButtonItem = closeButton
+        guard let sheet = navigationVC.sheetPresentationController else { return }
+        sheet.detents = [.medium()]
+        sheet.prefersGrabberVisible = true
+        present(navigationVC, animated: true)
+    }
+    
+    @objc
+    func closeSettings() {
+        dismiss(animated: true)
     }
 }
 

@@ -5,17 +5,20 @@ class SettingsPageView: UIView {
     let roundingAmountLabel: UILabel = {
         let label = UILabel()
         label.font = UIConstants.fontRegular
+        label.accessibilityIdentifier = "roundingAmount"
         return label
     }()
     
     let roundingStepper: UIStepper = {
         let stepper = UIStepper()
         stepper.maximumValue = UIConstants.stepperMaximumValue
+        stepper.accessibilityIdentifier = "roundingStepper"
         return stepper
     }()
     
     let hideZeroLinesSwitch: UISwitch = {
         let swich = UISwitch()
+        swich.accessibilityIdentifier = "hideZeroLines"
         return swich
     }()
     

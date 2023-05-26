@@ -5,6 +5,7 @@ class CalculatorPageView: UIView {
     let netAmountTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
+        textField.accessibilityIdentifier = "netTF"
         return textField
     }()
     
@@ -106,6 +107,7 @@ class CalculatorPageView: UIView {
     let grossAmountTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
+        textField.accessibilityIdentifier = "grossTF"
         return textField
     }()
     

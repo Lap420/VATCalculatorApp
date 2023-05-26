@@ -17,6 +17,13 @@
 		04885E2F2A14DFA50049D8EE /* CalculatorPageModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04885E2E2A14DFA50049D8EE /* CalculatorPageModelTests.swift */; };
 		04885E322A1529BD0049D8EE /* UITextField + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04885E312A1529BD0049D8EE /* UITextField + Extension.swift */; };
 		04B0816E2A1284CB00EA217C /* MainPageModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0816D2A1284CB00EA217C /* MainPageModelTests.swift */; };
+		04B5CDC02A1FABB8002C822E /* MainPageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDAF2A1FA3AC002C822E /* MainPageUITests.swift */; };
+		04B5CDC62A1FE15F002C822E /* CalculatorPageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDC52A1FE15F002C822E /* CalculatorPageUITests.swift */; };
+		04B5CDC92A1FE38F002C822E /* MainPageUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDC82A1FE38F002C822E /* MainPageUIModel.swift */; };
+		04B5CDCB2A1FEEE2002C822E /* PageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDCA2A1FEEE2002C822E /* PageProtocol.swift */; };
+		04B5CDCD2A1FEF0A002C822E /* CalculatorPageUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDCC2A1FEF0A002C822E /* CalculatorPageUIModel.swift */; };
+		04B5CDCF2A1FEF4B002C822E /* SettingsPageUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDCE2A1FEF4B002C822E /* SettingsPageUIModel.swift */; };
+		04B5CDD12A211AD8002C822E /* SettingsPageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDD02A211AD8002C822E /* SettingsPageUITests.swift */; };
 		04C1C10A29C062D4006FBED3 /* MainPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10929C062D4006FBED3 /* MainPageView.swift */; };
 		04C1C10C29C07619006FBED3 /* CalculatorPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */; };
 		04C1C10E29C0AD57006FBED3 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1C10D29C0AD57006FBED3 /* UIConstants.swift */; };
@@ -31,6 +38,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		04B0816F2A1284CB00EA217C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 044EF597298AF18200AA986A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 044EF59E298AF18200AA986A;
+			remoteInfo = "VAT Calculator";
+		};
+		04B5CDBB2A1FA941002C822E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 044EF597298AF18200AA986A /* Project object */;
 			proxyType = 1;
@@ -52,6 +66,14 @@
 		04885E312A1529BD0049D8EE /* UITextField + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField + Extension.swift"; sourceTree = "<group>"; };
 		04B0816B2A1284CB00EA217C /* VAT CalculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VAT CalculatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B0816D2A1284CB00EA217C /* MainPageModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageModelTests.swift; sourceTree = "<group>"; };
+		04B5CDAF2A1FA3AC002C822E /* MainPageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageUITests.swift; sourceTree = "<group>"; };
+		04B5CDB52A1FA941002C822E /* VAT CalculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VAT CalculatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B5CDC52A1FE15F002C822E /* CalculatorPageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageUITests.swift; sourceTree = "<group>"; };
+		04B5CDC82A1FE38F002C822E /* MainPageUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageUIModel.swift; sourceTree = "<group>"; };
+		04B5CDCA2A1FEEE2002C822E /* PageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageProtocol.swift; sourceTree = "<group>"; };
+		04B5CDCC2A1FEF0A002C822E /* CalculatorPageUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageUIModel.swift; sourceTree = "<group>"; };
+		04B5CDCE2A1FEF4B002C822E /* SettingsPageUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPageUIModel.swift; sourceTree = "<group>"; };
+		04B5CDD02A211AD8002C822E /* SettingsPageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPageUITests.swift; sourceTree = "<group>"; };
 		04C1C10929C062D4006FBED3 /* MainPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageView.swift; sourceTree = "<group>"; };
 		04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageController.swift; sourceTree = "<group>"; };
 		04C1C10D29C0AD57006FBED3 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
@@ -80,6 +102,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04B5CDB22A1FA941002C822E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -89,6 +118,7 @@
 				041BD06F298D788600004E40 /* .gitignore */,
 				044EF5A1298AF18200AA986A /* VAT Calculator */,
 				04B0816C2A1284CB00EA217C /* VAT CalculatorTests */,
+				04B5CDB62A1FA941002C822E /* VAT CalculatorUITests */,
 				044EF5A0298AF18200AA986A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,6 +128,7 @@
 			children = (
 				044EF59F298AF18200AA986A /* VAT Calculator.app */,
 				04B0816B2A1284CB00EA217C /* VAT CalculatorTests.xctest */,
+				04B5CDB52A1FA941002C822E /* VAT CalculatorUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,6 +206,7 @@
 		04885E2D2A14DF480049D8EE /* SettingsPage */ = {
 			isa = PBXGroup;
 			children = (
+				04B5CDD02A211AD8002C822E /* SettingsPageUITests.swift */,
 			);
 			path = SettingsPage;
 			sourceTree = "<group>";
@@ -192,9 +224,46 @@
 			children = (
 				04885E2B2A14DF280049D8EE /* MainPage */,
 				04885E2C2A14DF3D0049D8EE /* CalculatorPage */,
-				04885E2D2A14DF480049D8EE /* SettingsPage */,
 			);
 			path = "VAT CalculatorTests";
+			sourceTree = "<group>";
+		};
+		04B5CDB62A1FA941002C822E /* VAT CalculatorUITests */ = {
+			isa = PBXGroup;
+			children = (
+				04B5CDC72A1FE37E002C822E /* UITestsModels */,
+				04B5CDC32A1FE11F002C822E /* MainPage */,
+				04B5CDC42A1FE12E002C822E /* CalculatorPage */,
+				04885E2D2A14DF480049D8EE /* SettingsPage */,
+			);
+			path = "VAT CalculatorUITests";
+			sourceTree = "<group>";
+		};
+		04B5CDC32A1FE11F002C822E /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				04B5CDAF2A1FA3AC002C822E /* MainPageUITests.swift */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		04B5CDC42A1FE12E002C822E /* CalculatorPage */ = {
+			isa = PBXGroup;
+			children = (
+				04B5CDC52A1FE15F002C822E /* CalculatorPageUITests.swift */,
+			);
+			path = CalculatorPage;
+			sourceTree = "<group>";
+		};
+		04B5CDC72A1FE37E002C822E /* UITestsModels */ = {
+			isa = PBXGroup;
+			children = (
+				04B5CDCA2A1FEEE2002C822E /* PageProtocol.swift */,
+				04B5CDC82A1FE38F002C822E /* MainPageUIModel.swift */,
+				04B5CDCC2A1FEF0A002C822E /* CalculatorPageUIModel.swift */,
+				04B5CDCE2A1FEF4B002C822E /* SettingsPageUIModel.swift */,
+			);
+			path = UITestsModels;
 			sourceTree = "<group>";
 		};
 		04C1C11129C0CAB8006FBED3 /* Services */ = {
@@ -256,6 +325,24 @@
 			productReference = 04B0816B2A1284CB00EA217C /* VAT CalculatorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		04B5CDB42A1FA941002C822E /* VAT CalculatorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04B5CDBD2A1FA941002C822E /* Build configuration list for PBXNativeTarget "VAT CalculatorUITests" */;
+			buildPhases = (
+				04B5CDB12A1FA941002C822E /* Sources */,
+				04B5CDB22A1FA941002C822E /* Frameworks */,
+				04B5CDB32A1FA941002C822E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04B5CDBC2A1FA941002C822E /* PBXTargetDependency */,
+			);
+			name = "VAT CalculatorUITests";
+			productName = "VAT CalculatorUITests";
+			productReference = 04B5CDB52A1FA941002C822E /* VAT CalculatorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -270,6 +357,10 @@
 						CreatedOnToolsVersion = 13.2.1;
 					};
 					04B0816A2A1284CB00EA217C = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 044EF59E298AF18200AA986A;
+					};
+					04B5CDB42A1FA941002C822E = {
 						CreatedOnToolsVersion = 13.2.1;
 						TestTargetID = 044EF59E298AF18200AA986A;
 					};
@@ -293,6 +384,7 @@
 			targets = (
 				044EF59E298AF18200AA986A /* VAT Calculator */,
 				04B0816A2A1284CB00EA217C /* VAT CalculatorTests */,
+				04B5CDB42A1FA941002C822E /* VAT CalculatorUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -309,6 +401,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		04B081692A1284CB00EA217C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B5CDB32A1FA941002C822E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -348,6 +447,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04B5CDB12A1FA941002C822E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04B5CDCB2A1FEEE2002C822E /* PageProtocol.swift in Sources */,
+				04B5CDCF2A1FEF4B002C822E /* SettingsPageUIModel.swift in Sources */,
+				04B5CDC92A1FE38F002C822E /* MainPageUIModel.swift in Sources */,
+				04B5CDC62A1FE15F002C822E /* CalculatorPageUITests.swift in Sources */,
+				04B5CDC02A1FABB8002C822E /* MainPageUITests.swift in Sources */,
+				04B5CDD12A211AD8002C822E /* SettingsPageUITests.swift in Sources */,
+				04B5CDCD2A1FEF0A002C822E /* CalculatorPageUIModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -355,6 +468,11 @@
 			isa = PBXTargetDependency;
 			target = 044EF59E298AF18200AA986A /* VAT Calculator */;
 			targetProxy = 04B0816F2A1284CB00EA217C /* PBXContainerItemProxy */;
+		};
+		04B5CDBC2A1FA941002C822E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 044EF59E298AF18200AA986A /* VAT Calculator */;
+			targetProxy = 04B5CDBB2A1FA941002C822E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -578,6 +696,40 @@
 			};
 			name = Release;
 		};
+		04B5CDBE2A1FA941002C822E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DKBJ2N927G;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lap42.VAT-CalculatorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "VAT Calculator";
+			};
+			name = Debug;
+		};
+		04B5CDBF2A1FA941002C822E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DKBJ2N927G;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Lap42.VAT-CalculatorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "VAT Calculator";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -604,6 +756,15 @@
 			buildConfigurations = (
 				04B081712A1284CB00EA217C /* Debug */,
 				04B081722A1284CB00EA217C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04B5CDBD2A1FA941002C822E /* Build configuration list for PBXNativeTarget "VAT CalculatorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04B5CDBE2A1FA941002C822E /* Debug */,
+				04B5CDBF2A1FA941002C822E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

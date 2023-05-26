@@ -37,6 +37,7 @@ private extension MainPageController {
         updateElements()
         initDelegates()
         initButtonTargets()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextDidChangeNotification(_:)), name: UITextField.textDidChangeNotification, object: nil)
     }
     
     func checkIsFirstLaunch() {
@@ -127,24 +128,43 @@ extension MainPageController: UITextFieldDelegate {
         return field
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func checkEnteredText(_ textField: UITextField) -> Bool {
         guard let text = textField.text else { return true }
-        guard !text.isEmpty else { return true }
-        if let enteredAmount = Double(text) {
-            guard enteredAmount > 1000 else { return true }
-            let textFieldName = getChoosenTextFieldName(textField)
-            let alert = AlertManager.valueTooHighAlert(textFieldName: textFieldName, textField: textField)
-            present(alert, animated: true)
-        } else {
+        guard !text.isEmpty else {
+            updateElements()
+            return true
+        }
+        guard let enteredAmount = Double(text) else {
             let textFieldName = getChoosenTextFieldName(textField)
             let alert = AlertManager.incorrectValueAlert(textFieldName: textFieldName, textField: textField)
             present(alert, animated: true)
+            return false
         }
-        return false
+        guard enteredAmount < 1000 else {
+            let textFieldName = getChoosenTextFieldName(textField)
+            let alert = AlertManager.valueTooHighAlert(textFieldName: textFieldName, textField: textField)
+            present(alert, animated: true)
+            return false
+        }
+        updateElements()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let _ = checkEnteredText(textField)
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        checkEnteredText(textField)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        updateElements()
         UserDefaultsManager.saveMainPageTFData(mainPageView, textField: textField)
+    }
+    
+    @objc
+    func handleTextDidChangeNotification(_ notification: Notification) {
+        guard let textField = notification.object as? UITextField else { return }
+        let _ = checkEnteredText(textField)
     }
 }

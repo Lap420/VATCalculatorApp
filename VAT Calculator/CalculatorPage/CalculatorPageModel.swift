@@ -92,12 +92,12 @@ struct CalculatorPageModel {
         self.grossSales = grossSales
     }
     
-    func getGross(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
+    mutating func getGross(_ calculatorUpdateType: CalculatorUpdateType) -> Double {
         var gross = 0.0
         switch calculatorUpdateType {
         case .initiatedByNet:
             gross = netSales * (100 + vatPercent + feePercent + serviceChargePercent + (calculateVatOnSc ? serviceChargePercent * vatPercent / 100 : 0)) / 100
-//            grossSales = gross
+            grossSales = gross
         case .initiatedByGross:
             gross = grossSales
         }

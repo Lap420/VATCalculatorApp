@@ -4,12 +4,12 @@ import UIKit
 class MainPageView: UIView {
     // MARK: - Public methods
     func startButtonAnimation() {
-        UIView.animate(withDuration: 3, delay: 0, options: [ .repeat], animations: {
-            self.whiteButtonAnimationView.snp.updateConstraints { make in
-                make.leading.equalToSuperview().inset(600)
-            }
-            self.openCalculatorButton.layoutIfNeeded()
-        }, completion: nil)
+//        UIView.animate(withDuration: 3, delay: 0, options: [ .repeat], animations: {
+//            self.whiteButtonAnimationView.snp.updateConstraints { make in
+//                make.leading.equalToSuperview().inset(600)
+//            }
+//            self.openCalculatorButton.layoutIfNeeded()
+//        }, completion: nil)
     }
     
     func stopButtonAnimation() {
@@ -33,24 +33,28 @@ class MainPageView: UIView {
     let vatAmountTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
+        textField.accessibilityIdentifier = "vatAmountTF"
         return textField
     }()
     
     let feeAmountTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
+        textField.accessibilityIdentifier = "feeAmountTF"
         return textField
     }()
     
     let serviceChargeAmountTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
+        textField.accessibilityIdentifier = "serviceChargeAmountTF"
         return textField
     }()
     
     let vatOnScSwitch: UISwitch = {
         let swich = UISwitch()
         swich.isOn = true
+        swich.accessibilityIdentifier = "vatOnScSwitch"
         return swich
     }()
     
@@ -68,6 +72,7 @@ class MainPageView: UIView {
         button.addTarget(self, action: #selector(buttonTouchedDown), for: .touchDown)
         button.addTarget(self, action: #selector(buttonTouchedUp), for: [.touchUpInside, .touchUpOutside])
         button.clipsToBounds = true
+        button.accessibilityIdentifier = "openCalculatorButton"
         return button
     }()
     
