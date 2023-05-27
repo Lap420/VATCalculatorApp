@@ -21,6 +21,16 @@ class CalculatorPageController: UIViewController {
         super.viewDidLoad()
         initialize()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextDidChangeNotification(_:)), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UITextField.textDidChangeNotification, object: nil)
+    }
 
     // MARK: - Private properties
     private lazy var calculatorPageView = CalculatorPageView()
@@ -36,11 +46,10 @@ private extension CalculatorPageController {
         disableZeroLines()
         hideOrShowZeroLines(UserDefaultsManager.loadSettingsPageHideZeroLines())
         rounding = UserDefaultsManager.loadSettingsPageRounding()
-        updateElements(.initiatedByGross)
+        updateElements(.initiatedByGross, updateBothTF: true)
         configureNavigationBar()
         initDelegates()
     }
-    
     
     func disableZeroLines() {
         if calculatorPageModel.vatPercent == 0 {
@@ -89,50 +98,61 @@ private extension CalculatorPageController {
     }
     
     func updateNet(_ calculatorUpdateType: CalculatorUpdateType) {
-        let net = calculatorPageModel.getNet(calculatorUpdateType)
-        let netText = String(format: "%.\(rounding)f", net)
-        calculatorPageView.netAmountTF.text = netText
+        let netAmount = calculatorPageModel.getNet(calculatorUpdateType)
+        updateTextField(calculatorPageView.netAmountTF, newAmount: netAmount)
     }
     
     func updateVat(_ calculatorUpdateType: CalculatorUpdateType) {
-        let vat = calculatorPageModel.getVat(calculatorUpdateType)
-        let vatText = String(format: "%.\(rounding)f", vat)
-        calculatorPageView.vatAmountLabel.text = vatText
+        let vatAmount = calculatorPageModel.getVat(calculatorUpdateType)
+        updateLabel(calculatorPageView.vatAmountLabel, newAmount: vatAmount)
     }
     
     func updateFee(_ calculatorUpdateType: CalculatorUpdateType) {
-        let fee = calculatorPageModel.getFee(calculatorUpdateType)
-        let feeText = String(format: "%.\(rounding)f", fee)
-        calculatorPageView.feeAmountLabel.text = feeText
+        let feeAmount = calculatorPageModel.getFee(calculatorUpdateType)
+        updateLabel(calculatorPageView.feeAmountLabel, newAmount: feeAmount)
     }
     
     func updateServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
-        let serviceCharge = calculatorPageModel.getServiceCharge(calculatorUpdateType)
-        let serviceChargeText = String(format: "%.\(rounding)f", serviceCharge)
-        calculatorPageView.serviceChargeAmountLabel.text = serviceChargeText
+        let serviceChargeAmount = calculatorPageModel.getServiceCharge(calculatorUpdateType)
+        updateLabel(calculatorPageView.serviceChargeAmountLabel, newAmount: serviceChargeAmount)
     }
     
     func updateVatOnServiceCharge(_ calculatorUpdateType: CalculatorUpdateType) {
-        let vatOnSc = calculatorPageModel.getVatOnSc(calculatorUpdateType)
-        let vatOnScText = String(format: "%.\(rounding)f", vatOnSc)
-        calculatorPageView.vatOnScAmountLabel.text = vatOnScText
+        let vatOnScAmount = calculatorPageModel.getVatOnSc(calculatorUpdateType)
+        updateLabel(calculatorPageView.vatOnScAmountLabel, newAmount: vatOnScAmount)
     }
     
     func updateTotalVat(_ calculatorUpdateType: CalculatorUpdateType) {
-        let totalVat = calculatorPageModel.getTotalVat(calculatorUpdateType)
-        let totalVatText = String(format: "%.\(rounding)f", totalVat)
-        calculatorPageView.totalVatAmountLabel.text = totalVatText
+        let totalVatAmount = calculatorPageModel.getTotalVat(calculatorUpdateType)
+        updateLabel(calculatorPageView.totalVatAmountLabel, newAmount: totalVatAmount)
     }
     
-    func updateGross(_ calculatorUpdateType: CalculatorUpdateType) {        
-        let gross = calculatorPageModel.getGross(calculatorUpdateType)
-        let grossText = String(format: "%.\(rounding)f", gross)
-        calculatorPageView.grossAmountTF.text = grossText
+    func updateGross(_ calculatorUpdateType: CalculatorUpdateType) {
+        let grossAmount = calculatorPageModel.getGross(calculatorUpdateType)
+        updateTextField(calculatorPageView.grossAmountTF, newAmount: grossAmount)
     }
     
-    func updateElements(_ calculatorUpdateType: CalculatorUpdateType) {
-        updateNet(calculatorUpdateType)
-        updateGross(calculatorUpdateType)
+    func updateLabel(_ label: UILabel, newAmount: Double) {
+        let textAmount = String(format: "%.\(rounding)f", newAmount)
+        label.text = textAmount
+    }
+    
+    func updateTextField(_ textField: UITextField, newAmount: Double) {
+        let textAmount = String(format: "%.\(rounding)f", newAmount)
+        textField.text = textAmount
+    }
+    
+    func updateElements(_ calculatorUpdateType: CalculatorUpdateType, updateBothTF: Bool) {
+        if updateBothTF {
+            updateNet(calculatorUpdateType)
+            updateGross(calculatorUpdateType)
+        } else {
+            if calculatorUpdateType == .initiatedByGross {
+                updateNet(calculatorUpdateType)
+            } else {
+                updateGross(calculatorUpdateType)
+            }
+        }
         updateVat(calculatorUpdateType)
         updateFee(calculatorUpdateType)
         updateServiceCharge(calculatorUpdateType)
@@ -141,9 +161,9 @@ private extension CalculatorPageController {
     }
     
     @objc func openCalculatorSettingButtonTapped() {
+        view.endEditing(true)
         let nextVC = SettingsPageController()
         nextVC.calculatorPageDelegate = self
-//        self.navigationController?.pushViewController(nextVC, animated: true)
         let navigationVC = UINavigationController(rootViewController: nextVC)
         navigationVC.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
         let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSettings))
@@ -179,41 +199,61 @@ extension CalculatorPageController: UITextFieldDelegate {
         return field
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    func checkEnteredText(_ textField: UITextField) -> Bool {
         guard let text = textField.text else { return true }
         guard !text.isEmpty else { return true }
-        var result = true
-        if Double(text) == nil {
-            let field = getChoosenTextFieldName(textField)
-            let alert = AlertManager.incorrectValueAlert(textFieldName: field, textField: textField)
+        guard let _ = Double(text) else {
+            let textFieldName = getChoosenTextFieldName(textField)
+            let alert = AlertManager.incorrectValueAlert(textFieldName: textFieldName, textField: textField)
             present(alert, animated: true)
-            result = false
+            return false
         }
-        return result
+        return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func updateModelAndView(_ textField: UITextField, updateBothTF: Bool) {
         guard let text = textField.text else { return }
         switch textField {
         case calculatorPageView.netAmountTF:
             let netSales = Double(text) ?? 0.0
             calculatorPageModel.setNet(netSales)
-            updateElements(.initiatedByNet)
+            updateElements(.initiatedByNet, updateBothTF: updateBothTF)
         case calculatorPageView.grossAmountTF:
             let grossSales = Double(text) ?? 0
             calculatorPageModel.setGross(grossSales)
-            updateElements(.initiatedByGross)
+            updateElements(.initiatedByGross, updateBothTF: updateBothTF)
         default: return
         }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        updateModelAndView(textField, updateBothTF: false)
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        let isTextValid = checkEnteredText(textField)
+        guard isTextValid else { return false }
+        updateModelAndView(textField, updateBothTF: true)
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
         let gross = calculatorPageModel.getGross(.initiatedByGross)
         UserDefaultsManager.saveCalculatorPageGrossSales(gross)
+    }
+    
+    @objc
+    func handleTextDidChangeNotification(_ notification: Notification) {
+        guard let textField = notification.object as? UITextField else { return }
+        guard checkEnteredText(textField) else { return }
+        updateModelAndView(textField, updateBothTF: false)
     }
 }
 
 extension CalculatorPageController: CalculatorPageDelegate {
     func updateRounding(_ rounding: Int) {
         self.rounding = rounding
-        updateElements(.initiatedByGross)
+        updateElements(.initiatedByGross, updateBothTF: true)
     }
     
     func updateHideZeroLines(_ hideZeroLines: Bool) {

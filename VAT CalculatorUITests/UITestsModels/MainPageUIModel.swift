@@ -67,7 +67,7 @@ struct MainPage: Page {
         return self
     }
     
-    func tapOpenCalculatorButton() -> CalculatorPage {
+    func tapOpenCalculatorPageButton() -> CalculatorPage {
         let button = app.buttons[Identifiers.openCalculatorButton]
         button.tap()
         return CalculatorPage(app: app)

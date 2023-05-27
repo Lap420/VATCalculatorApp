@@ -11,6 +11,11 @@ class MainPageController: UIViewController {
         initialize()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTextDidChangeNotification(_:)), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         mainPageView.startButtonAnimation()
@@ -19,6 +24,7 @@ class MainPageController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mainPageView.stopButtonAnimation()
+        NotificationCenter.default.removeObserver(self, name: UITextField.textDidChangeNotification, object: nil)
     }
     
     // MARK: - Private properties
@@ -37,7 +43,6 @@ private extension MainPageController {
         updateElements()
         initDelegates()
         initButtonTargets()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextDidChangeNotification(_:)), name: UITextField.textDidChangeNotification, object: nil)
     }
     
     func checkIsFirstLaunch() {

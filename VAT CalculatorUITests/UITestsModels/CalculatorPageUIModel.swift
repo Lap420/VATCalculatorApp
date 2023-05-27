@@ -38,7 +38,7 @@ struct CalculatorPage: Page {
         return MainPage(app: app)
     }
     
-    func tapSettingsButton() -> SettingsPage {
+    func tapOpenSettingsPageButton() -> SettingsPage {
         let button = app.buttons[Identifiers.openSettingsButton]
         button.tap()
         return SettingsPage(app: app)

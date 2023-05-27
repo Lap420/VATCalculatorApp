@@ -23,7 +23,6 @@ class MainPageUITests: XCTestCase {
             .enterVat("5")
             .enterFee("7")
             .enterserviceCharge("10")
-            .emptyTap()
             .tapSwitchVatOnSc(true)
             .verifyMessage("122.5")
     }
@@ -33,13 +32,12 @@ class MainPageUITests: XCTestCase {
             .enterVat("5")
             .enterFee("")
             .enterserviceCharge("")
-            .emptyTap()
             .verifyMessage("105")
     }
     
     func testGoToCalculatorPage() {
         let _ = MainPage(app: app)
-            .tapOpenCalculatorButton()
+            .tapOpenCalculatorPageButton()
             .verifyMessage("VAT Calculator")
     }
 }
