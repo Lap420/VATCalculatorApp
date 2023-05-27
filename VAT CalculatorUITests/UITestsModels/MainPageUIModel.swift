@@ -12,6 +12,10 @@ struct MainPage: Page {
     }
 
     func enterVat(_ vatPercent: String) -> Self {
+        let expectation = XCTestExpectation(description: "Animation is done")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            expectation.fulfill()
+        }
         let vat = app.textFields[Identifiers.vatAmountTF]
         vat.tap()
         if !vatPercent.isEmpty {
@@ -21,6 +25,10 @@ struct MainPage: Page {
     }
     
     func enterFee(_ feePercent: String) -> Self {
+        let expectation = XCTestExpectation(description: "Animation is done")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            expectation.fulfill()
+        }
         let fee = app.textFields[Identifiers.feeAmountTF]
         fee.tap()
         if !feePercent.isEmpty {

@@ -4,12 +4,12 @@ import UIKit
 class MainPageView: UIView {
     // MARK: - Public methods
     func startButtonAnimation() {
-//        UIView.animate(withDuration: 3, delay: 0, options: [ .repeat], animations: {
-//            self.whiteButtonAnimationView.snp.updateConstraints { make in
-//                make.leading.equalToSuperview().inset(600)
-//            }
-//            self.openCalculatorButton.layoutIfNeeded()
-//        }, completion: nil)
+        UIView.animate(withDuration: 3, delay: 0, options: [ .repeat], animations: {
+            self.whiteButtonAnimationView.snp.updateConstraints { make in
+                make.leading.equalToSuperview().inset(600)
+            }
+            self.openCalculatorButton.layoutIfNeeded()
+        }, completion: nil)
     }
     
     func stopButtonAnimation() {
