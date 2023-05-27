@@ -8,11 +8,6 @@ class MainPageUITests: XCTestCase {
         continueAfterFailure = false
         app = XCUIApplication()
         app.launch()
-        let expectation = XCTestExpectation(description: "Animation is done")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 2)
     }
     
     override func tearDownWithError() throws {
