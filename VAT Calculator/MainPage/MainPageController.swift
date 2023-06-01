@@ -9,7 +9,7 @@ class MainPageController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
-    }
+    } 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
