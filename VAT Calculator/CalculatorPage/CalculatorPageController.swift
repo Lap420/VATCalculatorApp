@@ -1,18 +1,31 @@
 import UIKit
 
+protocol CalculatorPageControllerProtocol: AnyObject {
+    
+}
+
 class CalculatorPageController: UIViewController {
-    // MARK: - Public methods
-    func setCharges(vatPercent: Double,
-                    feePercent: Double,
-                    serviceChargePercent: Double,
-                    calculateVatOnSc: Bool) {
-        calculatorPageModel.setCharges(vatPercent: vatPercent,
-                                       feePercent: feePercent,
-                                       serviceChargePercent: serviceChargePercent,
-                                       calculateVatOnSc: calculateVatOnSc)
-    }
+//    // MARK: - Public methods
+//    func setCharges(vatPercent: Double,
+//                    feePercent: Double,
+//                    serviceChargePercent: Double,
+//                    calculateVatOnSc: Bool) {
+//        calculatorPageModel.setCharges(vatPercent: vatPercent,
+//                                       feePercent: feePercent,
+//                                       serviceChargePercent: serviceChargePercent,
+//                                       calculateVatOnSc: calculateVatOnSc)
+//    }
     
     // MARK: - ViewController Lifecycle
+    init(presenter: CalculatorPagePresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = calculatorPageView
     }
@@ -35,6 +48,7 @@ class CalculatorPageController: UIViewController {
     // MARK: - Private properties
     private lazy var calculatorPageView = CalculatorPageView()
     private var calculatorPageModel = CalculatorPageModel()
+    private let presenter: CalculatorPagePresenterProtocol
     private var rounding = 2
 }
 
@@ -178,6 +192,10 @@ private extension CalculatorPageController {
     func closeSettings() {
         dismiss(animated: true)
     }
+}
+
+extension CalculatorPageController: CalculatorPageControllerProtocol {
+    
 }
 
 extension CalculatorPageController: UITextFieldDelegate {
