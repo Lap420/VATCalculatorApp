@@ -1,7 +1,21 @@
 import UIKit
 
+protocol SettingsPageControllerProtocol: AnyObject {
+    func initElements(rounding: Int, hideZeroLines: Bool)
+    func setCalculatorPageDelegate(presenter: CalculatorPageDelegate)
+}
+
 class SettingsPageController: UIViewController {
     // MARK: - ViewController Lifecycle
+    init(presenter: SettingsPagePresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = settingsPageView
     }
@@ -13,23 +27,17 @@ class SettingsPageController: UIViewController {
     
     // MARK: - Private properties
     private lazy var settingsPageView = SettingsPageView()
-    weak var calculatorPageDelegate: CalculatorPageDelegate?
+    private let presenter: SettingsPagePresenterProtocol
 }
 
 // MARK: - Private methods
 private extension SettingsPageController {
     func initialize() {
         title = UIConstants.settingsPageNavigationTitle
-        initElements()
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeSettings))
+        navigationItem.leftBarButtonItem = closeButton
+        presenter.initElements()
         initButtonTargets()
-    }
-    
-    func initElements() {
-        let rounding = UserDefaultsManager.loadSettingsPageRounding()
-        settingsPageView.roundingAmountLabel.text = String(rounding)
-        settingsPageView.roundingStepper.value = Double(rounding)
-        let hideZeroLines = UserDefaultsManager.loadSettingsPageHideZeroLines()
-        settingsPageView.hideZeroLinesSwitch.isOn = hideZeroLines
     }
     
     func initButtonTargets() {
@@ -39,14 +47,29 @@ private extension SettingsPageController {
     
     @objc func roundingStepperClicked(_ sender: UIStepper) {
         let value = Int(sender.value)
+        presenter.roundingStepperClicked(value)
         settingsPageView.roundingAmountLabel.text = String(value)
-        UserDefaultsManager.saveSettingsPageRounding(value)
-        calculatorPageDelegate?.updateRounding(value)
     }
     
     @objc func hideZeroLinesSwitched(_ sender: UISwitch) {
         let isOn = sender.isOn
-        UserDefaultsManager.saveSettingsPageHideZeroLines(isOn)
-        calculatorPageDelegate?.updateHideZeroLines(isOn)
+        presenter.hideZeroLinesSwitched(isOn)
+    }
+    
+    @objc
+    func closeSettings() {
+        dismiss(animated: true)
+    }
+}
+
+extension SettingsPageController: SettingsPageControllerProtocol {
+    func initElements(rounding: Int, hideZeroLines: Bool) {
+        settingsPageView.roundingAmountLabel.text = String(rounding)
+        settingsPageView.roundingStepper.value = Double(rounding)
+        settingsPageView.hideZeroLinesSwitch.isOn = hideZeroLines
+    }
+    
+    func setCalculatorPageDelegate(presenter: CalculatorPageDelegate) {
+        self.presenter.delegate = presenter
     }
 }

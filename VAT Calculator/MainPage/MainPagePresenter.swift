@@ -1,5 +1,3 @@
-import UIKit
-
 protocol MainPagePresenterProtocol: AnyObject {
     func checkIsFirstLaunch()
     func loadMainPageData()
