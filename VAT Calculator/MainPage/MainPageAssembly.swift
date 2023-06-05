@@ -5,9 +5,8 @@ protocol MainPageAssemblyProtocol {
 class MainPageAssembly: MainPageAssemblyProtocol {
     func getViewController() -> MainPageController {
         let model = MainPageModel()
-        let presenter = MainPagePresenter(model: model, router: router)
-        let viewController = MainPageController(presenter: presenter)
-        presenter.viewController = viewController
+        let viewModel = MainPageViewModel(model: model, router: router)
+        let viewController = MainPageController(viewModel: viewModel)
         return viewController
     }
     

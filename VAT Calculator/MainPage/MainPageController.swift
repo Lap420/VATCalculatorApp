@@ -1,16 +1,9 @@
 import UIKit
 
-protocol MainPageControllerProtocol: AnyObject {
-    func initTextFieldsState(vatAmountText: String?, feeAmountText: String?, serviceChargeAmountText: String?, vatOnScSwitch: Bool)
-    func getTextFieldsData() -> (Double, Double, Double, Bool)
-    func updateSlider(isEnabled: Bool)
-    func updateGross(gross: Double)
-}
-
 class MainPageController: UIViewController {
     // MARK: - ViewController Lifecycle
-    init(presenter: MainPagePresenterProtocol) {
-        self.presenter = presenter
+    init(viewModel: MainPagePresenterProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -44,9 +37,8 @@ class MainPageController: UIViewController {
     }
     
     // MARK: - Private properties
-    private let presenter: MainPagePresenterProtocol
+    private let viewModel: MainPagePresenterProtocol
     private lazy var mainPageView = MainPageView()
-//    private var mainPageModel = MainPageModel()
 }
 
 // MARK: - Private methods
@@ -54,12 +46,48 @@ private extension MainPageController {
     func initialize() {
         title = UIConstants.mainPageNavigationTitle
         navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
-        presenter.checkIsFirstLaunch()
-        presenter.loadMainPageData()
-        presenter.initTextFieldsState()
-        presenter.updateElements()
+        bindViewModel()
+        viewModel.checkIsFirstLaunch()
+        viewModel.loadMainPageData()
+        viewModel.initTextFieldsState()
+        viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
+                                 feePercentText: mainPageView.feeAmountTF.text,
+                                 serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
+                                 calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
         initDelegates()
         initButtonTargets()
+    }
+    
+    func bindViewModel() {
+        viewModel.vatAmountText.bind { [weak self] vatAmountText in
+            guard let self = self else { return }
+            self.mainPageView.vatAmountTF.text = vatAmountText
+        }
+        
+        viewModel.feeAmountText.bind { [weak self] feeAmountText in
+            guard let self = self else { return }
+            self.mainPageView.feeAmountTF.text = feeAmountText
+        }
+        
+        viewModel.serviceChargeAmountText.bind { [weak self] serviceChargeAmountText in
+            guard let self = self else { return }
+            self.mainPageView.serviceChargeAmountTF.text = serviceChargeAmountText
+        }
+        
+        viewModel.vatOnScSwitch.bind { [weak self] vatOnScSwitch in
+            guard let self = self else { return }
+            self.mainPageView.vatOnScSwitch.isOn = vatOnScSwitch
+        }
+        
+        viewModel.vatOnScSwitchIsEnabled.bind { [weak self] isEnabled in
+            guard let self = self else { return }
+            self.mainPageView.updateSlider(isEnabled: isEnabled)
+        }
+        
+        viewModel.gross.bind { [weak self] gross in
+            guard let self = self else { return }
+            self.mainPageView.updateGross(gross: gross)
+        }
     }
     
     func initDelegates() {
@@ -75,38 +103,16 @@ private extension MainPageController {
     
     @objc func vatOnScSwitched(_ sender: UISwitch) {
         view.endEditing(true)
-        presenter.updateElements()
-        presenter.saveSwitchStateToPersistence(isEnabled: sender.isOn)
+        viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
+                                 feePercentText: mainPageView.feeAmountTF.text,
+                                 serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
+                                 calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
+        viewModel.saveSwitchStateToPersistence(isEnabled: sender.isOn)
     }
     
     @objc func openCalculatorButtonTapped() {
         view.endEditing(true)
-        presenter.showCalculatorPage()
-    }
-}
-
-extension MainPageController: MainPageControllerProtocol {
-    func initTextFieldsState(vatAmountText: String?, feeAmountText: String?, serviceChargeAmountText: String?, vatOnScSwitch: Bool) {
-        mainPageView.vatAmountTF.text = vatAmountText
-        mainPageView.feeAmountTF.text = feeAmountText
-        mainPageView.serviceChargeAmountTF.text = serviceChargeAmountText
-        mainPageView.vatOnScSwitch.isOn = vatOnScSwitch
-    }
-    
-    func getTextFieldsData() -> (Double, Double, Double, Bool) {
-        let vatPercent = Double(mainPageView.vatAmountTF.text ?? "0") ?? 0
-        let feePercent = Double(mainPageView.feeAmountTF.text ?? "0") ?? 0
-        let serviceChargePercent = Double(mainPageView.serviceChargeAmountTF.text ?? "0") ?? 0
-        let calculateVatOnSc = mainPageView.vatOnScSwitch.isOn
-        return (vatPercent, feePercent, serviceChargePercent, calculateVatOnSc)
-    }
-    
-    func updateSlider(isEnabled: Bool) {
-        mainPageView.updateSlider(isEnabled: isEnabled)
-    }
-    
-    func updateGross(gross: Double) {
-        mainPageView.updateGross(gross: gross)
+        viewModel.showCalculatorPage()
     }
 }
 
@@ -134,7 +140,10 @@ extension MainPageController: UITextFieldDelegate {
     func checkEnteredText(_ textField: UITextField) -> Bool {
         guard let text = textField.text else { return true }
         guard !text.isEmpty else {
-            presenter.updateElements()
+            viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
+                                     feePercentText: mainPageView.feeAmountTF.text,
+                                     serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
+                                     calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
             return true
         }
         guard let enteredAmount = Double(text) else {
@@ -149,7 +158,10 @@ extension MainPageController: UITextFieldDelegate {
             present(alert, animated: true)
             return false
         }
-        presenter.updateElements()
+        viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
+                                 feePercentText: mainPageView.feeAmountTF.text,
+                                 serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
+                                 calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
         return true
     }
     
@@ -164,7 +176,7 @@ extension MainPageController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         let textFieldName = getChoosenTextFieldName(textField)
         let text = textField.text ?? ""
-        presenter.saveTextFieldTextToPersistence(textFieldName: textFieldName, text: text)
+        viewModel.saveTextFieldTextToPersistence(textFieldName: textFieldName, text: text)
     }
     
     @objc
