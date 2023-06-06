@@ -22,8 +22,8 @@ protocol CalculatorPageControllerProtocol: AnyObject {
 
 class CalculatorPageController: UIViewController {
     // MARK: - ViewController Lifecycle
-    init(presenter: CalculatorPagePresenterProtocol) {
-        self.presenter = presenter
+    init(viewModel: CalculatorPageViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -52,7 +52,7 @@ class CalculatorPageController: UIViewController {
 
     // MARK: - Private properties
     private lazy var calculatorPageView = CalculatorPageView()
-    private let presenter: CalculatorPagePresenterProtocol
+    private let viewModel: CalculatorPageViewModelProtocol
     private var rounding = 2
 }
 
@@ -60,12 +60,16 @@ class CalculatorPageController: UIViewController {
 private extension CalculatorPageController {
     func initialize() {
         title = UIConstants.calculatorPageNavigationTitle
-        presenter.disableZeroLines()
-        presenter.initialHidingZeroLines()
-        presenter.setRoundingFromPersistence()
-        presenter.updateElements(.initiatedByGross, updateBothTF: true)
+        viewModel.disableZeroLines()
+        viewModel.initialHidingZeroLines()
+        viewModel.setRoundingFromPersistence()
+        viewModel.updateElements(.initiatedByGross, updateBothTF: true)
         configureNavigationBar()
         initDelegates()
+    }
+    
+    func bindViewModel() {
+        
     }
     
     func configureNavigationBar() {
@@ -91,7 +95,7 @@ private extension CalculatorPageController {
     
     @objc func openCalculatorSettingButtonTapped() {
         view.endEditing(true)
-        presenter.showSettingsPage()
+        viewModel.showSettingsPage()
     }
 }
 
@@ -206,12 +210,12 @@ extension CalculatorPageController: UITextFieldDelegate {
         switch textField {
         case calculatorPageView.netAmountTF:
             let netSales = Double(text) ?? 0.0
-            presenter.saveNetToModel(netSales)
-            presenter.updateElements(.initiatedByNet, updateBothTF: updateBothTF)
+            viewModel.saveNetToModel(netSales)
+            viewModel.updateElements(.initiatedByNet, updateBothTF: updateBothTF)
         case calculatorPageView.grossAmountTF:
             let grossSales = Double(text) ?? 0
-            presenter.saveGrossToModel(grossSales)
-            presenter.updateElements(.initiatedByGross, updateBothTF: updateBothTF)
+            viewModel.saveGrossToModel(grossSales)
+            viewModel.updateElements(.initiatedByGross, updateBothTF: updateBothTF)
         default: return
         }
     }
@@ -228,7 +232,7 @@ extension CalculatorPageController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        presenter.saveGrossToPersistence()
+        viewModel.saveGrossToPersistence()
     }
     
     @objc

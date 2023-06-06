@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		041BD070298D788600004E40 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 041BD06F298D788600004E40 /* .gitignore */; };
 		04426D932A2A47C700DB5272 /* CalculatorPageAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04426D922A2A47C700DB5272 /* CalculatorPageAssembly.swift */; };
-		04426D952A2A47DA00DB5272 /* CalculatorPagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04426D942A2A47DA00DB5272 /* CalculatorPagePresenter.swift */; };
+		04426D952A2A47DA00DB5272 /* CalculatorPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04426D942A2A47DA00DB5272 /* CalculatorPageViewModel.swift */; };
 		04426D972A2B4FB300DB5272 /* SettingsPagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04426D962A2B4FB300DB5272 /* SettingsPagePresenter.swift */; };
 		04426D992A2B4FC300DB5272 /* SettingsPageAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04426D982A2B4FC300DB5272 /* SettingsPageAssembly.swift */; };
 		044EF5A3298AF18200AA986A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5A2298AF18200AA986A /* AppDelegate.swift */; };
@@ -64,7 +64,7 @@
 /* Begin PBXFileReference section */
 		041BD06F298D788600004E40 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		04426D922A2A47C700DB5272 /* CalculatorPageAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageAssembly.swift; sourceTree = "<group>"; };
-		04426D942A2A47DA00DB5272 /* CalculatorPagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPagePresenter.swift; sourceTree = "<group>"; };
+		04426D942A2A47DA00DB5272 /* CalculatorPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorPageViewModel.swift; sourceTree = "<group>"; };
 		04426D962A2B4FB300DB5272 /* SettingsPagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPagePresenter.swift; sourceTree = "<group>"; };
 		04426D982A2B4FC300DB5272 /* SettingsPageAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPageAssembly.swift; sourceTree = "<group>"; };
 		044EF59F298AF18200AA986A /* VAT Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VAT Calculator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,7 +204,7 @@
 				04C1C11829C10355006FBED3 /* CalculatorPageModel.swift */,
 				04C1C11629C0D498006FBED3 /* CalculatorPageView.swift */,
 				04C1C10B29C07619006FBED3 /* CalculatorPageController.swift */,
-				04426D942A2A47DA00DB5272 /* CalculatorPagePresenter.swift */,
+				04426D942A2A47DA00DB5272 /* CalculatorPageViewModel.swift */,
 			);
 			path = CalculatorPage;
 			sourceTree = "<group>";
@@ -463,7 +463,7 @@
 				04B0FB482A28FD7700C5D355 /* MainPageViewModel.swift in Sources */,
 				04B0FB4A2A28FD8E00C5D355 /* MainPageAssembly.swift in Sources */,
 				04C1C10E29C0AD57006FBED3 /* UIConstants.swift in Sources */,
-				04426D952A2A47DA00DB5272 /* CalculatorPagePresenter.swift in Sources */,
+				04426D952A2A47DA00DB5272 /* CalculatorPageViewModel.swift in Sources */,
 				04C1C11529C0CB26006FBED3 /* AlertManager.swift in Sources */,
 				04426D932A2A47C700DB5272 /* CalculatorPageAssembly.swift in Sources */,
 				04F1712529C3640D00690A2A /* SettingsPageView.swift in Sources */,

@@ -9,9 +9,9 @@ class CalculatorPageAssembly: CalculatorPageAssemblyProtocol {
                          feePercent: mainPageModel.feePercent,
                          serviceChargePercent: mainPageModel.serviceChargePercent,
                          calculateVatOnSc: mainPageModel.calculateVatOnSc)
-        let presenter = CalculatorPagePresenter(model: model, router: router)
-        let viewController = CalculatorPageController(presenter: presenter)
-        presenter.viewController = viewController
+        let viewModel = CalculatorPageViewModel(model: model, router: router)
+        let viewController = CalculatorPageController(viewModel: viewModel)
+        viewModel.viewController = viewController
         return viewController
     }
     

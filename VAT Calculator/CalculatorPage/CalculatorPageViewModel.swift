@@ -1,4 +1,4 @@
-protocol CalculatorPagePresenterProtocol: AnyObject {
+protocol CalculatorPageViewModelProtocol: AnyObject {
     func disableZeroLines()
     func hideOrShowZeroLines(_ hideZeroLines: Bool)
     func initialHidingZeroLines()
@@ -9,9 +9,11 @@ protocol CalculatorPagePresenterProtocol: AnyObject {
     func showSettingsPage()
     func setRounding(_ rounding: Int)
     func setRoundingFromPersistence()
+    
+    var disableVat: Boxing<Bool> { get }
 }
 
-class CalculatorPagePresenter {
+class CalculatorPageViewModel: CalculatorPageViewModelProtocol {
     init(model: CalculatorPageModel, router: RouterProtocol) {
         calculatorPageModel = model
         UserDefaultsManager.loadCalculatorPageGrossSales(&calculatorPageModel)
@@ -20,9 +22,10 @@ class CalculatorPagePresenter {
     weak var viewController: CalculatorPageControllerProtocol?
     private var calculatorPageModel: CalculatorPageModel
     private var router: RouterProtocol?
+    var disableVat: Boxing<Bool> = Boxing(false)
 }
 
-extension CalculatorPagePresenter: CalculatorPagePresenterProtocol {
+extension CalculatorPageViewModel {
     func disableZeroLines() {
         if calculatorPageModel.vatPercent == 0 {
             viewController?.disableVat()
@@ -146,7 +149,7 @@ protocol CalculatorPageDelegate: AnyObject {
     var presenterViewController: CalculatorPageControllerProtocol? { get }
 }
 
-extension CalculatorPagePresenter: CalculatorPageDelegate {
+extension CalculatorPageViewModel: CalculatorPageDelegate {
     var presenterViewController: CalculatorPageControllerProtocol? {
         viewController
     }
