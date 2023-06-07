@@ -1,14 +1,6 @@
 import UIKit
 
 protocol CalculatorPageControllerProtocol: AnyObject {
-    func disableVat()
-    func disableFee()
-    func disableServiceCharge()
-    func disableVatOnServiceCharge()
-    func hideVat(_ hideZeroLines: Bool)
-    func hideFee(_ hideZeroLines: Bool)
-    func hideServiceCharge(_ hideZeroLines: Bool)
-    func hideVatOnServiceCharge(_ hideZeroLines: Bool)
     func updateNet(_ netAmount: Double)
     func updateVat(_ vatAmount: Double)
     func updateFee(_ feeAmount: Double)
@@ -60,6 +52,7 @@ class CalculatorPageController: UIViewController {
 private extension CalculatorPageController {
     func initialize() {
         title = UIConstants.calculatorPageNavigationTitle
+        bindViewModel()
         viewModel.disableZeroLines()
         viewModel.initialHidingZeroLines()
         viewModel.setRoundingFromPersistence()
@@ -69,7 +62,50 @@ private extension CalculatorPageController {
     }
     
     func bindViewModel() {
+        viewModel.isEnabledVat.bind { [weak self] isEnabled in
+            guard let self = self else { return }
+            self.calculatorPageView.vatNameLabel.isEnabled = isEnabled
+            self.calculatorPageView.vatAmountLabel.isEnabled = isEnabled
+        }
         
+        viewModel.isEnabledFee.bind { [weak self] isEnabled in
+            guard let self = self else { return }
+            self.calculatorPageView.feeNameLabel.isEnabled = isEnabled
+            self.calculatorPageView.feeAmountLabel.isEnabled = isEnabled
+        }
+        
+        viewModel.isEnabledServiceCharge.bind { [weak self] isEnabled in
+            guard let self = self else { return }
+            self.calculatorPageView.serviceChargeNameLabel.isEnabled = isEnabled
+            self.calculatorPageView.serviceChargeAmountLabel.isEnabled = isEnabled
+        }
+        
+        viewModel.isEnabledVatOnServiceCharge.bind { [weak self] isEnabled in
+            guard let self = self else { return }
+            self.calculatorPageView.vatOnScNameLabel.isEnabled = isEnabled
+            self.calculatorPageView.vatOnScAmountLabel.isEnabled = isEnabled
+            self.calculatorPageView.totalVatStack.isHidden = !isEnabled
+        }
+        
+        viewModel.isHiddenVat.bind { [weak self] isHidden in
+            guard let self = self else { return }
+            self.calculatorPageView.vatStack.isHidden = isHidden
+        }
+        
+        viewModel.isHiddenFee.bind { [weak self] isHidden in
+            guard let self = self else { return }
+            self.calculatorPageView.feeStack.isHidden = isHidden
+        }
+        
+        viewModel.isHiddenServiceCharge.bind { [weak self] isHidden in
+            guard let self = self else { return }
+            self.calculatorPageView.serviceChargeStack.isHidden = isHidden
+        }
+        
+        viewModel.isHiddenVatOnServiceCharge.bind { [weak self] isHidden in
+            guard let self = self else { return }
+            self.calculatorPageView.vatOnScStack.isHidden = isHidden
+        }
     }
     
     func configureNavigationBar() {
@@ -100,43 +136,6 @@ private extension CalculatorPageController {
 }
 
 extension CalculatorPageController: CalculatorPageControllerProtocol {
-    func disableVat() {
-        calculatorPageView.vatNameLabel.isEnabled = false
-        calculatorPageView.vatAmountLabel.isEnabled = false
-    }
-    
-    func disableFee() {
-        calculatorPageView.feeNameLabel.isEnabled = false
-        calculatorPageView.feeAmountLabel.isEnabled = false
-    }
-    
-    func disableServiceCharge() {
-        calculatorPageView.serviceChargeNameLabel.isEnabled = false
-        calculatorPageView.serviceChargeAmountLabel.isEnabled = false
-    }
-    
-    func disableVatOnServiceCharge() {
-        calculatorPageView.vatOnScNameLabel.isEnabled = false
-        calculatorPageView.vatOnScAmountLabel.isEnabled = false
-        calculatorPageView.totalVatStack.isHidden = true
-    }
-    
-    func hideVat(_ hideZeroLines: Bool) {
-        calculatorPageView.vatStack.isHidden = hideZeroLines
-    }
-    
-    func hideFee(_ hideZeroLines: Bool) {
-        calculatorPageView.feeStack.isHidden = hideZeroLines
-    }
-    
-    func hideServiceCharge(_ hideZeroLines: Bool) {
-        calculatorPageView.serviceChargeStack.isHidden = hideZeroLines
-    }
-    
-    func hideVatOnServiceCharge(_ hideZeroLines: Bool) {
-        calculatorPageView.vatOnScStack.isHidden = hideZeroLines
-    }
-    
     func updateNet(_ netAmount: Double) {
         updateTextField(calculatorPageView.netAmountTF, newAmount: netAmount)
     }

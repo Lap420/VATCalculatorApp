@@ -10,7 +10,14 @@ protocol CalculatorPageViewModelProtocol: AnyObject {
     func setRounding(_ rounding: Int)
     func setRoundingFromPersistence()
     
-    var disableVat: Boxing<Bool> { get }
+    var isEnabledVat: Boxing<Bool> { get }
+    var isEnabledFee: Boxing<Bool> { get }
+    var isEnabledServiceCharge: Boxing<Bool> { get }
+    var isEnabledVatOnServiceCharge: Boxing<Bool> { get }
+    var isHiddenVat: Boxing<Bool> { get }
+    var isHiddenFee: Boxing<Bool> { get }
+    var isHiddenServiceCharge: Boxing<Bool> { get }
+    var isHiddenVatOnServiceCharge: Boxing<Bool> { get }
 }
 
 class CalculatorPageViewModel: CalculatorPageViewModelProtocol {
@@ -22,39 +29,46 @@ class CalculatorPageViewModel: CalculatorPageViewModelProtocol {
     weak var viewController: CalculatorPageControllerProtocol?
     private var calculatorPageModel: CalculatorPageModel
     private var router: RouterProtocol?
-    var disableVat: Boxing<Bool> = Boxing(false)
+    var isEnabledVat: Boxing<Bool> = Boxing(true)
+    var isEnabledFee: Boxing<Bool> = Boxing(true)
+    var isEnabledServiceCharge: Boxing<Bool> = Boxing(true)
+    var isEnabledVatOnServiceCharge: Boxing<Bool> = Boxing(true)
+    var isHiddenVat: Boxing<Bool> = Boxing(false)
+    var isHiddenFee: Boxing<Bool> = Boxing(false)
+    var isHiddenServiceCharge: Boxing<Bool> = Boxing(false)
+    var isHiddenVatOnServiceCharge: Boxing<Bool> = Boxing(false)
 }
 
 extension CalculatorPageViewModel {
     func disableZeroLines() {
         if calculatorPageModel.vatPercent == 0 {
-            viewController?.disableVat()
+            isEnabledVat.value = false
         }
         if calculatorPageModel.feePercent == 0 {
-            viewController?.disableFee()
+            isEnabledFee.value = false
         }
         if calculatorPageModel.serviceChargePercent == 0 {
-            viewController?.disableServiceCharge()
+            isEnabledServiceCharge.value = false
         }
         if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 || calculatorPageModel.vatPercent == 0 {
-            viewController?.disableVatOnServiceCharge()
+            isEnabledVatOnServiceCharge.value = false
         }
     }
     
     func hideOrShowZeroLines(_ hideZeroLines: Bool) {
         if calculatorPageModel.vatPercent == 0 {
-            viewController?.hideVat(hideZeroLines)
+            isHiddenVat.value = hideZeroLines
         }
         
         if calculatorPageModel.feePercent == 0 {
-            viewController?.hideFee(hideZeroLines)
+            isHiddenFee.value = hideZeroLines
         }
         
         if calculatorPageModel.serviceChargePercent == 0 {
-            viewController?.hideServiceCharge(hideZeroLines)
+            isHiddenServiceCharge.value = hideZeroLines
         }
         if !calculatorPageModel.calculateVatOnSc || calculatorPageModel.serviceChargePercent == 0 || calculatorPageModel.vatPercent == 0 {
-            viewController?.hideVatOnServiceCharge(hideZeroLines)
+            isHiddenVatOnServiceCharge.value = hideZeroLines
         }
     }
     
