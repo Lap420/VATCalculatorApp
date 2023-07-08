@@ -1,9 +1,12 @@
 import UIKit
+import RxSwift
+import RxCocoa
 
 class MainPageController: UIViewController {
     // MARK: - ViewController Lifecycle
-    init(viewModel: MainPagePresenterProtocol) {
+    init(viewModel: MainPageViewModelProtocol, router: RouterProtocol) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -18,11 +21,6 @@ class MainPageController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
-    } 
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleTextDidChangeNotification(_:)), name: UITextField.textDidChangeNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,12 +31,18 @@ class MainPageController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mainPageView.stopButtonAnimation()
-        NotificationCenter.default.removeObserver(self, name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     // MARK: - Private properties
-    private let viewModel: MainPagePresenterProtocol
+    private let viewModel: MainPageViewModelProtocol
+    private let router: RouterProtocol
     private lazy var mainPageView = MainPageView()
+    private let disposeBag = DisposeBag()
 }
 
 // MARK: - Private methods
@@ -46,104 +50,91 @@ private extension MainPageController {
     func initialize() {
         title = UIConstants.mainPageNavigationTitle
         navigationController?.navigationBar.titleTextAttributes = UIConstants.navigationTitleAttributes
+        mainPageView.openCalculatorButton.addTarget(self, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
         bindViewModel()
-        viewModel.checkIsFirstLaunch()
-        viewModel.loadMainPageData()
-        viewModel.initTextFieldsState()
-        viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
-                                 feePercentText: mainPageView.feeAmountTF.text,
-                                 serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
-                                 calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
-        initDelegates()
-        initButtonTargets()
+        bindView()
     }
     
     func bindViewModel() {
-        viewModel.vatAmountText.bind { [weak self] vatAmountText in
-            guard let self = self else { return }
-            self.mainPageView.vatAmountTF.text = vatAmountText
-        }
+        viewModel.vatPercentText
+            .map { $0 != "0" ? $0 : nil }
+            .bind(to: mainPageView.vatPercentTF.rx.text)
+            .disposed(by: disposeBag)
         
-        viewModel.feeAmountText.bind { [weak self] feeAmountText in
-            guard let self = self else { return }
-            self.mainPageView.feeAmountTF.text = feeAmountText
-        }
+        viewModel.feePercentText
+            .map { $0 != "0" ? $0 : nil }
+            .bind(to: mainPageView.feePercentTF.rx.text)
+            .disposed(by: disposeBag)
         
-        viewModel.serviceChargeAmountText.bind { [weak self] serviceChargeAmountText in
-            guard let self = self else { return }
-            self.mainPageView.serviceChargeAmountTF.text = serviceChargeAmountText
-        }
+        viewModel.serviceChargePercentText
+            .map { $0 != "0" ? $0 : nil }
+            .bind(to: mainPageView.serviceChargePercentTF.rx.text)
+            .disposed(by: disposeBag)
         
-        viewModel.vatOnScSwitch.bind { [weak self] vatOnScSwitch in
-            guard let self = self else { return }
-            self.mainPageView.vatOnScSwitch.isOn = vatOnScSwitch
-        }
+        viewModel.calculateVatOnSc
+            .bind(to: mainPageView.vatOnScSwitch.rx.isOn)
+            .disposed(by: disposeBag)
         
-        viewModel.vatOnScSwitchIsEnabled.bind { [weak self] isEnabled in
-            guard let self = self else { return }
-            self.mainPageView.updateSlider(isEnabled: isEnabled)
-        }
+        viewModel.vatOnScSwitchIsEnabled
+            .bind(onNext: { [weak self] isEnabled in
+                self?.mainPageView.updateSlider(isEnabled: isEnabled)
+            })
+            .disposed(by: disposeBag)
         
-        viewModel.gross.bind { [weak self] gross in
-            guard let self = self else { return }
-            self.mainPageView.updateGross(gross: gross)
-        }
+        viewModel.grossPercent?
+            .bind(to: mainPageView.grossPercentLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
-    func initDelegates() {
-        mainPageView.vatAmountTF.delegate = self
-        mainPageView.feeAmountTF.delegate = self
-        mainPageView.serviceChargeAmountTF.delegate = self
-    }
-    
-    func initButtonTargets() {
-        mainPageView.vatOnScSwitch.addTarget(self, action: #selector(vatOnScSwitched), for: .valueChanged)
-        mainPageView.openCalculatorButton.addTarget(self, action: #selector(openCalculatorButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc func vatOnScSwitched(_ sender: UISwitch) {
-        view.endEditing(true)
-        viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
-                                 feePercentText: mainPageView.feeAmountTF.text,
-                                 serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
-                                 calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
-        viewModel.saveSwitchStateToPersistence(isEnabled: sender.isOn)
-    }
-    
-    @objc func openCalculatorButtonTapped() {
-        view.endEditing(true)
-        viewModel.showCalculatorPage()
-    }
-}
-
-extension MainPageController: UITextFieldDelegate {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(true)
+    func bindView() {
+        mainPageView.vatPercentTF.rx.text.orEmpty
+            .filter{ [weak self] _ in
+                guard let self = self else { return true }
+                return self.checkEnteredText(self.mainPageView.vatPercentTF)
+            }
+            .bind(to: viewModel.vatPercentText)
+            .disposed(by: disposeBag)
+        
+        mainPageView.feePercentTF.rx.text.orEmpty
+            .filter{ [weak self] _ in
+                guard let self = self else { return true }
+                return self.checkEnteredText(self.mainPageView.feePercentTF)
+            }
+            .bind(to: viewModel.feePercentText)
+            .disposed(by: disposeBag)
+        
+        mainPageView.serviceChargePercentTF.rx.text.orEmpty
+            .filter{ [weak self] _ in
+                guard let self = self else { return true }
+                return self.checkEnteredText(self.mainPageView.serviceChargePercentTF)
+            }
+            .bind(to: viewModel.serviceChargePercentText)
+            .disposed(by: disposeBag)
+        
+        mainPageView.vatOnScSwitch.rx.isOn
+            .do(onNext: { [weak self] _ in self?.view.endEditing(true) })
+            .bind(to: viewModel.calculateVatOnSc)
+            .disposed(by: disposeBag)
     }
     
     func getChoosenTextFieldName(_ textField: UITextField) -> String {
         let field: String
         switch textField {
-        case mainPageView.vatAmountTF:
+        case mainPageView.vatPercentTF:
             field = UIConstants.vatName
-        case mainPageView.feeAmountTF:
+        case mainPageView.feePercentTF:
             field = UIConstants.feeName
-        case mainPageView.serviceChargeAmountTF:
+        case mainPageView.serviceChargePercentTF:
             field = UIConstants.serviceChargeName
         default:
             field = "some"
         }
         return field
     }
-    
+
     func checkEnteredText(_ textField: UITextField) -> Bool {
         guard let text = textField.text else { return true }
         guard !text.isEmpty else {
-            viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
-                                     feePercentText: mainPageView.feeAmountTF.text,
-                                     serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
-                                     calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
             return true
         }
         guard let enteredAmount = Double(text) else {
@@ -158,30 +149,12 @@ extension MainPageController: UITextFieldDelegate {
             present(alert, animated: true)
             return false
         }
-        viewModel.updateElements(vatPercentText: mainPageView.vatAmountTF.text,
-                                 feePercentText: mainPageView.feeAmountTF.text,
-                                 serviceChargePercentText: mainPageView.serviceChargeAmountTF.text,
-                                 calculateVatOnSc: mainPageView.vatOnScSwitch.isOn)
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        let _ = checkEnteredText(textField)
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        checkEnteredText(textField)
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let textFieldName = getChoosenTextFieldName(textField)
-        let text = textField.text ?? ""
-        viewModel.saveTextFieldTextToPersistence(textFieldName: textFieldName, text: text)
-    }
-    
     @objc
-    func handleTextDidChangeNotification(_ notification: Notification) {
-        guard let textField = notification.object as? UITextField else { return }
-        let _ = checkEnteredText(textField)
+    func openCalculatorButtonTapped() {
+        view.endEditing(true)
+        router.showCalculatorPage(mainPageModel: viewModel.model)
     }
 }

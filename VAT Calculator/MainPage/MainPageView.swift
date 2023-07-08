@@ -25,26 +25,22 @@ class MainPageView: UIView {
         vatOnScNameLabel.isEnabled = isEnabled
     }
     
-    func updateGross(gross: Double) {
-        grossAmountLabel.text = "\(gross.formatted(.number))"
-    }
-    
     // MARK: - Public properties
-    let vatAmountTF: UITextField = {
+    let vatPercentTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
         textField.accessibilityIdentifier = "vatAmountTF"
         return textField
     }()
     
-    let feeAmountTF: UITextField = {
+    let feePercentTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
         textField.accessibilityIdentifier = "feeAmountTF"
         return textField
     }()
     
-    let serviceChargeAmountTF: UITextField = {
+    let serviceChargePercentTF: UITextField = {
         let textField = UITextField()
         textField.setupTF()
         textField.accessibilityIdentifier = "serviceChargeAmountTF"
@@ -56,6 +52,13 @@ class MainPageView: UIView {
         swich.isOn = true
         swich.accessibilityIdentifier = "vatOnScSwitch"
         return swich
+    }()
+    
+    let grossPercentLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIConstants.fontRegular
+        label.textAlignment = .right
+        return label
     }()
     
     let openCalculatorButton: UIButton = {
@@ -121,7 +124,7 @@ class MainPageView: UIView {
         return label
     }()
     
-    private let netAmountLabel: UILabel = {
+    private let netPercentLabel: UILabel = {
         let label = UILabel()
         label.text = UIConstants.netAmount
         label.font = UIConstants.fontRegular
@@ -182,13 +185,6 @@ class MainPageView: UIView {
         return stack
     }()
     
-    private let grossAmountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIConstants.fontRegular
-        label.textAlignment = .right
-        return label
-    }()
-    
     private let grossNameLabel: UILabel = {
         let label = UILabel()
         label.text = UIConstants.grossName
@@ -230,14 +226,14 @@ private extension MainPageView {
         }
         
         netStack.addArrangedSubview(netNameLabel)
-        netStack.addArrangedSubview(netAmountLabel)
+        netStack.addArrangedSubview(netPercentLabel)
         netStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
         
         vatStack.addArrangedSubview(vatNameLabel)
-        vatStack.addArrangedSubview(vatAmountTF)
-        vatAmountTF.snp.makeConstraints { make in
+        vatStack.addArrangedSubview(vatPercentTF)
+        vatPercentTF.snp.makeConstraints { make in
             make.width.equalTo(UIConstants.textFieldWidth)
             make.height.equalTo(UIConstants.textFieldHeight)
         }
@@ -246,8 +242,8 @@ private extension MainPageView {
         }
 
         feeStack.addArrangedSubview(feeNameLabel)
-        feeStack.addArrangedSubview(feeAmountTF)
-        feeAmountTF.snp.makeConstraints { make in
+        feeStack.addArrangedSubview(feePercentTF)
+        feePercentTF.snp.makeConstraints { make in
             make.width.equalTo(UIConstants.textFieldWidth)
             make.height.equalTo(UIConstants.textFieldHeight)
         }
@@ -256,8 +252,8 @@ private extension MainPageView {
         }
         
         serviceChargeStack.addArrangedSubview(serviceChargeNameLabel)
-        serviceChargeStack.addArrangedSubview(serviceChargeAmountTF)
-        serviceChargeAmountTF.snp.makeConstraints { make in
+        serviceChargeStack.addArrangedSubview(serviceChargePercentTF)
+        serviceChargePercentTF.snp.makeConstraints { make in
             make.width.equalTo(UIConstants.textFieldWidth)
             make.height.equalTo(UIConstants.textFieldHeight)
         }
@@ -272,7 +268,7 @@ private extension MainPageView {
         }
         
         grossStack.addArrangedSubview(grossNameLabel)
-        grossStack.addArrangedSubview(grossAmountLabel)
+        grossStack.addArrangedSubview(grossPercentLabel)
         grossStack.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }

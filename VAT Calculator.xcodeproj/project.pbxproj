@@ -16,13 +16,15 @@
 		044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044EF5A4298AF18200AA986A /* SceneDelegate.swift */; };
 		044EF5AC298AF18400AA986A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5AB298AF18400AA986A /* Assets.xcassets */; };
 		044EF5AF298AF18400AA986A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044EF5AD298AF18400AA986A /* LaunchScreen.storyboard */; };
-		047012F229BE4397005145B2 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047012F129BE4397005145B2 /* MainPageController.swift */; };
 		047012F529BE4430005145B2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 047012F429BE4430005145B2 /* SnapKit */; };
 		04885E2F2A14DFA50049D8EE /* CalculatorPageModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04885E2E2A14DFA50049D8EE /* CalculatorPageModelTests.swift */; };
 		04885E322A1529BD0049D8EE /* UITextField + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04885E312A1529BD0049D8EE /* UITextField + Extension.swift */; };
+		049C727C2A5967E500D78C19 /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C727B2A5967E500D78C19 /* MainPageViewModel.swift */; };
+		049C727F2A5968B100D78C19 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 049C727E2A5968B100D78C19 /* RxCocoa */; };
+		049C72812A5968B100D78C19 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 049C72802A5968B100D78C19 /* RxSwift */; };
+		049C72832A596B1E00D78C19 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C72822A596B1E00D78C19 /* MainPageController.swift */; };
 		04B0816E2A1284CB00EA217C /* MainPageModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0816D2A1284CB00EA217C /* MainPageModelTests.swift */; };
 		04B0FB462A28FD6300C5D355 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0FB452A28FD6300C5D355 /* Router.swift */; };
-		04B0FB482A28FD7700C5D355 /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0FB472A28FD7700C5D355 /* MainPageViewModel.swift */; };
 		04B0FB4A2A28FD8E00C5D355 /* MainPageAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B0FB492A28FD8E00C5D355 /* MainPageAssembly.swift */; };
 		04B5CDC02A1FABB8002C822E /* MainPageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDAF2A1FA3AC002C822E /* MainPageUITests.swift */; };
 		04B5CDC62A1FE15F002C822E /* CalculatorPageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B5CDC52A1FE15F002C822E /* CalculatorPageUITests.swift */; };
@@ -73,13 +75,13 @@
 		044EF5AB298AF18400AA986A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		044EF5AE298AF18400AA986A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		044EF5B0298AF18400AA986A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		047012F129BE4397005145B2 /* MainPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
 		04885E2E2A14DFA50049D8EE /* CalculatorPageModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalculatorPageModelTests.swift; path = "VAT CalculatorTests/CalculatorPage/CalculatorPageModelTests.swift"; sourceTree = SOURCE_ROOT; };
 		04885E312A1529BD0049D8EE /* UITextField + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField + Extension.swift"; sourceTree = "<group>"; };
+		049C727B2A5967E500D78C19 /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
+		049C72822A596B1E00D78C19 /* MainPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
 		04B0816B2A1284CB00EA217C /* VAT CalculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VAT CalculatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B0816D2A1284CB00EA217C /* MainPageModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageModelTests.swift; sourceTree = "<group>"; };
 		04B0FB452A28FD6300C5D355 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		04B0FB472A28FD7700C5D355 /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
 		04B0FB492A28FD8E00C5D355 /* MainPageAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageAssembly.swift; sourceTree = "<group>"; };
 		04B5CDAF2A1FA3AC002C822E /* MainPageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageUITests.swift; sourceTree = "<group>"; };
 		04B5CDB52A1FA941002C822E /* VAT CalculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VAT CalculatorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049C72812A5968B100D78C19 /* RxSwift in Frameworks */,
+				049C727F2A5968B100D78C19 /* RxCocoa in Frameworks */,
 				047012F529BE4430005145B2 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,8 +195,8 @@
 				04B0FB492A28FD8E00C5D355 /* MainPageAssembly.swift */,
 				04C1C10F29C0BDA6006FBED3 /* MainPageModel.swift */,
 				04C1C10929C062D4006FBED3 /* MainPageView.swift */,
-				047012F129BE4397005145B2 /* MainPageController.swift */,
-				04B0FB472A28FD7700C5D355 /* MainPageViewModel.swift */,
+				049C72822A596B1E00D78C19 /* MainPageController.swift */,
+				049C727B2A5967E500D78C19 /* MainPageViewModel.swift */,
 			);
 			path = MainPage;
 			sourceTree = "<group>";
@@ -326,6 +330,8 @@
 			name = "VAT Calculator";
 			packageProductDependencies = (
 				047012F429BE4430005145B2 /* SnapKit */,
+				049C727E2A5968B100D78C19 /* RxCocoa */,
+				049C72802A5968B100D78C19 /* RxSwift */,
 			);
 			productName = "VAT Calculator";
 			productReference = 044EF59F298AF18200AA986A /* VAT Calculator.app */;
@@ -401,6 +407,7 @@
 			mainGroup = 044EF596298AF18200AA986A;
 			packageReferences = (
 				047012F329BE4430005145B2 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				049C727D2A5968B100D78C19 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 044EF5A0298AF18200AA986A /* Products */;
 			projectDirPath = "";
@@ -447,12 +454,13 @@
 			files = (
 				04F1712329C363F500690A2A /* SettingsPageController.swift in Sources */,
 				04885E322A1529BD0049D8EE /* UITextField + Extension.swift in Sources */,
+				049C727C2A5967E500D78C19 /* MainPageViewModel.swift in Sources */,
 				044EF5A3298AF18200AA986A /* AppDelegate.swift in Sources */,
 				04C39F182A2E4294001FEE71 /* Boxing.swift in Sources */,
 				04C1C10A29C062D4006FBED3 /* MainPageView.swift in Sources */,
-				047012F229BE4397005145B2 /* MainPageController.swift in Sources */,
 				04C1C11029C0BDA6006FBED3 /* MainPageModel.swift in Sources */,
 				044EF5A5298AF18200AA986A /* SceneDelegate.swift in Sources */,
+				049C72832A596B1E00D78C19 /* MainPageController.swift in Sources */,
 				04B0FB462A28FD6300C5D355 /* Router.swift in Sources */,
 				04426D972A2B4FB300DB5272 /* SettingsPagePresenter.swift in Sources */,
 				04C1C11929C10355006FBED3 /* CalculatorPageModel.swift in Sources */,
@@ -460,7 +468,6 @@
 				04C1C10C29C07619006FBED3 /* CalculatorPageController.swift in Sources */,
 				04426D992A2B4FC300DB5272 /* SettingsPageAssembly.swift in Sources */,
 				04C1C11329C0CAE9006FBED3 /* UserDefaultsManager.swift in Sources */,
-				04B0FB482A28FD7700C5D355 /* MainPageViewModel.swift in Sources */,
 				04B0FB4A2A28FD8E00C5D355 /* MainPageAssembly.swift in Sources */,
 				04C1C10E29C0AD57006FBED3 /* UIConstants.swift in Sources */,
 				04426D952A2A47DA00DB5272 /* CalculatorPageViewModel.swift in Sources */,
@@ -812,6 +819,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		049C727D2A5968B100D78C19 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -819,6 +834,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 047012F329BE4430005145B2 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		049C727E2A5968B100D78C19 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 049C727D2A5968B100D78C19 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		049C72802A5968B100D78C19 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 049C727D2A5968B100D78C19 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

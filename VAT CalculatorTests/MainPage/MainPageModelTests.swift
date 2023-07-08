@@ -20,10 +20,10 @@ class VAT_CalculatorTests: XCTestCase {
         let feePercent = 7.0
         let serviceChargePercent = 10.0
         let calculateVatOnSc = true
-        sut?.updateCharges(vatPercent: vatPercent,
-                           feePercent: feePercent,
-                           serviceChargePercent: serviceChargePercent,
-                           calculateVatOnSc: calculateVatOnSc)
+//        sut?.updateCharges(vatPercent: vatPercent,
+//                           feePercent: feePercent,
+//                           serviceChargePercent: serviceChargePercent,
+//                           calculateVatOnSc: calculateVatOnSc)
         XCTAssert(
             sut.vatPercent == vatPercent &&
             sut.feePercent == feePercent &&
@@ -36,11 +36,11 @@ class VAT_CalculatorTests: XCTestCase {
         var gross = sut?.gross
         XCTAssert(gross == 100, "Gross sales is incorrect")
         
-        sut?.updateCharges(vatPercent: 5, feePercent: 7, serviceChargePercent: 10, calculateVatOnSc: true)
+//        sut?.updateCharges(vatPercent: 5, feePercent: 7, serviceChargePercent: 10, calculateVatOnSc: true)
         gross = sut?.gross
         XCTAssert(gross == 122.5, "Gross sales is incorrect")
         
-        sut?.updateCharges(vatPercent: 5, feePercent: 7, serviceChargePercent: 10, calculateVatOnSc: false)
+//        sut?.updateCharges(vatPercent: 5, feePercent: 7, serviceChargePercent: 10, calculateVatOnSc: false)
         gross = sut?.gross
         XCTAssert(gross == 122, "Gross sales is incorrect")
     }
